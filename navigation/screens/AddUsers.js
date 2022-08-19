@@ -7,7 +7,12 @@ import {
   Text, 
   View, 
   SafeAreaView, 
-  Image
+  Image, 
+  TouchableOpacity,
+  Button,
+  Alert, 
+  Platform,
+  Dimensions,
 } from 'react-native';
 import { 
   useDimensions 
@@ -18,14 +23,26 @@ export default function AddUsers({ navigation }) {
   console.log(useDimensions());
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <StatusBar style="auto" />
       <View style={styles.imageContainer}>
         <View>
           <Image style={{height: 130, width: '100%', borderTopLeftRadius: 20, borderTopRightRadius: 20}} source={{uri: 'https://media.istockphoto.com/photos/forest-wooden-table-background-summer-sunny-meadow-with-green-grass-picture-id1353553203?b=1&k=20&m=1353553203&s=170667a&w=0&h=QTyTGI9tWQluIlkmwW0s7Q4z7R_IT8egpzzHjW3cSas='}}  />
         </View>
+
+        <View style={styles.profilePic} >
+          <Image style={{height: '100%', width: '100%', borderRadius: '50%'}} source={{ uri: 'https://mir-s3-cdn-cf.behance.net/project_modules/1400/41822045014839.5824bf369f54b.jpg' }} />
+        </View>
+
+        <View style={styles.textContainer} >
+          <Text style={styles.text} >
+            Shauna, The Queen
+          </Text>
+
+          <Text style={{ color: "#9597A1" }} >Pronouns, Interests, Tag line/ first impression</Text>
+        </View>
       </View>
-      <View style={{flexDirection: 'row', }}>
+      <View style={styles.footer}>
         <View style={styles.circle}>
           <AntIcon name='close' size={35} color="#FFC1CB" />
         </View>
@@ -33,31 +50,31 @@ export default function AddUsers({ navigation }) {
           <AntIcon name='hearto' size={35} color="#EB5559" />
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'beige',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
+    backgroundColor: "beige",
+    justifyContent: "space-evenly",
+    // alignItems: 'center',
+    
     // padding: Platform.OS === "ios" ? StatusBar.currentHeight : 0,
   },
   imageContainer: {
     height: 430,
     width: 345,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 21,
-    elevation: 4
+    elevation: 4,
+    marginLeft: 23,
   },
-  // footer: {
-  //   flex: 1,
-  //   flexDirection: "row",
-  //   alignItems: 'center',
-  //   padding: 16,
-  // },
+  footer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
   circle: {
     width: 64,
     height: 64,
@@ -68,7 +85,27 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     shadowColor: "gray",
     shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.18,
+    shadowOpacity: 0.20,
     shadowRadius: 2,
   },
+  profilePic: {
+    height: 135,
+    width: 140,
+    alignSelf: "center",
+    position: "absolute",
+    top: 75,
+  },
+  textContainer: {
+    height: 45,
+    width: '100%',
+    position: "absolute",
+    top: 200,
+    alignItems: "center",
+  },
+  text: {
+    alignSelf: "center",
+    fontSize: 15,
+    lineHeight: 48,
+    fontWeight: "bold",
+  }
 });
