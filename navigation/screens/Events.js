@@ -1,24 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, ScrollView } from 'react-native';
 
 export default function Events({ navigation }) {
   return (
     <View style ={styles.container}>
-      <View style={styles.card}>
-        <StatusBar style="auto" />
-        <View style={styles.cardContent}>
-          <ImageBackground style={{height: '100%', width: '100%'}} imageStyle={{ borderRadius: 10}} source={{uri: 'https://experiencity.ca/blog/articlesimages/display/e10/704/6551358d843fb25a3434a93321/latern-eventhub-RhinoCanada-ca.jpg'}}>
-            <View style={styles.textContainer} >
-              <Text style={styles.eventName}>
-                Event Name
-              </Text>
-              <Text style={styles.eventInfo}>
-                date, location 
-              </Text>
-            </View>
-          </ImageBackground>
+      <ScrollView style={styles.scrollView}>
+        <View style={styles.card}>
+          <StatusBar style="auto" />
+          <View style={styles.cardContent}>
+            <ImageBackground style={{height: '100%', width: '100%'}} imageStyle={{ borderRadius: 10}} source={{uri: 'https://experiencity.ca/blog/articlesimages/display/e10/704/6551358d843fb25a3434a93321/latern-eventhub-RhinoCanada-ca.jpg'}}>
+              <View style={styles.textContainer} >
+                <Text style={styles.eventName}>
+                  Event Name
+                </Text>
+                <Text style={styles.eventInfo}>
+                  date, location 
+                </Text>
+              </View>
+            </ImageBackground>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 }
@@ -36,8 +38,8 @@ const styles = StyleSheet.create({
     shadowColor: '#333',
     shadowOpacity: 0.3,
     shadowRadius: 2, 
-    marginHorizontal: 20, 
-    marginVertical: 20
+    marginHorizontal: 0, 
+    marginVertical: 5
   },
   cardContent: {
     marginHorizontal: 0,
@@ -66,5 +68,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Georgia',
     marginHorizontal: 10,
     marginTop: 0,
-  }
+  },
+  scrollView: {
+    backgroundColor: 'white',
+    marginHorizontal: 20,
+    showVerticalScrollBar: false,
+  },
 });
