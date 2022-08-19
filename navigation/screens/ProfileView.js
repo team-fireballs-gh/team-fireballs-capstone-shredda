@@ -6,7 +6,7 @@ const ProfileView = () => {
     <View style={styles.container}>
       <View style={styles.usernameAndProfilePic}>
         <Text>Username</Text>
-        <Image source={require("../assets/favicon.png")} />
+        <Image source={require("../../assets/favicon.png")} />
       </View>
       <Button title="Edit Profile" />
       <View>
