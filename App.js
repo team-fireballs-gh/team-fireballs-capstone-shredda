@@ -1,12 +1,11 @@
-
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
-import ProfileView from "./components/ProfileView";
-import * as React from 'react';
-import MainContainer from './navigation/MainContainer';
+import ProfileView from "./navigation/screens/ProfileView";
+import * as React from "react";
+import MainContainer from "./navigation/MainContainer";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -27,9 +26,7 @@ const auth = getAuth(app);
 const storage = getStorage(app);
 
 function App() {
-  return (
-    <MainContainer/>
-  );
+  return <MainContainer />;
 }
 
 export default App;
