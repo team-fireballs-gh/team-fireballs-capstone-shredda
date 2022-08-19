@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ImageBackground, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, ScrollView, TextInput, Keyboard, Button  } from 'react-native';
 
 export default function Events({ navigation }) {
   return (
