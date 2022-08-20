@@ -1,10 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 
-export default function UserProfile() {
+export default function Register({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text>You're on the UserProfile file!</Text>
+      <Text>You're on the Register file!</Text>
       <StatusBar style="auto" />
     </View>
   );

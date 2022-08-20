@@ -39,7 +39,12 @@ const ProfileView = () => {
         <View style={styles.textContainer}>
           <Text style={styles.text}>
             Shauna, The Queen{" "}
-            <Ionicons name="create-outline" size={20} color={"tomato"} />
+            <Ionicons
+              onPress={() => console.log("edit profile")}
+              name="create-outline"
+              size={20}
+              color={"tomato"}
+            />
           </Text>
 
           <Text style={{ color: "#9597A1" }}>
