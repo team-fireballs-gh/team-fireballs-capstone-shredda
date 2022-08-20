@@ -6,14 +6,14 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 // Screen Components
 import AddUsers from "./screens/AddUsers";
-import UserProfile from "./screens/UserProfile";
 import Events from "./screens/Events";
 import Calendar from "./screens/Calendar";
 import Chats from "./screens/Chats";
+import ProfileView from "./screens/ProfileView";
 
 const { Navigator, Screen } = createBottomTabNavigator();
-// Navigator - 
-// Screen - "name" (the name to use for the screen) & "component" (the react component to render for the screen) are 2 of the many props it can take; 
+// Navigator -
+// Screen - "name" (the name to use for the screen) & "component" (the react component to render for the screen) are 2 of the many props it can take;
 
 export default function MainContainer() {
   // the "GROUP"" component - is used to group several 'screens' inside a navigator;
@@ -56,8 +56,8 @@ export default function MainContainer() {
         <Screen name="Discover" component={Events} />
         <Screen name="Calendar" component={Calendar} />
         <Screen name="Chats" component={Chats} />
-        <Screen name="Profile" component={UserProfile} />
+        <Screen name="Profile" component={ProfileView} />
       </Navigator>
     </NavigationContainer>
   );
-};
+}

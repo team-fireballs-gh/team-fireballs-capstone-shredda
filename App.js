@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from "react-native";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
-import ProfileView from "./navigation/screens/ProfileView";
 import * as React from "react";
 import MainContainer from "./navigation/MainContainer";
 // TODO: Add SDKs for Firebase products that you want to use
