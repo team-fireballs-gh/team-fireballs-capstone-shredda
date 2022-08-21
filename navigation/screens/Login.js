@@ -6,7 +6,6 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 export default function Login({ navigation }) {
   let [text, setText] = useState("");
   let [password, setPassword] = useState("");
-  let [isTyping, setIsTyping] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -15,7 +14,7 @@ export default function Login({ navigation }) {
         style={styles.input}
         value={text}
         onChangeText={setText}
-        placeholder="username"
+        placeholder="email"
       />
       <TextInput
         style={styles.input}
@@ -45,9 +44,7 @@ export default function Login({ navigation }) {
       </View>
       <Pressable
         style={styles.loginButton}
-        onPress={() => {
-          alert("sign in with google");
-        }}
+        onPress={() => alert("google sign in")}
       >
         <Ionicons name="logo-google" color="white" size={20} />
       </Pressable>
