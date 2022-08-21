@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function Login({ navigation }) {
   let [text, setText] = useState("");
+  let [password, setPassword] = useState("");
+  let [isTyping, setIsTyping] = useState(false);
 
   return (
     <View style={styles.container}>
-      <Text>Welcome To Your Community</Text>
+      <Text style={styles.loginWelcome}>Welcome To Your Community</Text>
       <TextInput
         style={styles.input}
         value={text}
@@ -16,18 +19,38 @@ export default function Login({ navigation }) {
       />
       <TextInput
         style={styles.input}
-        value={text}
-        onChangeText={setText}
+        value={password}
+        onChangeText={setPassword}
         placeholder="password"
+        secureTextEntry="true"
       />
-      <Button
-        title="Log In"
-        onPress={() => navigation.navigate("MainContainer")}
-      />
-      <Button
-        title="Register"
-        onPress={() => navigation.navigate("Register")}
-      />
+      <View style={styles.buttonRow}>
+        <Pressable
+          style={styles.registerButton}
+          onPress={() => {
+            navigation.navigate("Register");
+          }}
+        >
+          <Text style={styles.buttonText}>Register</Text>
+        </Pressable>
+
+        <Pressable
+          style={styles.loginButton}
+          onPress={() => {
+            navigation.navigate("MainContainer");
+          }}
+        >
+          <Text style={styles.buttonText}>Login</Text>
+        </Pressable>
+      </View>
+      <Pressable
+        style={styles.loginButton}
+        onPress={() => {
+          alert("sign in with google");
+        }}
+      >
+        <Ionicons name="logo-google" color="white" size={20} />
+      </Pressable>
       <StatusBar style="auto" />
     </View>
   );
@@ -35,15 +58,50 @@ export default function Login({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
+    top: 200,
+    backgroundColor: "transparent",
     alignItems: "center",
     justifyContent: "center",
   },
   input: {
-    height: 40,
+    height: 50,
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    width: "80%",
+    borderRadius: 10,
+    fontSize: 20,
+  },
+  buttonRow: {
+    flexDirection: "row",
+  },
+  loginButton: {
+    backgroundColor: "tomato",
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+    margin: 10,
+    borderRadius: 10,
+  },
+  registerButton: {
+    backgroundColor: "#4f6cff",
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+    margin: 10,
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: "#fff",
+    textAlign: "center",
+    justifyContent: "center",
+    fontSize: 18,
+  },
+  loginWelcome: {
+    fontSize: 25,
+    textAlign: "center",
+    marginBottom: 10,
   },
 });
