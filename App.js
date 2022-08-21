@@ -9,23 +9,29 @@ import Calendar from "./navigation/screens/Calendar";
 import Chats from "./navigation/screens/Chats";
 import ProfileView from "./navigation/screens/ProfileView";
 import Register from "./navigation/screens/Register";
+import CreateProfile from "./navigation/screens/CreateProfile";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 const Stack = createNativeStackNavigator();
 
 function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="MainContainer" component={MainContainer} />
-        <Stack.Screen name="Friends" component={AddUsers} />
-        <Stack.Screen name="Discover" component={Events} />
-        <Stack.Screen name="Calendar" component={Calendar} />
-        <Stack.Screen name="Chats" component={Chats} />
-        <Stack.Screen name="Profile" component={ProfileView} />
-        <Stack.Screen name="Register" component={Register} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="MainContainer" component={MainContainer} />
+          <Stack.Screen name="Friends" component={AddUsers} />
+          <Stack.Screen name="Discover" component={Events} />
+          <Stack.Screen name="Calendar" component={Calendar} />
+          <Stack.Screen name="Chats" component={Chats} />
+          <Stack.Screen name="Profile" component={ProfileView} />
+          <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen name="CreateProfile" component={CreateProfile} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 
