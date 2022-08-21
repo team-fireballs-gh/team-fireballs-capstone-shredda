@@ -1,38 +1,38 @@
 const LOG_IN = "LOG_IN";
 const LOG_OUT = "LOG_OUT";
 
-const _logIn = (authStatus) => {
+const _logIn = (authUser) => {
   return {
     type: LOG_IN,
-    authStatus,
+    authUser,
   };
 };
 
-const _logOut = (authStatus) => {
+const _logOut = (authUser) => {
   return {
     type: LOG_OUT,
-    authStatus,
+    authUser,
   };
 };
 
-export const logIn = () => {
+export const logIn = (uid) => {
   return async (dispatch) => {
-    dispatch(_logIn(true));
+    dispatch(_logIn({ uid: uid, loggedIn: true }));
   };
 };
 
 export const logOut = () => {
   return async (dispatch) => {
-    dispatch(_logOut(false));
+    dispatch(_logOut({ uid: null, loggedIn: false }));
   };
 };
 
 const authStatusReducer = (state = false, action) => {
   switch (action.type) {
     case LOG_IN:
-      return action.authStatus;
+      return action.authUser;
     case LOG_OUT:
-      return action.authStatus;
+      return action.authUser;
     default:
       return state;
   }

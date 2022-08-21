@@ -3,13 +3,15 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
 import db from "../../firebase/db";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-
-const auth = getAuth();
+import { logIn } from "../../redux/reducers/authStatus";
+import { useDispatch } from "react-redux";
 
 export default function Login({ navigation }) {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let [confirmPassword, setConfirmPassword] = useState("");
+  const dispatch = useDispatch();
+  const auth = getAuth(db);
 
   const registerUser = () => {
     if (email === "" && password === "") {
@@ -17,9 +19,11 @@ export default function Login({ navigation }) {
     } else if (password === confirmPassword) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((res) => {
-          console.log("User registered successfully!");
+          dispatch(logIn(res.user.uid));
+          alert("User registered successfully!");
           setEmail("");
           setPassword("");
+          setConfirmPassword("");
 
           navigation.navigate("CreateProfile");
         })
