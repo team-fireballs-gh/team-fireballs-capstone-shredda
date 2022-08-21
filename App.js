@@ -9,6 +9,7 @@ import Calendar from "./navigation/screens/Calendar";
 import Chats from "./navigation/screens/Chats";
 import ProfileView from "./navigation/screens/ProfileView";
 import Register from "./navigation/screens/Register";
+import CreateProfile from "./navigation/screens/CreateProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ function App() {
         <Stack.Screen name="Chats" component={Chats} />
         <Stack.Screen name="Profile" component={ProfileView} />
         <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="CreateProfile" component={CreateProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );

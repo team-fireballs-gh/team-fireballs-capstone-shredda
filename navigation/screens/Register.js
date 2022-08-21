@@ -8,7 +8,6 @@ const auth = getAuth();
 
 export default function Login({ navigation }) {
   let [email, setEmail] = useState("");
-  let [username, setUsername] = useState("");
   let [password, setPassword] = useState("");
   let [confirmPassword, setConfirmPassword] = useState("");
 
@@ -19,11 +18,10 @@ export default function Login({ navigation }) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((res) => {
           console.log("User registered successfully!");
-          setUsername("");
           setEmail("");
           setPassword("");
 
-          navigation.navigate("Login");
+          navigation.navigate("CreateProfile");
         })
         .catch((error) => console.error(error));
     } else if (password !== confirmPassword) {
@@ -42,13 +40,6 @@ export default function Login({ navigation }) {
         value={email}
         onChangeText={setEmail}
         placeholder="email@email.com"
-      />
-      <Text style={styles.inputHeader}>username</Text>
-      <TextInput
-        style={styles.input}
-        value={username}
-        onChangeText={setUsername}
-        placeholder="username"
       />
       <Text style={styles.inputHeader}>password</Text>
       <TextInput
