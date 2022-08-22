@@ -1,3 +1,15 @@
+import {
+  getFirestore,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  collection,
+  getDocs,
+} from "firebase/firestore";
+import db from "../../../firebase/db";
+const firestoreDB = getFirestore(db);
+const COLLECTION = "events";
+
 const ADD_EVENT = "ADD_EVENT";
 const GET_ALL_EVENTS = "GET_ALL_EVENTS";
 const UPDATE_EVENT = "UPDATE_EVENT";
@@ -36,6 +48,12 @@ export const addEvent = (event) => {
   return async (dispatch) => {
     try {
       // firebase hook or method to add doc to collection
+      const eventDocRef = await addDoc(
+        collection(firestoreDB, COLLECTION),
+        event
+      );
+
+      dispatch(_addEvent(eventDocRef));
     } catch (err) {
       console.error(err);
     }
@@ -44,28 +62,38 @@ export const addEvent = (event) => {
 
 export const getAllEvents = () => {
   return async (dispatch) => {
+    let result = [];
     try {
       // firebase hook or method to get all docs in collection
+      const querySnapshot = await getDocs(collection(firestoreDB, COLLECTION));
+
+      querySnapshot.forEach((doc) => result.push(doc.data()));
+      dispatch(_getAllEvents(result));
     } catch (err) {
       console.error(err);
     }
   };
 };
 
-export const updateEVENT = (id, event) => {
+export const updateEvent = (id, event) => {
   return async (dispatch) => {
     try {
       // firebase hook or method to update doc in collection
+      const eventRef = doc(firestoreDB, COLLECTION, id);
+      const updatedEvent = await updateDoc(eventRef, event);
+      dispatch(_updateEvent(updatedEvent));
     } catch (err) {
       console.error(err);
     }
   };
 };
 
-export const deleteEVENT = (id, event) => {
+export const deleteEvent = (id) => {
   return async (dispatch) => {
     try {
       // firebase hook or method to delete doc from collection
+      const deletedEvent = await deleteDoc(doc(firestoreDB, COLLECTION, id));
+      dispatch(_deleteEvent(deletedEvent));
     } catch (err) {
       console.error(err);
     }
