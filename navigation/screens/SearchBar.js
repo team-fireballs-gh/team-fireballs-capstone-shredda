@@ -25,6 +25,7 @@ const SearchBar = () => {
                 placeholder="Search Event"
                 value={text}
                 onChangeText={setSearchText}
+                keyboardType="default"
                 onFocus={() => {
                     setClicked(true);
                 }}
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     flexDirection: "row",
-    width: "90%",
+    width: "95%",
 
   },
   searchBar__unclicked: {
