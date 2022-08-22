@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Animated, TouchableOpacity, ImageBackground, Text, View,
-  StyleSheet, TouchableWithoutFeedback, ScrollView, Pressable
+import { Animated, ImageBackground, Text, View,
+  StyleSheet, ScrollView, Pressable
 } from 'react-native';
 import SearchBar from './SearchBar'
 
