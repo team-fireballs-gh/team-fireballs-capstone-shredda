@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>452789543304-j40rh644esq59qts3t18rbjqsu6ia3cr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.452789543304-j40rh644esq59qts3t18rbjqsu6ia3cr</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>452789543304-d9fd801se7uoi9qguhkgol064lh3j7mu.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCeiLj860JUS2Dj3skHJ-2oy5mAV7vMoSA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>452789543304</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>host.exp.exponent</string>
+	<key>PROJECT_ID</key>
+	<string>team-fireballs-capstone</string>
+	<key>STORAGE_BUCKET</key>
+	<string>team-fireballs-capstone.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:452789543304:ios:37740772933831811a9a3d</string>
+</dict>
+</plist>
