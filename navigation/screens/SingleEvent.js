@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Image, Text, View, StyleSheet, ScrollView, SafeAreaView
+import { Image, Text, View, StyleSheet, ScrollView, SafeAreaView, Pressable
 } from 'react-native';
 import Entypo from "react-native-vector-icons/Entypo";
 import AntIcon from "react-native-vector-icons/AntDesign";
@@ -28,7 +28,9 @@ export default function SingleEvent() {
                     <AntIcon name="calendar" size={20} color="gray"/>
                     dates
                 </Text>
-                <Feather name="edit" size={20} color="gray"/>
+                <Pressable>
+                    <Feather name="edit" size={20} color="gray"/>
+                </Pressable>
             </View>
             <ScrollView>
                 <Text style={styles.header}>Description</Text>

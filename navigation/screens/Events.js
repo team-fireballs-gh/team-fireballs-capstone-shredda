@@ -3,6 +3,7 @@ import React from 'react';
 import { Animated, ImageBackground, Text, View,
   StyleSheet, ScrollView, Pressable
 } from 'react-native';
+import Ionicons from "react-native-vector-icons/Ionicons";
 import SearchBar from './SearchBar'
 
 export default function Events({ navigation }) {

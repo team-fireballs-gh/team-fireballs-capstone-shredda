@@ -6,6 +6,7 @@ import MainContainer from "./navigation/MainContainer";
 import AddUsers from "./navigation/screens/AddUsers";
 import Events from "./navigation/screens/Events";
 import SingleEvent from "./navigation/screens/SingleEvent";
+import AddEvent from "./navigation/screens/AddEvent";
 import Calendar from "./navigation/screens/Calendar";
 import Chats from "./navigation/screens/Chats";
 import ProfileView from "./navigation/screens/ProfileView";
@@ -36,6 +37,7 @@ function App() {
             {/* <Stack.Screen name="Register" component={Register} /> */}
             <Stack.Screen name="CreateProfile" component={CreateProfile} />
             <Stack.Screen name="Event Name" component={SingleEvent} />
+            <Stack.Screen name="AddEvent" component={AddEvent} />
           </Stack.Navigator>
         </AuthProvider>
       </NavigationContainer>
