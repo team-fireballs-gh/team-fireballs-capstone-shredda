@@ -31,23 +31,20 @@ const SearchBar = () => {
                 }}
             />
         </View>
-        {clicked && (
-            <View>
-                <Button
-                    title="Cancel"
-                    onPress={() => {
-                    Keyboard.dismiss();
-                    setClicked(false);
-                    }}
-                ></Button>
-            </View>
-        )}
+          {clicked && (
+              <View
+                  title="Cancel"
+                  onPress={() => {
+                  Keyboard.dismiss();
+                  setClicked(false);
+                  }}
+              />
+          )}
         </View>
     );
 };
 export default SearchBar;
 
-// styles
 const styles = StyleSheet.create({
   container: {
     margin: 15,
@@ -55,7 +52,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     width: "95%",
-
+    marginHorizontal: '5%', 
   },
   searchBar__unclicked: {
     padding: 10,
@@ -68,7 +65,7 @@ const styles = StyleSheet.create({
   searchBar__clicked: {
     padding: 10,
     flexDirection: "row",
-    width: "80%",
+    width: "95%",
     backgroundColor: "#d9dbda",
     borderRadius: 15,
     alignItems: "center",
