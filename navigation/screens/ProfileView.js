@@ -6,12 +6,23 @@ import {
   ScrollView,
   Image,
   StatusBar,
+  Button,
+  SafeAreaView,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
+import useAuth from "../../auth";
+
 const ProfileView = () => {
+  const { logout } = useAuth();
+
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <Button
+        style={{ position: "absolute", top: 10, color: "blue" }}
+        title="logout"
+        onPress={logout}
+      />
       <View style={styles.imageContainer}>
         <View>
           <Image
@@ -29,7 +40,7 @@ const ProfileView = () => {
 
         <View style={styles.profilePic}>
           <Image
-            style={{ height: "100%", width: "100%", borderRadius: "50%" }}
+            style={{ height: '100%', width: '100%', borderRadius: 50 }}
             source={{
               uri: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/41822045014839.5824bf369f54b.jpg",
             }}
@@ -109,7 +120,7 @@ const ProfileView = () => {
           </View>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -144,7 +155,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   profileInfo: {
-    alignItems: "left",
+    // alignItems: "left",
     padding: 20,
   },
   header: {

@@ -3,10 +3,13 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
+import useAuth from "../../auth";
+
 export default function Login({ navigation }) {
   let [text, setText] = useState("");
   let [password, setPassword] = useState("");
-
+  
+  const { signInWithGoogle } = useAuth();
   return (
     <View style={styles.container}>
       <Text style={styles.loginWelcome}>Welcome To Your Community</Text>
@@ -21,7 +24,7 @@ export default function Login({ navigation }) {
         value={password}
         onChangeText={setPassword}
         placeholder="password"
-        secureTextEntry="true"
+        secureTextEntry={true}
       />
       <View style={styles.buttonRow}>
         <Pressable
@@ -36,7 +39,7 @@ export default function Login({ navigation }) {
         <Pressable
           style={styles.loginButton}
           onPress={() => {
-            navigation.navigate("MainContainer");
+            navigation.navigate("Profile");
           }}
         >
           <Text style={styles.buttonText}>Login</Text>
@@ -44,7 +47,7 @@ export default function Login({ navigation }) {
       </View>
       <Pressable
         style={styles.loginButton}
-        onPress={() => alert("google sign in")}
+        onPress={signInWithGoogle}
       >
         <Ionicons name="logo-google" color="white" size={20} />
       </Pressable>

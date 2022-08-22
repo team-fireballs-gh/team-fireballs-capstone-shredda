@@ -24,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.donna101.teamfireballscapstoneshredda"
     },
     "web": {
       "favicon": "./assets/favicon.png"

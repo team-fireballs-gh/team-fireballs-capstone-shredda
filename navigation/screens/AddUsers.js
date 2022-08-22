@@ -40,7 +40,7 @@ export default function AddUsers({ navigation }) {
 
         <View style={styles.profilePic}>
           <Image
-            style={{ height: "100%", width: "100%", borderRadius: "50%" }}
+            style={{ height: "100%", width: "100%", borderRadius: 50 }}
             source={{
               uri: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/41822045014839.5824bf369f54b.jpg",
             }}
