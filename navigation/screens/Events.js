@@ -35,7 +35,7 @@ export default function Events() {
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: 'white',
-    showVerticalScrollBar: false,
+    // showVerticalScrollBar: false,
   },
   card: {
     height: 400,

@@ -9,6 +9,10 @@ import Events from "./screens/Events";
 import Calendar from "./screens/Calendar";
 import Chats from "./screens/Chats";
 import ProfileView from "./screens/ProfileView";
+import Login from "./screens/Login";
+import Register from "./screens/Register";
+
+import useAuth from "../auth";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 // Navigator -
@@ -16,9 +20,10 @@ const { Navigator, Screen } = createBottomTabNavigator();
 
 export default function MainContainer() {
   // the "GROUP"" component - is used to group several 'screens' inside a navigator;
+  const { user } = useAuth();
   return (
     <Navigator
-      initialRouteName="Friends" // this sets the default screen;
+      initialRouteName="Profile" // this sets the default screen;
       // The options specified in 'screenOptions' apply to all of the screens in the navigator;
       screenOptions={({ route }) => ({
         // each screen component in the app is provided with the "route" prop automatically; more info: https://reactnavigation.org/docs/route-prop
@@ -50,11 +55,20 @@ export default function MainContainer() {
         },
       })}
     >
-      <Screen name="Friends" component={AddUsers} />
-      <Screen name="Discover" component={Events} />
-      <Screen name="Calendar" component={Calendar} />
-      <Screen name="Chats" component={Chats} />
-      <Screen name="Profile" component={ProfileView} />
+      {user ? (
+        <>
+          <Screen name="Friends" component={AddUsers} />
+          <Screen name="Discover" component={Events} />
+          <Screen name="Calendar" component={Calendar} />
+          <Screen name="Chats" component={Chats} />
+          <Screen name="Profile" component={ProfileView} />
+        </>
+      ) : (
+        <>
+          <Screen name="Login" component={Login} />
+          <Screen name="Register" component={Register} />
+        </>
+      )}
     </Navigator>
   );
 }

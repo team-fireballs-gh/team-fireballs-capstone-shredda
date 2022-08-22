@@ -1,12 +1,25 @@
 import React from "react";
-import { ImageBackground, Text, View,
-  StyleSheet, ScrollView, StatusBar, Image
+
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Image,
+  StatusBar,
+  ImageBackground,
+  Button,
+  SafeAreaView,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
+import useAuth from "../../auth";
+
 const ProfileView = () => {
+  const { logout } = useAuth();
+
   return (
-    <View style={[{ flex: 1 }]}>
+    <SafeAreaView style={[{ flex: 1 }]}>
       <View style={styles.profileContainer}>
         <ImageBackground style={styles.backgroundImage} source={{
               uri: "https://media.istockphoto.com/photos/forest-wooden-table-background-summer-sunny-meadow-with-green-grass-picture-id1353553203?b=1&k=20&m=1353553203&s=170667a&w=0&h=QTyTGI9tWQluIlkmwW0s7Q4z7R_IT8egpzzHjW3cSas=",
@@ -64,7 +77,7 @@ const ProfileView = () => {
         </View>
     
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -94,6 +107,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     top: "5%",
   },
+
   scrollView: {
     backgroundColor: 'white',
     showVerticalScrollBar: false,

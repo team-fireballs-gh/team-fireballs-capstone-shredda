@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
+import { StyleSheet, Text, View, TextInput, Pressable, SafeAreaView } from "react-native";
 import db from "../../firebase/db";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { logIn } from "../../redux/reducers/authStatus";
@@ -40,7 +40,7 @@ export default function Register({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.loginWelcome}>Register</Text>
       <Text style={styles.inputHeader}>email</Text>
       <TextInput
@@ -55,7 +55,7 @@ export default function Register({ navigation }) {
         value={password}
         onChangeText={setPassword}
         placeholder="password"
-        secureTextEntry="true"
+        secureTextEntry={true}
       />
       <Text style={styles.inputHeader}>confirm password</Text>
       <TextInput
@@ -63,7 +63,7 @@ export default function Register({ navigation }) {
         value={confirmPassword}
         onChangeText={setConfirmPassword}
         placeholder="confirm password"
-        secureTextEntry="true"
+        secureTextEntry={true}
       />
       <View style={styles.buttonRow}>
         <Pressable style={styles.registerButton} onPress={registerUser}>
@@ -71,7 +71,7 @@ export default function Register({ navigation }) {
         </Pressable>
       </View>
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   inputHeader: {
-    alignSelf: "left",
+    // alignSelf: "left",
     color: "#4f6cff",
     left: "10%",
     fontSize: 18,

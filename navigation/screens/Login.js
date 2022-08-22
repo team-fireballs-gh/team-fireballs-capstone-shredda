@@ -7,9 +7,13 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../redux/reducers/authStatus";
 
+import useAuth from "../../auth";
+
 export default function Login({ navigation }) {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
+  
+  const { signInWithGoogle } = useAuth();
   const auth = getAuth(db);
   const dispatch = useDispatch();
 
@@ -21,7 +25,7 @@ export default function Login({ navigation }) {
         setEmail("");
         setPassword("");
 
-        navigation.navigate(" ");
+        navigation.navigate("Profile");
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -43,7 +47,7 @@ export default function Login({ navigation }) {
         value={password}
         onChangeText={setPassword}
         placeholder="password"
-        secureTextEntry="true"
+        secureTextEntry={true}
       />
       <View style={styles.buttonRow}>
         <Pressable
@@ -54,14 +58,13 @@ export default function Login({ navigation }) {
         >
           <Text style={styles.buttonText}>Register</Text>
         </Pressable>
-
         <Pressable style={styles.loginButton} onPress={emailSignIn}>
           <Text style={styles.buttonText}>Login</Text>
         </Pressable>
       </View>
       <Pressable
         style={styles.loginButton}
-        onPress={() => alert("google sign in")}
+        onPress={signInWithGoogle}
       >
         <Ionicons name="logo-google" color="white" size={20} />
       </Pressable>
