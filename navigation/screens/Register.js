@@ -6,7 +6,7 @@ import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { logIn } from "../../redux/reducers/authStatus";
 import { useDispatch } from "react-redux";
 
-export default function Login({ navigation }) {
+export default function Register({ navigation }) {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let [confirmPassword, setConfirmPassword] = useState("");
@@ -27,7 +27,11 @@ export default function Login({ navigation }) {
 
           navigation.navigate("CreateProfile");
         })
-        .catch((error) => console.error(error));
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          alert(errorCode);
+        });
     } else if (password !== confirmPassword) {
       alert("Password do not match. Try again.");
       setPassword("");

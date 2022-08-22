@@ -2,21 +2,44 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import db from "../../firebase/db";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { logIn } from "../../redux/reducers/authStatus";
 
 import useAuth from "../../auth";
 
 export default function Login({ navigation }) {
-  let [text, setText] = useState("");
+  let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   
   const { signInWithGoogle } = useAuth();
+  const auth = getAuth(db);
+  const dispatch = useDispatch();
+
+  const emailSignIn = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        dispatch(logIn(user.uid));
+        setEmail("");
+        setPassword("");
+
+        navigation.navigate("Profile");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorCode);
+      });
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.loginWelcome}>Welcome To Your Community</Text>
       <TextInput
         style={styles.input}
-        value={text}
-        onChangeText={setText}
+        value={email}
+        onChangeText={setEmail}
         placeholder="email"
       />
       <TextInput
@@ -35,13 +58,7 @@ export default function Login({ navigation }) {
         >
           <Text style={styles.buttonText}>Register</Text>
         </Pressable>
-
-        <Pressable
-          style={styles.loginButton}
-          onPress={() => {
-            navigation.navigate("Profile");
-          }}
-        >
+        <Pressable style={styles.loginButton} onPress={emailSignIn}>
           <Text style={styles.buttonText}>Login</Text>
         </Pressable>
       </View>
