@@ -1,31 +1,41 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import React from 'react';
+import { Animated, TouchableOpacity, ImageBackground, Text, View,
+  StyleSheet, TouchableWithoutFeedback, ScrollView
+} from 'react-native';
+import SearchBar from './SearchBar'
 
-export default function Events({ navigation }) {
+export default function Events() {
   return (
-    <View style ={styles.container}>
-      <View style={styles.card}>
-        <StatusBar style="auto" />
-        <View style={styles.cardContent}>
-          <ImageBackground style={{height: '100%', width: '100%'}} imageStyle={{ borderRadius: 10}} source={{uri: 'https://experiencity.ca/blog/articlesimages/display/e10/704/6551358d843fb25a3434a93321/latern-eventhub-RhinoCanada-ca.jpg'}}>
-            <View style={styles.textContainer} >
-              <Text style={styles.eventName}>
-                Event Name
-              </Text>
-              <Text style={styles.eventInfo}>
-                date, location 
-              </Text>
+    <Animated.View style={[{ flex: 1 }]}>
+      <ScrollView style={styles.scrollView}>
+        <SearchBar/>
+        <TouchableOpacity style={styles.touchableOpacity}>
+          <View style={styles.card}>
+            <StatusBar style="auto" />
+            <View style={styles.cardContent}>
+              <ImageBackground style={{height: '100%', width: '100%'}} imageStyle={{ borderRadius: 10}} source={{uri: 'https://experiencity.ca/blog/articlesimages/display/e10/704/6551358d843fb25a3434a93321/latern-eventhub-RhinoCanada-ca.jpg'}}>
+                <View style={styles.textContainer} >
+                  <Text style={styles.eventName}>
+                    Event Name
+                  </Text>
+                  <Text style={styles.eventInfo}>
+                    date, location 
+                  </Text>
+                </View>
+              </ImageBackground>
             </View>
-          </ImageBackground>
-        </View>
-      </View>
-    </View>
+          </View>
+        </TouchableOpacity>
+      </ScrollView>
+    </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  scrollView: {
+    backgroundColor: 'white',
+    showVerticalScrollBar: false,
   },
   card: {
     height: 400,
@@ -36,8 +46,8 @@ const styles = StyleSheet.create({
     shadowColor: '#333',
     shadowOpacity: 0.3,
     shadowRadius: 2, 
-    marginHorizontal: 20, 
-    marginVertical: 20
+    marginHorizontal: '5%', 
+    marginVertical: 0
   },
   cardContent: {
     marginHorizontal: 0,
@@ -66,5 +76,5 @@ const styles = StyleSheet.create({
     fontFamily: 'Georgia',
     marginHorizontal: 10,
     marginTop: 0,
-  }
+  },
 });
