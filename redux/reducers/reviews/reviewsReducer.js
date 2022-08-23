@@ -1,8 +1,21 @@
+import {
+  getFirestore,
+  setDoc,
+  updateDoc,
+  deleteDoc,
+  collection,
+  getDocs,
+  setDoc,
+  addDoc,
+} from "firebase/firestore";
+import db from "../../../firebase/db";
+const firestoreDB = getFirestore(db);
+const COLLECTION = "reviews";
+
 const ADD_REVIEW = "ADD_REVIEW";
 const GET_ALL_REVIEWS = "GET_ALL_REVIEWS";
 const UPDATE_REVIEW = "UPDATE_REVIEW";
 const DELETE_REVIEW = "DELETE_REVIEW";
-// CONSIDER making the collection name a const to use in thunk
 
 const _addReview = (review) => {
   return {
@@ -35,7 +48,12 @@ const _deleteReview = (review) => {
 export const addReview = (review) => {
   return async (dispatch) => {
     try {
-      // firebase hook or method to add doc to collection
+      const reviewDocRef = await addDoc(
+        collection(firestoreDB, COLLECTION),
+        review
+      );
+
+      dispatch(_addReview(reviewDocRef));
     } catch (err) {
       console.error(err);
     }
@@ -44,8 +62,12 @@ export const addReview = (review) => {
 
 export const getAllReviews = () => {
   return async (dispatch) => {
+    let result = [];
     try {
-      // firebase hook or method to get all docs in collection
+      const querySnapshot = await getDocs(collection(firestoreDB, COLLECTION));
+
+      querySnapshot.forEach((doc) => result.push(doc.data()));
+      dispatch(_getAllReviews(result));
     } catch (err) {
       console.error(err);
     }
@@ -55,17 +77,20 @@ export const getAllReviews = () => {
 export const updateReview = (id, review) => {
   return async (dispatch) => {
     try {
-      // firebase hook or method to update doc in collection
+      const reviewRef = doc(firestoreDB, COLLECTION, id);
+      const updatedReview = await updateDoc(reviewRef, review);
+      dispatch(_updateReview(updatedReview));
     } catch (err) {
       console.error(err);
     }
   };
 };
 
-export const deleteReview = (id, review) => {
+export const deleteReview = (id) => {
   return async (dispatch) => {
     try {
-      // firebase hook or method to delete doc from collection
+      const deletedReview = await deleteDoc(doc(firestoreDB, COLLECTION, id));
+      dispatch(_deleteReview(deletedReview));
     } catch (err) {
       console.error(err);
     }

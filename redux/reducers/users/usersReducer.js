@@ -1,6 +1,5 @@
 import {
   getFirestore,
-  setDoc,
   updateDoc,
   deleteDoc,
   collection,
@@ -48,7 +47,8 @@ export const addUser = (uid, user) => {
   return async (dispatch) => {
     try {
       const userRef = doc(firestoreDB, COLLECTION, uid);
-      setDoc(userRef, user, { merge: true });
+      const addedUser = await setDoc(userRef, user, { merge: true });
+      dispatch(_addUser(addedUser));
     } catch (err) {
       console.error(err);
     }
