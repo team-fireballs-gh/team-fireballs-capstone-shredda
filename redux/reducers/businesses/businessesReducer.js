@@ -1,8 +1,19 @@
+import {
+  getFirestore,
+  addDoc,
+  deleteDoc,
+  collection,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
+import db from "../../../firebase/db";
+const firestoreDB = getFirestore(db);
+const COLLECTION = "businesses";
+
 const ADD_BUSINESS = "ADD_BUSINESS";
 const GET_ALL_BUSINESSES = "GET_ALL_BUSINESSES";
 const UPDATE_BUSINESS = "UPDATE_BUSINESS";
 const DELETE_BUSINESS = "DELETE_BUSINESS";
-// CONSIDER making the collection name a const to use in thunk
 
 const _addBusiness = (business) => {
   return {
@@ -35,7 +46,11 @@ const _deleteBusiness = (business) => {
 export const addBusiness = (business) => {
   return async (dispatch) => {
     try {
-      // firebase hook or method to add doc to collection
+      const businessRef = await addDoc(
+        collection(firestoreDB, COLLECTION),
+        business
+      );
+      dispatch(_addBusiness(businessRef));
     } catch (err) {
       console.error(err);
     }
@@ -44,8 +59,12 @@ export const addBusiness = (business) => {
 
 export const getAllBusinesses = () => {
   return async (dispatch) => {
+    let result = [];
     try {
-      // firebase hook or method to get all docs in collection
+      const querySnapshot = await getDocs(collection(firestoreDB, COLLECTION));
+
+      querySnapshot.forEach((doc) => result.push(doc.data()));
+      dispatch(_getAllBusinesses(result));
     } catch (err) {
       console.error(err);
     }
@@ -55,17 +74,20 @@ export const getAllBusinesses = () => {
 export const updateBusiness = (id, business) => {
   return async (dispatch) => {
     try {
-      // firebase hook or method to update doc in collection
+      const businessRef = doc(firestoreDB, COLLECTION, id);
+      const updatedBusiness = await updateDoc(businessRef, business);
+      dispatch(_updateBusiness(updateBusiness));
     } catch (err) {
       console.error(err);
     }
   };
 };
 
-export const deleteBusiness = (id, business) => {
+export const deleteBusiness = (id) => {
   return async (dispatch) => {
     try {
-      // firebase hook or method to delete doc from collection
+      const deletedBusiness = await deleteDoc(doc(firestoreDB, COLLECTION, id));
+      dispatch(_deleteBusiness(deletedBusiness));
     } catch (err) {
       console.error(err);
     }
