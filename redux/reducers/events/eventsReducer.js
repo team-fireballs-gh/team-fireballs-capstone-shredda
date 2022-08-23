@@ -14,7 +14,6 @@ const ADD_EVENT = "ADD_EVENT";
 const GET_ALL_EVENTS = "GET_ALL_EVENTS";
 const UPDATE_EVENT = "UPDATE_EVENT";
 const DELETE_EVENT = "DELETE_EVENT";
-// CONSIDER making the collection name a const to use in thunk
 
 const _addEvent = (event) => {
   return {
@@ -47,7 +46,6 @@ const _deleteEvent = (event) => {
 export const addEvent = (event) => {
   return async (dispatch) => {
     try {
-      // firebase hook or method to add doc to collection
       const eventDocRef = await addDoc(
         collection(firestoreDB, COLLECTION),
         event
@@ -64,7 +62,6 @@ export const getAllEvents = () => {
   return async (dispatch) => {
     let result = [];
     try {
-      // firebase hook or method to get all docs in collection
       const querySnapshot = await getDocs(collection(firestoreDB, COLLECTION));
 
       querySnapshot.forEach((doc) => result.push(doc.data()));
@@ -78,7 +75,6 @@ export const getAllEvents = () => {
 export const updateEvent = (id, event) => {
   return async (dispatch) => {
     try {
-      // firebase hook or method to update doc in collection
       const eventRef = doc(firestoreDB, COLLECTION, id);
       const updatedEvent = await updateDoc(eventRef, event);
       dispatch(_updateEvent(updatedEvent));
@@ -91,7 +87,6 @@ export const updateEvent = (id, event) => {
 export const deleteEvent = (id) => {
   return async (dispatch) => {
     try {
-      // firebase hook or method to delete doc from collection
       const deletedEvent = await deleteDoc(doc(firestoreDB, COLLECTION, id));
       dispatch(_deleteEvent(deletedEvent));
     } catch (err) {

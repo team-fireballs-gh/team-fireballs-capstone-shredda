@@ -1,5 +1,9 @@
+import { getFirestore, getDoc } from "firebase/firestore";
+import db from "../../../firebase/db";
+const firestoreDB = getFirestore(db);
+const COLLECTION = "events";
+
 const GET_SINGLE_EVENT = "GET_SINGLE_EVENT";
-// CONSIDER making the collection name a const to use in thunk
 
 const _getSingleEvent = (event) => {
   return {
@@ -11,7 +15,15 @@ const _getSingleEvent = (event) => {
 export const getSingleEvent = (id) => {
   return async (dispatch) => {
     try {
-      // firebase hook or method to fetch a single doc in collection
+      const singleEventRef = doc(firestoreDB, COLLECTION, id);
+      const docSnap = await getDoc(singleEventRef);
+
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+        //dispatch(_getSingleEvent(docSnap.data());
+      } else {
+        console.log("No such document!");
+      }
     } catch (err) {
       console.error(err);
     }
