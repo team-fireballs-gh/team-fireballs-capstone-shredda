@@ -28,7 +28,7 @@ const config = {
   permissions: ["public_profile", "email", "gender", "location"],
 };
 
-export const AuthProvider = ({ children, navigation }) => {
+export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
   const [loadingInitial, setLoadingInitial] = useState(true);

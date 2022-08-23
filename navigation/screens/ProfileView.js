@@ -16,7 +16,8 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import useAuth from "../../auth";
 
 const ProfileView = () => {
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
+  console.log(user)
 
   return (
     <SafeAreaView style={[{ flex: 1 }]}>
