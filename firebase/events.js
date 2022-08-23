@@ -1,19 +1,19 @@
 class Event {
   constructor(
+    title,
+    startDate,
     address,
+    websiteLink,
+    location,
     attendees,
     authorID,
     avgRating,
     description,
     endDate,
-    location,
     photo,
     priceRange,
     reviews,
-    startDate,
-    title,
-    type,
-    websiteLink
+    type
   ) {
     this.address = address;
     this.attendees = attendees;
@@ -33,36 +33,36 @@ class Event {
 }
 
 const newEvent = (
-  address,
-  attendees,
   authorID,
+  title,
+  startDate,
+  address,
+  websiteLink,
+  location,
+  attendees,
   avgRating,
   description,
   endDate,
-  location,
   photo,
   priceRange,
   reviews,
-  startDate,
-  title,
-  type,
-  websiteLink
+  type
 ) => {
   return new Event(
-    address, // string
-    attendees, // array of strings
     authorID, // string
+    title, // string
+    startDate, // timestamp
+    address, // string
+    websiteLink, // string
+    location, // geotag
+    attendees, // array of strings
     avgRating, // number
     description, // string
     endDate, // timestamp
-    location, // geotag
     photo, // reference (in firebase storage)
     priceRange, // string ($, $$, $$$)
     reviews, // array of strings
-    startDate, // timestamp
-    title, // string
-    type, // array of strings
-    websiteLink // strings
+    type // array of strings
   );
 };
 
