@@ -1,8 +1,20 @@
+import {
+  getFirestore,
+  setDoc,
+  updateDoc,
+  deleteDoc,
+  collection,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
+import db from "../../../firebase/db";
+const firestoreDB = getFirestore(db);
+const COLLECTION = "users";
+
 const ADD_USER = "ADD_USER";
 const GET_ALL_USERS = "GET_ALL_USERS";
 const UPDATE_USER = "UPDATE_USER";
 const DELETE_USER = "DELETE_USER";
-// CONSIDER making the collection name a const to use in thunk
 
 const _addUser = (user) => {
   return {
@@ -32,10 +44,11 @@ const _deleteUser = (user) => {
   };
 };
 
-export const addUser = (user) => {
+export const addUser = (uid, user) => {
   return async (dispatch) => {
     try {
-      // firebase hook or method to add doc to collection
+      const userRef = doc(firestoreDB, COLLECTION, uid);
+      setDoc(userRef, user, { merge: true });
     } catch (err) {
       console.error(err);
     }
@@ -44,28 +57,35 @@ export const addUser = (user) => {
 
 export const getAllUsers = () => {
   return async (dispatch) => {
+    let result = [];
     try {
-      // firebase hook or method to get all docs in collection
+      const querySnapshot = await getDocs(collection(firestoreDB, COLLECTION));
+
+      querySnapshot.forEach((doc) => result.push(doc.data()));
+      dispatch(_getAllUsers(result));
     } catch (err) {
       console.error(err);
     }
   };
 };
 
-export const updateUser = (id, user) => {
+export const updateUser = (uid, user) => {
   return async (dispatch) => {
     try {
-      // firebase hook or method to update doc in collection
+      const userRef = doc(firestoreDB, COLLECTION, uid);
+      const updatedUser = await updateDoc(userRef, user);
+      dispatch(_updateUser(updatedUser));
     } catch (err) {
       console.error(err);
     }
   };
 };
 
-export const deleteUser = (id, user) => {
+export const deleteUser = (uid, user) => {
   return async (dispatch) => {
     try {
-      // firebase hook or method to delete doc from collection
+      const deletedUser = await deleteDoc(doc(firestoreDB, COLLECTION, uid));
+      dispatch(_deleteUser(deletedUser));
     } catch (err) {
       console.error(err);
     }
@@ -83,7 +103,7 @@ const usersReducer = (state = initialState, action) => {
     case UPDATE_USER:
       return action.event;
     case DELETE_USER:
-      return [...state].filter((user) => user.id !== action.user.id);
+      return [...state].filter((user) => user.uid !== action.user.uid);
     default:
       return state;
   }
