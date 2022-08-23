@@ -1,12 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { Image, Text, View, StyleSheet, ScrollView, SafeAreaView, Pressable
+import React, { useState } from "react";
+import { Image, Text, View, StyleSheet, ScrollView, SafeAreaView, Pressable, TextInput 
 } from 'react-native';
 import Entypo from "react-native-vector-icons/Entypo";
 import AntIcon from "react-native-vector-icons/AntDesign";
 import Feather from "react-native-vector-icons/Feather";
 
-export default function SingleEvent({navigation}) {
+export default function EditEvent({navigation}) {
+    let [eventName, setEventName] = useState("name from firestore");
+    let [eventDescription, setEventDescription] = useState("description from firestore");
+    let [eventType, setEventType] = useState("address from firestore");
+    let [text, setText] = useState("extrainfo from firestore");
+    
     return (
         <SafeAreaView style={[{ flex: 1 }]}>
             <StatusBar style="auto" />
@@ -17,9 +22,11 @@ export default function SingleEvent({navigation}) {
                     uri: 'https://experiencity.ca/blog/articlesimages/display/e10/704/6551358d843fb25a3434a93321/latern-eventhub-RhinoCanada-ca.jpg',
                 }}/>
             </View>
-            <Text style={styles.eventName}>
-                Event Name
-            </Text>
+            <TextInput 
+                style={styles.eventNameInput}
+                onChangeText={setEventName}
+                value={eventName}>
+            </TextInput>
             <View style={styles.location} flexDirection="row" justifyContent="space-evenly"> 
                 <Text style={styles.locationText}>
                     <Entypo name="location-pin" size={20} color="gray"/>
@@ -29,42 +36,33 @@ export default function SingleEvent({navigation}) {
                     <AntIcon name="calendar" size={20} color="gray"/>
                     dates
                 </Text>
-                <Pressable onPress={() => navigation.navigate("EditEvent")}>
-                    <Feather name="edit" size={20} color="gray"/>
+                <Pressable onPress={() => navigation.navigate("Event Name")}>
+                    <Feather name="check-square" size={20} color="green"/>
                 </Pressable>
             </View>
             <ScrollView>
                 <Text style={styles.header}>Description</Text>
-                <Text style={styles.content}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Pulvinar
-                    mattis nunc sed blandit libero volutpat. Pellentesque habitant morbi
-                    tristique senectus et netus et malesuada fames. In fermentum posuere
-                    urna nec tincidunt praesent semper.
-                </Text>
+                <TextInput                 
+                    style={styles.content}
+                    onChangeText={setEventDescription}
+                    value={eventDescription}
+                    multiline>
+                </TextInput>
                 <Text style={styles.header}>type</Text>
-                <Text style={styles.content}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Pulvinar
-                    mattis nunc sed blandit libero volutpat. Pellentesque habitant morbi
-                    tristique senectus et netus et malesuada fames. In fermentum posuere
-                    urna nec tincidunt praesent semper.
-                </Text>
+                <TextInput                 
+                    style={styles.content}
+                    onChangeText={setEventType}
+                    value={eventType}
+                    multiline
+                    >
+                </TextInput>
                 <Text style={styles.header}>About Me</Text>
-                <Text style={styles.content}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Pulvinar
-                    mattis nunc sed blandit libero volutpat. Pellentesque habitant morbi
-                    tristique senectus et netus et malesuada fames. In fermentum posuere
-                    urna nec tincidunt praesent semper.
-                </Text>
-                <Text style={styles.content}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Pulvinar
-                    mattis nunc sed blandit libero volutpat. Pellentesque habitant morbi
-                    tristique senectus et netus et malesuada fames. In fermentum posuere
-                    urna nec tincidunt praesent semper.
-                </Text>
+                <TextInput                 
+                    style={styles.content}
+                    onChangeText={setText}
+                    value={text}
+                    multiline>
+                </TextInput>
             </ScrollView>
         </SafeAreaView>
     )
@@ -91,12 +89,17 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 10,
         borderBottomRightRadius: 10,
     },
-    eventName: {
+    eventNameInput: {
         fontSize: 30,
         color: 'black',
         marginHorizontal: 10,
         marginTop: 5,
         alignSelf: "center",
+        borderWidth: 2,
+        padding: 5,
+        borderRadius: 10,
+        borderStyle: 'dashed',
+        borderColor: 'tomato'
     },
     locationText: {
         fontSize: 16,
@@ -106,8 +109,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: 'grey',
     },
-    location: {
-        marginBottom: 8,
+    location: { 
+        margin: 5,
     },
     header: {
         fontSize: 18,
@@ -120,5 +123,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginLeft: "5%",
         marginRight: "10%",
+        borderWidth: 2,
+        padding: 5,
+        borderRadius: 10,
+        borderStyle: 'dashed',
+        borderColor: 'tomato',
+        height: 150,
     },
 })
