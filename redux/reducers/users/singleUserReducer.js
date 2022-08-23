@@ -1,5 +1,9 @@
+import { getFirestore, getDoc } from "firebase/firestore";
+import db from "../../../firebase/db";
+const firestoreDB = getFirestore(db);
+const COLLECTION = "users";
+
 const GET_SINGLE_USER = "GET_SINGLE_USER";
-// CONSIDER making the collection name a const to use in thunk
 
 const _getSingleUser = (user) => {
   return {
@@ -8,11 +12,19 @@ const _getSingleUser = (user) => {
   };
 };
 
-export const getSingleUser = (id) => {
+export const getSingleUser = (uid) => {
   return async (dispatch) => {
     try {
-      // firebase hook or method to fetch a single doc in collection
-      // consider querying this from firebase with all "associations" or commonalities across all collections
+      // consider querying this from firebase with all "associations" or commonalities across all collections??
+      const singleUserRef = doc(firestoreDB, COLLECTION, uid);
+      const docSnap = await getDoc(singleUserRef);
+
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+        //dispatch(_getSingleUser(docSnap.data());
+      } else {
+        console.log("No such document!");
+      }
     } catch (err) {
       console.error(err);
     }

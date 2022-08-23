@@ -121,17 +121,7 @@ const styles = StyleSheet.create({
   textContainer: {
     paddingBottom: 20,
   },
-  header: {
-    fontSize: 16,
-    fontWeight: "bold",
-    paddingTop: 10,
-    paddingBottom: 10,
-    marginLeft: "5%",
-  },
-  content: {
-    marginLeft: "5%",
-    marginRight: "10%",
-  },
 });
 
 export default ProfileView;
+

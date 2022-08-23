@@ -1,5 +1,9 @@
+import { getFirestore, getDoc } from "firebase/firestore";
+import db from "../../../firebase/db";
+const firestoreDB = getFirestore(db);
+const COLLECTION = "businesses";
+
 const GET_SINGLE_BUSINESS = "GET_SINGLE_BUSINESS";
-// CONSIDER making the collection name a const to use in thunk
 
 const _getSingleBusiness = (business) => {
   return {
@@ -11,8 +15,16 @@ const _getSingleBusiness = (business) => {
 export const getSingleBusiness = (id) => {
   return async (dispatch) => {
     try {
-      // firebase hook or method to fetch a single doc in collection
-      // consider querying this from firebase with all "associations" or commonalities across all collections
+      // consider querying this from firebase with all "associations" or commonalities across all collections??
+      const singleBusinessRef = doc(firestoreDB, COLLECTION, id);
+      const docSnap = await getDoc(singleBusinessRef);
+
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+        //dispatch(_getSingleBusiness(docSnap.data());
+      } else {
+        console.log("No such document!");
+      }
     } catch (err) {
       console.error(err);
     }
