@@ -58,6 +58,7 @@ export default function AddEvent() {
         </View>
     )
 }
+//make add event and single event as children of events component in app.js 
 
 const styles = StyleSheet.create({
     wholeContainer: {
