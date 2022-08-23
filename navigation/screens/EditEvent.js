@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from "react";
-import { Image, Text, View, StyleSheet, ScrollView, SafeAreaView, Pressable, TextInput
+import { Image, Text, View, StyleSheet, ScrollView, SafeAreaView, Pressable, TextInput 
 } from 'react-native';
 import Entypo from "react-native-vector-icons/Entypo";
 import AntIcon from "react-native-vector-icons/AntDesign";
 import Feather from "react-native-vector-icons/Feather";
 
-export default function EditEvent() {
+export default function EditEvent({navigation}) {
     let [eventName, setEventName] = useState("name from firestore");
     let [eventDescription, setEventDescription] = useState("description from firestore");
     let [eventType, setEventType] = useState("address from firestore");
@@ -36,6 +36,9 @@ export default function EditEvent() {
                     <AntIcon name="calendar" size={20} color="gray"/>
                     dates
                 </Text>
+                <Pressable onPress={() => navigation.navigate("Event Name")}>
+                    <Feather name="check-square" size={20} color="green"/>
+                </Pressable>
             </View>
             <ScrollView>
                 <Text style={styles.header}>Description</Text>
