@@ -15,10 +15,11 @@ const GET_ALL_EVENTS = "GET_ALL_EVENTS";
 const UPDATE_EVENT = "UPDATE_EVENT";
 const DELETE_EVENT = "DELETE_EVENT";
 
-const _addEvent = (event) => {
+const _addEvent = (event, id) => {
   return {
     type: ADD_EVENT,
     event,
+    id,
   };
 };
 
@@ -50,7 +51,6 @@ export const addEvent = (event) => {
         collection(firestoreDB, COLLECTION),
         event
       );
-
       dispatch(_addEvent(eventDocRef));
     } catch (err) {
       console.error(err);
