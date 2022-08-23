@@ -6,6 +6,7 @@ import SearchBar from "./SearchBar";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllEvents } from "../../redux/reducers/events/eventsReducer";
 import EventCard from "./EventCard";
+import Lottie from "lottie-react-native";
 
 export default function Events({ navigation }) {
   let events = useSelector((state) => state.events);
@@ -14,12 +15,11 @@ export default function Events({ navigation }) {
 
   useEffect(() => {
     dispatch(getAllEvents());
-    console.log("re-render events");
-  }, [load]);
+  }, []);
 
   useEffect(() => {
     setLoad(true);
-  }, [events]);
+  }, []);
 
   return (
     <Animated.View style={[{ flex: 1, backgroundColor: "white" }]}>
@@ -29,7 +29,7 @@ export default function Events({ navigation }) {
           events.map((event) => {
             return (
               <EventCard
-                key={event.title}
+                key={event.id}
                 eventInfo={event}
                 navigation={navigation}
               />

@@ -12,7 +12,7 @@ import useAuth from "../../auth";
 export default function Login({ navigation }) {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
-  
+
   const { signInWithGoogle } = useAuth();
   const auth = getAuth(db);
   const dispatch = useDispatch();
@@ -22,8 +22,8 @@ export default function Login({ navigation }) {
       .then((userCredential) => {
         const user = userCredential.user;
         dispatch(logIn(user.uid));
-        setEmail("");
-        setPassword("");
+        // setEmail("");
+        // setPassword("");
 
         navigation.navigate("Profile");
       })
@@ -62,10 +62,7 @@ export default function Login({ navigation }) {
           <Text style={styles.buttonText}>Login</Text>
         </Pressable>
       </View>
-      <Pressable
-        style={styles.loginButton}
-        onPress={signInWithGoogle}
-      >
+      <Pressable style={styles.loginButton} onPress={signInWithGoogle}>
         <Ionicons name="logo-google" color="white" size={20} />
       </Pressable>
       <StatusBar style="auto" />

@@ -64,7 +64,9 @@ export const getAllEvents = () => {
     try {
       const querySnapshot = await getDocs(collection(firestoreDB, COLLECTION));
 
-      querySnapshot.forEach((doc) => result.push(doc.data()));
+      querySnapshot.forEach((doc) =>
+        result.push({ id: doc.id, data: doc.data() })
+      );
       dispatch(_getAllEvents(result));
     } catch (err) {
       console.error(err);
