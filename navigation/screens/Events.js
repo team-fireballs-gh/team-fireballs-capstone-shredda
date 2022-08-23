@@ -1,35 +1,27 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Animated,
-  TouchableOpacity,
   ImageBackground,
   Text,
   View,
   StyleSheet,
-  TouchableWithoutFeedback,
   ScrollView,
+  Pressable,
 } from "react-native";
-import { getAllEvents } from "../../redux/reducers/events/eventsReducer";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import SearchBar from "./SearchBar";
-import { useSelector, useDispatch } from "react-redux";
 
-export default function Events() {
-  let events = useSelector((state) => state.events);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAllEvents());
-  }, []);
-
-  console.log("EVENTS", events);
-
+export default function Events({ navigation }) {
   return (
-    <Animated.View style={[{ flex: 1 }]}>
-      <ScrollView style={styles.scrollView}>
-        <SearchBar />
-        <TouchableOpacity style={styles.touchableOpacity}>
+    <Animated.View style={[{ flex: 1, backgroundColor: "white" }]}>
+      <SearchBar />
+      <ScrollView>
+        <Pressable
+          onPress={() => {
+            navigation.navigate("Event Name");
+          }}
+        >
           <View style={styles.card}>
             <StatusBar style="auto" />
             <View style={styles.cardContent}>
@@ -47,17 +39,13 @@ export default function Events() {
               </ImageBackground>
             </View>
           </View>
-        </TouchableOpacity>
+        </Pressable>
       </ScrollView>
     </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: "white",
-    // showVerticalScrollBar: false,
-  },
   card: {
     height: 400,
     borderRadius: 10,
