@@ -12,7 +12,7 @@ export default function EventCard({ navigation, eventInfo }) {
   return (
     <Pressable
       onPress={() => {
-        navigation.navigate("Event Name");
+        navigation.navigate("Event Name", { id: eventInfo.id });
       }}
     >
       <View style={styles.card}>
@@ -26,11 +26,11 @@ export default function EventCard({ navigation, eventInfo }) {
             }}
           >
             <View style={styles.textContainer}>
-              <Text style={styles.eventName}>{eventInfo.title}</Text>
+              <Text style={styles.eventName}>{eventInfo.data.title}</Text>
               <Text style={styles.eventInfo}>
                 {/* {eventInfo.startDate,  */}
                 Date Here,
-                {eventInfo.address}
+                {eventInfo.data.address}
               </Text>
             </View>
           </ImageBackground>
