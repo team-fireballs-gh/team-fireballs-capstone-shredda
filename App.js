@@ -28,7 +28,7 @@ function App() {
           <Stack.Navigator>
             
             <Stack.Screen name="MainContainer" component={MainContainer} options={{ headerShown: false }} />
-            {/* <Stack.Screen name="Login" component={Login} /> */}
+            <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Friends" component={AddUsers} />
             <Stack.Screen name="Discover" component={Events} />
             <Stack.Screen name="Calendar" component={Calendar} />
