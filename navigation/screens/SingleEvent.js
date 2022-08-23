@@ -27,7 +27,6 @@ export default function SingleEvent({ route }) {
   return (
     <SafeAreaView style={[{ flex: 1 }]}>
       <StatusBar style="auto" />
-
       <View style={styles.profileContainer}>
         <Image
           style={styles.backgroundImage}
@@ -36,7 +35,7 @@ export default function SingleEvent({ route }) {
           }}
         />
       </View>
-      <Text style={styles.eventName}>{singleEvent.title}</Text>
+      <Text style={styles.eventName}>Event Name</Text>
       <View
         style={styles.location}
         flexDirection="row"
@@ -44,18 +43,18 @@ export default function SingleEvent({ route }) {
       >
         <Text style={styles.locationText}>
           <Entypo name="location-pin" size={20} color="gray" />
-          {singleEvent.address}
+          City, State
         </Text>
         <Text style={styles.dateText}>
-          <AntIcon name="calendar" size={20} color="gray" />{" "}
-          {singleEvent.startDate}
+          <AntIcon name="calendar" size={20} color="gray" />
+          dates
         </Text>
         <Pressable>
           <Feather
             name="edit"
             size={20}
             color="gray"
-            onPress={() => console.log("go to edit profile")}
+            onPress={() => navigation.navigate("EditEvent")}
           />
         </Pressable>
       </View>
