@@ -4,8 +4,8 @@ import {
   initializeAuth,
   getReactNativePersistence,
 } from "firebase/auth/react-native";
-import { getAuth } from "firebase/auth";
-import { getStorage } from "firebase/storage";
+// import { getAuth } from "firebase/auth";
+// import { getStorage } from "firebase/storage";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -17,7 +17,7 @@ const firebaseConfig = {
   projectId: "team-fireballs-capstone",
   storageBucket: "team-fireballs-capstone.appspot.com",
   messagingSenderId: "452789543304",
-  appId: "1:452789543304:web:7436dc9adeceb84c1a9a3d"
+  appId: "1:452789543304:web:7436dc9adeceb84c1a9a3d",
 };
 
 // Initialize Firebase
