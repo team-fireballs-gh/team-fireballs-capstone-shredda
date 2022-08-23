@@ -54,9 +54,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
     shadowColor: "#333",
     shadowOpacity: 0.3,
-    shadowRadius: 2,
-    marginHorizontal: "5%",
-    marginVertical: "2%",
+    shadowRadius: 2, 
+    marginHorizontal: '5%', 
   },
   cardContent: {
     marginHorizontal: 0,

@@ -1,10 +1,14 @@
+import { StatusBar } from 'expo-status-bar';
 import React from "react";
-import { StyleSheet, TextInput, View, Keyboard, Button } from "react-native";
+import { StyleSheet, TextInput, View, Keyboard, Pressable } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { useNavigation } from '@react-navigation/native';
 
 
-const SearchBar = () => {
+
+export default function SearchBar() {
+    const navigation = useNavigation();
     const [text, setSearchText] = React.useState('');
     const [clicked, setClicked] = React.useState(false);
 
@@ -42,12 +46,15 @@ const SearchBar = () => {
                   }}
               />
           )}
-       <Ionicons name="add-circle-outline" size={40} />
+          <Pressable onPress={() => {
+            navigation.navigate("AddEvent")
+          }}>            
+            <Ionicons name="add-circle-outline" size={40} />
+          </Pressable>
 
         </View>
     );
 };
-export default SearchBar;
 
 const styles = StyleSheet.create({
   container: {

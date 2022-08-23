@@ -9,6 +9,7 @@ import Feather from "react-native-vector-icons/Feather";
 export default function SingleEvent() {
     return (
         <SafeAreaView style={[{ flex: 1 }]}>
+            <StatusBar style="auto" />
             <View style={styles.profileContainer}>
                 <Image
                 style={styles.backgroundImage}
