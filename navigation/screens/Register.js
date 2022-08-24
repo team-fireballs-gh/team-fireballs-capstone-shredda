@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, TextInput, Pressable, SafeAreaView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Pressable,
+  SafeAreaView,
+} from "react-native";
 import db from "../../firebase/db";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { logIn } from "../../redux/reducers/authStatus";
 import { useDispatch } from "react-redux";
 
 export default function Register({ navigation }) {
@@ -19,7 +25,7 @@ export default function Register({ navigation }) {
     } else if (password === confirmPassword) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((res) => {
-          dispatch(logIn(res.user.uid));
+          dispatch(addUser(res.user.uid, user));
           alert("User registered successfully!");
           setEmail("");
           setPassword("");
