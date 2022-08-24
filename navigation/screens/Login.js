@@ -21,7 +21,7 @@ export default function Login({ navigation }) {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        dispatch(logIn(user.uid));
+        // dispatch(logIn(user.uid));
         // setEmail("");
         // setPassword("");
 
