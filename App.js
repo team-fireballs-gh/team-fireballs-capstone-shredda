@@ -58,7 +58,7 @@ function App() {
         </AuthProvider>
       </NavigationContainer>
     </Provider>
-  );
+  )
 };
 
 export default App;
