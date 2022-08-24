@@ -1,4 +1,4 @@
-import { getFirestore, getDoc } from "firebase/firestore";
+import { getFirestore, getDoc, doc } from "firebase/firestore";
 import { db as firestoreDB } from "../../../firebase/db";
 const COLLECTION = "businesses";
 
