@@ -11,6 +11,7 @@ import {
 import db from "../../firebase/db";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useDispatch } from "react-redux";
+import { addUser } from "../../redux/reducers/users/usersReducer";
 
 export default function Register({ navigation }) {
   let [username, setUsername] = useState("");
@@ -26,11 +27,9 @@ export default function Register({ navigation }) {
     } else if (password === confirmPassword) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((res) => {
+          let user = { email: email, username: username };
           dispatch(addUser(res.user.uid, user));
           alert("User registered successfully!");
-          setEmail("");
-          setPassword("");
-          setConfirmPassword("");
 
           navigation.navigate("CreateProfile");
         })
