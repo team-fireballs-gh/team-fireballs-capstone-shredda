@@ -13,6 +13,7 @@ import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useDispatch } from "react-redux";
 
 export default function Register({ navigation }) {
+  let [username, setUsername] = useState("");
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let [confirmPassword, setConfirmPassword] = useState("");
@@ -48,6 +49,13 @@ export default function Register({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.loginWelcome}>Register</Text>
+      <Text style={styles.inputHeader}>username</Text>
+      <TextInput
+        style={styles.input}
+        value={username}
+        onChangeText={setUsername}
+        placeholder="username"
+      />
       <Text style={styles.inputHeader}>email</Text>
       <TextInput
         style={styles.input}
