@@ -47,6 +47,7 @@ function App() {
               <Stack.Screen name="CreateProfile" component={CreateProfile} />
               <Stack.Screen name="Event Name" component={SingleEvent} />
               <Stack.Screen name="AddEvent" component={AddEvent} />
+              <Stack.Screen name="EditEvent" component={EditEvent} />
             </Stack.Group>
             <Stack.Group screenOptions={{ presentation: "modal" }}>
               <Stack.Screen
@@ -59,7 +60,7 @@ function App() {
         </AuthProvider>
       </NavigationContainer>
     </Provider>
-  )
-};
+  );
+}
 
 export default App;
