@@ -21,4 +21,6 @@ const rootReducer = combineReducers({
   singleBusiness: singleBusinessReducer,
 });
 
+// FIRESTORE DOCS: https://firebase.google.com/docs/firestore
+
 export default rootReducer;
