@@ -15,7 +15,7 @@ import Feather from "react-native-vector-icons/Feather";
 import { getSingleEvent } from "../../redux/reducers/events/singleEventReducer";
 import { useSelector, useDispatch } from "react-redux";
 
-export default function SingleEvent({ route }) {
+export default function SingleEvent({ route, navigation }) {
   const { id } = route.params;
   let singleEvent = useSelector((state) => state.singleEvent);
   const dispatch = useDispatch();
