@@ -54,7 +54,7 @@ export default function SingleEvent({ route, navigation }) {
             name="edit"
             size={20}
             color="gray"
-            onPress={() => navigation.navigate("EditEvent", id)}
+            onPress={() => navigation.navigate("EditEvent", {id: id})}
           />
         </Pressable>
       </View>

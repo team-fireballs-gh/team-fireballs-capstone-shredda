@@ -5,6 +5,7 @@ import {
   deleteDoc,
   collection,
   getDocs,
+  doc
 } from "firebase/firestore";
 import { db as firestoreDB } from "../../../firebase/db";
 const COLLECTION = "events";

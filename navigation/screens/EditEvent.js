@@ -6,17 +6,20 @@ import Entypo from "react-native-vector-icons/Entypo";
 import AntIcon from "react-native-vector-icons/AntDesign";
 import Feather from "react-native-vector-icons/Feather";
 import { getSingleEvent } from "../../redux/reducers/events/singleEventReducer";
+import { updateEvent } from "../../redux/reducers/events/eventsReducer";
 import { useSelector, useDispatch } from "react-redux";
 
 export default function EditEvent({ route, navigation }) {
     const { id } = route.params;
-    let singleEvent = useSelector((state) => state.singleEvent); // replacing mapStateToProps
+    let singleEvent = useSelector((state) => state.singleEvent);
     const dispatch = useDispatch();
     
     useEffect(() => {
-        dispatch(getSingleEvent(id)); // replaces mapDispatchToProps // props.getSingleEvent(id)
+        dispatch(getSingleEvent(id)); 
     }, [dispatch]);
-    
+    console.log("GIVE ME MY ID!!!!!", id)
+    console.log("GIVE ME MY EVENT!!!!!", singleEvent)
+
     let [eventName, setEventName] = useState(singleEvent.title);
     let [eventDescription, setEventDescription] = useState("description from firestore");
     let [eventType, setEventType] = useState(singleEvent.address);
@@ -46,7 +49,7 @@ export default function EditEvent({ route, navigation }) {
                     <AntIcon name="calendar" size={20} color="gray"/>
                     dates
                 </Text>
-                <Pressable onPress={() => navigation.navigate("Event Name")}>
+                <Pressable onPress={() => navigation.navigate("Event Name", id)}>
                     <Feather name="check-square" size={20} color="green"/>
                 </Pressable>
             </View>
