@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { AntDesign, Ionicons } from "react-native-vector-icons";
+import { AntDesign, Ionicons, FontAwesome5 } from "react-native-vector-icons";
 import {
   StyleSheet,
   Text,
@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Swiper from "react-native-deck-swiper";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase/db";
 
 const Dummy_Data = [
   {
@@ -70,15 +72,29 @@ const Dummy_Data = [
 ];
 
 export default function AddUsers({ navigation }) {
-  const swipeRef = useRef(null);
+  const [user] = useAuthState(auth);
+  const swipeRef = useRef(0);
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.chatBubble}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+          <Image
+            style={{ height: 45, width: 45, borderRadius: 50 }}
+            source={{ uri: user.photoURL }}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate("updateUser")} >
+          <FontAwesome5 name="user-edit" size={50} color="#fea7a5" />
+        </TouchableOpacity>
+
         <TouchableOpacity onPress={() => navigation.navigate("Chats")}>
           <Ionicons name="chatbubbles-sharp" size={45} color="#fea7a5" />
         </TouchableOpacity>
       </View>
       {/* User Cards */}
+      {/* {false ? ( */}
       <View style={styles.swiperContainer}>
         <Swiper
           ref={swipeRef}
@@ -144,6 +160,7 @@ export default function AddUsers({ navigation }) {
           )}
         />
       </View>
+      {/* ) : null} */}
 
       <View style={styles.footer}>
         <TouchableOpacity
@@ -170,9 +187,14 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     // padding: Platform.OS === "ios" ? StatusBar.currentHeight : 0,
   },
-  chatBubble: {
+  header: {
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingBottom: 20,
+    paddingTop: 10,
   },
   swiperContainer: {
     flex: 1,

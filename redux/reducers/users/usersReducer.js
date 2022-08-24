@@ -6,8 +6,7 @@ import {
   getDocs,
   setDoc,
 } from "firebase/firestore";
-import db from "../../../firebase/db";
-const firestoreDB = getFirestore(db);
+import { db as firestoreDB } from "../../../firebase/db";
 const COLLECTION = "users";
 
 const ADD_USER = "ADD_USER";

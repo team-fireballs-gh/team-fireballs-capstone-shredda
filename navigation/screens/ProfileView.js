@@ -17,7 +17,7 @@ import useAuth from "../../auth";
 
 const ProfileView = () => {
   const { logout, user } = useAuth();
-  console.log(user)
+  // console.log(user)
 
   return (
     <SafeAreaView style={[{ flex: 1 }]}>

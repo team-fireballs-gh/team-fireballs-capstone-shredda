@@ -6,8 +6,7 @@ import {
   collection,
   getDocs,
 } from "firebase/firestore";
-import db from "../../../firebase/db";
-const firestoreDB = getFirestore(db);
+import { db as firestoreDB } from "../../../firebase/db";
 const COLLECTION = "events";
 
 const ADD_EVENT = "ADD_EVENT";
