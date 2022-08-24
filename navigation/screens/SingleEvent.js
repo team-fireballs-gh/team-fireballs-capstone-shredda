@@ -35,7 +35,7 @@ export default function SingleEvent({ route }) {
           }}
         />
       </View>
-      <Text style={styles.eventName}>Event Name</Text>
+      <Text style={styles.eventName}>{singleEvent.title}</Text>
       <View
         style={styles.location}
         flexDirection="row"
@@ -43,11 +43,11 @@ export default function SingleEvent({ route }) {
       >
         <Text style={styles.locationText}>
           <Entypo name="location-pin" size={20} color="gray" />
-          City, State
+          {singleEvent.address}
         </Text>
         <Text style={styles.dateText}>
           <AntIcon name="calendar" size={20} color="gray" />
-          dates
+          {singleEvent.date}
         </Text>
         <Pressable>
           <Feather
