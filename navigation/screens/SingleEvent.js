@@ -17,11 +17,11 @@ import { useSelector, useDispatch } from "react-redux";
 
 export default function SingleEvent({ route, navigation }) {
   const { id } = route.params;
-  let singleEvent = useSelector((state) => state.singleEvent);
+  let singleEvent = useSelector((state) => state.singleEvent); // replacing mapStateToProps
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSingleEvent(id));
+    dispatch(getSingleEvent(id)); // replaces mapDispatchToProps // props.getSingleEvent(id)
   }, [dispatch]);
 
   return (
