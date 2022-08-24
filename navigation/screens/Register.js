@@ -11,8 +11,10 @@ import {
 import db from "../../firebase/db";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useDispatch } from "react-redux";
+import { addUser } from "../../redux/reducers/users/usersReducer";
 
 export default function Register({ navigation }) {
+  let [username, setUsername] = useState("");
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let [confirmPassword, setConfirmPassword] = useState("");
@@ -25,11 +27,9 @@ export default function Register({ navigation }) {
     } else if (password === confirmPassword) {
       createUserWithEmailAndPassword(auth, email, password)
         .then((res) => {
+          let user = { email: email, username: username };
           dispatch(addUser(res.user.uid, user));
           alert("User registered successfully!");
-          setEmail("");
-          setPassword("");
-          setConfirmPassword("");
 
           navigation.navigate("CreateProfile");
         })
@@ -48,6 +48,13 @@ export default function Register({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.loginWelcome}>Register</Text>
+      <Text style={styles.inputHeader}>username</Text>
+      <TextInput
+        style={styles.input}
+        value={username}
+        onChangeText={setUsername}
+        placeholder="username"
+      />
       <Text style={styles.inputHeader}>email</Text>
       <TextInput
         style={styles.input}

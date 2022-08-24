@@ -1,5 +1,5 @@
 import {
-  getFirestore,
+  doc,
   updateDoc,
   deleteDoc,
   collection,
@@ -7,6 +7,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { db as firestoreDB } from "../../../firebase/db";
+import { getSingleUser } from "./singleUserReducer";
 const COLLECTION = "users";
 
 const ADD_USER = "ADD_USER";
@@ -46,8 +47,10 @@ export const addUser = (uid, user) => {
   return async (dispatch) => {
     try {
       const userRef = doc(firestoreDB, COLLECTION, uid);
-      const addedUser = await setDoc(userRef, user, { merge: true });
-      dispatch(_addUser(addedUser));
+      await setDoc(userRef, { user }, { merge: true });
+
+      const singleUser = dispatch(getSingleUser(uid));
+      dispatch(_addUser(singleUser));
     } catch (err) {
       console.error(err);
     }
@@ -96,11 +99,11 @@ const initialState = [];
 const usersReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_USER:
-      return action.event;
+      return action.user;
     case GET_ALL_USERS:
-      return action.events;
+      return action.users;
     case UPDATE_USER:
-      return action.event;
+      return action.user;
     case DELETE_USER:
       return [...state].filter((user) => user.uid !== action.user.uid);
     default:
