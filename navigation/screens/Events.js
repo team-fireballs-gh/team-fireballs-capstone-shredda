@@ -6,7 +6,6 @@ import SearchBar from "./SearchBar";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllEvents } from "../../redux/reducers/events/eventsReducer";
 import EventCard from "./EventCard";
-import Lottie from "lottie-react-native";
 
 export default function Events({ navigation }) {
   let events = useSelector((state) => state.events);
