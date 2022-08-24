@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setLoading(true);
-    signOut(auth)
+    signOut(auth) // firebase/auth metthod for signing out the user;
       .catch((error) => setError(error))
       .finally(() => setLoading(false));
   };
@@ -59,15 +59,15 @@ export const AuthProvider = ({ children }) => {
   const signInWithGoogle = async () => {
     setLoading(true);
 
-    await Google.logInAsync(config)
-      .then(async (logInResult) => {
-        if (logInResult.type === "success") {
+    await Google.logInAsync(config) // this is what allows the user to log into Google and grants the app permission to access their Google data, as specified in the "scopes";
+      .then(async (logInResult) => { // this resolves into the results of the user's login attempt;
+        if (logInResult.type === "success") { // if success
           const { idToken, accessToken } = logInResult;
           const credential = GoogleAuthProvider.credential(
             idToken,
             accessToken
           );
-          await signInWithCredential(auth, credential);
+          await signInWithCredential(auth, credential); // Asynchronously signs in with the given credentials;
         }
 
         return Promise.reject();
