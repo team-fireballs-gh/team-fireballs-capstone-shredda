@@ -30,4 +30,6 @@ export const auth = initializeAuth(app, {
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 
+// FIRESTORE DOCS: https://firebase.google.com/docs/firestore
+
 export default app;
