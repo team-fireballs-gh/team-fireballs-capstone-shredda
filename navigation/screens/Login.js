@@ -5,7 +5,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { auth } from "../../firebase/db";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
-import { logIn } from "../../redux/reducers/authStatus";
+import { addUser } from "../../redux/reducers/users/usersReducer";
 
 import useAuth from "../../auth";
 
@@ -21,6 +21,7 @@ export default function Login({ navigation }) {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        dispatch(addUser(user.uid, user));
         // dispatch(logIn(user.uid));
         // setEmail("");
         // setPassword("");
