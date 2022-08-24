@@ -6,8 +6,8 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
-import db from "../../../firebase/db";
-const firestoreDB = getFirestore(db);
+import { db as firestoreDB } from "../../../firebase/db";
+
 const COLLECTION = "businesses";
 
 const ADD_BUSINESS = "ADD_BUSINESS";

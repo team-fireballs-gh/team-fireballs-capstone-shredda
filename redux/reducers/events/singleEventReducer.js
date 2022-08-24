@@ -1,6 +1,6 @@
-import { getFirestore, getDoc, doc } from "firebase/firestore";
-import db from "../../../firebase/db";
-const firestoreDB = getFirestore(db);
+import { getFirestore, getDoc } from "firebase/firestore";
+import { db as firestoreDB } from "../../../firebase/db";
+
 const COLLECTION = "events";
 
 const GET_SINGLE_EVENT = "GET_SINGLE_EVENT";
