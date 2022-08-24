@@ -15,6 +15,7 @@ import Register from "./screens/Register";
 import useAuth from "../auth";
 
 const { Navigator, Screen } = createBottomTabNavigator();
+
 // Navigator -
 // Screen - "name" (the name to use for the screen) & "component" (the react component to render for the screen) are 2 of the many props it can take;
 
@@ -57,7 +58,7 @@ export default function MainContainer() {
     >
       {user ? (
         <>
-          <Screen name="Friends" component={AddUsers} />
+          <Screen name="Friends" component={AddUsers} options={{ headerShown: false }} />
           <Screen name="Discover" component={Events} />
           <Screen name="Calendar" component={Calendar} />
           <Screen name="Chats" component={Chats} />

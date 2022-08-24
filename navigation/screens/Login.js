@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import db from "../../firebase/db";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase/db";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../redux/reducers/authStatus";
 
@@ -14,7 +14,7 @@ export default function Login({ navigation }) {
   let [password, setPassword] = useState("");
 
   const { signInWithGoogle } = useAuth();
-  const auth = getAuth(db);
+  // const auth = getAuth(auth);
   const dispatch = useDispatch();
 
   const emailSignIn = () => {

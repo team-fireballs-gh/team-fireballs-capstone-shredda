@@ -4,11 +4,9 @@ import {
   deleteDoc,
   collection,
   getDocs,
-  setDoc,
   addDoc,
 } from "firebase/firestore";
-import db from "../../../firebase/db";
-const firestoreDB = getFirestore(db);
+import { db as firestoreDB } from "../../../firebase/db";
 const COLLECTION = "reviews";
 
 const ADD_REVIEW = "ADD_REVIEW";
