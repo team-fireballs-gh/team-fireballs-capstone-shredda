@@ -1,5 +1,4 @@
 import { combineReducers } from "redux";
-import authStatusReducer from "./authStatus";
 import usersReducer from "./users/usersReducer";
 import singleUserReducer from "./users/singleUserReducer";
 import reviewsReducer from "./reviews/reviewsReducer";
@@ -10,7 +9,6 @@ import businessesReducer from "./businesses/businessesReducer";
 import singleBusinessReducer from "./businesses/singleBusinessReducer";
 
 const rootReducer = combineReducers({
-  authStatus: authStatusReducer,
   users: usersReducer,
   singleUser: singleUserReducer,
   reviews: reviewsReducer,
@@ -20,7 +18,5 @@ const rootReducer = combineReducers({
   businesses: businessesReducer,
   singleBusiness: singleBusinessReducer,
 });
-
-// FIRESTORE DOCS: https://firebase.google.com/docs/firestore
 
 export default rootReducer;
