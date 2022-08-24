@@ -1,51 +1,53 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import {
-  Animated,
-  ImageBackground,
-  Text,
-  View,
-  StyleSheet,
-  ScrollView,
-  Pressable,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { Animated, Text, StyleSheet, ScrollView } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import SearchBar from "./SearchBar";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllEvents } from "../../redux/reducers/events/eventsReducer";
+import EventCard from "./EventCard";
+import Lottie from "lottie-react-native";
 
 export default function Events({ navigation }) {
+  let events = useSelector((state) => state.events);
+  let [load, setLoad] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllEvents());
+  }, []);
+
+  useEffect(() => {
+    setLoad(true);
+  }, []);
+
   return (
     <Animated.View style={[{ flex: 1, backgroundColor: "white" }]}>
       <SearchBar />
       <ScrollView>
-        <Pressable
-          onPress={() => {
-            navigation.navigate("Event Name");
-          }}
-        >
-          <View style={styles.card}>
-            <StatusBar style="auto" />
-            <View style={styles.cardContent}>
-              <ImageBackground
-                style={{ height: "100%", width: "100%" }}
-                imageStyle={{ borderRadius: 10 }}
-                source={{
-                  uri: "https://experiencity.ca/blog/articlesimages/display/e10/704/6551358d843fb25a3434a93321/latern-eventhub-RhinoCanada-ca.jpg",
-                }}
-              >
-                <View style={styles.textContainer}>
-                  <Text style={styles.eventName}>Event Name</Text>
-                  <Text style={styles.eventInfo}>date, location</Text>
-                </View>
-              </ImageBackground>
-            </View>
-          </View>
-        </Pressable>
+        {events.length > 0 ? (
+          events.map((event) => {
+            return (
+              <EventCard
+                key={event.id}
+                eventInfo={event}
+                navigation={navigation}
+              />
+            );
+          })
+        ) : (
+          <Text style={styles.loading}>Loading...</Text>
+        )}
       </ScrollView>
     </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
+  loading: {
+    textAlign: "center",
+    justifyContent: "center",
+  },
   card: {
     height: 400,
     borderRadius: 10,
@@ -54,8 +56,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
     shadowColor: "#333",
     shadowOpacity: 0.3,
-    shadowRadius: 2, 
-    marginHorizontal: '5%', 
+    shadowRadius: 2,
+    marginHorizontal: "5%",
   },
   cardContent: {
     marginHorizontal: 0,

@@ -1,5 +1,6 @@
 import { getFirestore, getDoc } from "firebase/firestore";
 import { db as firestoreDB } from "../../../firebase/db";
+
 const COLLECTION = "events";
 
 const GET_SINGLE_EVENT = "GET_SINGLE_EVENT";
@@ -19,7 +20,7 @@ export const getSingleEvent = (id) => {
 
       if (docSnap.exists()) {
         console.log("Document data:", docSnap.data());
-        //dispatch(_getSingleEvent(docSnap.data());
+        dispatch(_getSingleEvent(docSnap.data()));
       } else {
         console.log("No such document!");
       }

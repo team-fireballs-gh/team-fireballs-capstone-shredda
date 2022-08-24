@@ -15,16 +15,21 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 import useAuth from "../../auth";
 
-const ProfileView = () => {
+const ProfileView = ({ navigation }) => {
   const { logout, user } = useAuth();
-  // console.log(user)
+
+  console.log("LOGIN USER OBJECT", user); // HERE IT IS
+  const logOutButton = () => {
+    // navigation.navigate("Login");
+    logout();
+  };
 
   return (
     <SafeAreaView style={[{ flex: 1 }]}>
       <Button
         style={{ position: "absolute", top: 10, color: "blue" }}
         title="logout"
-        onPress={logout}
+        onPress={logOutButton}
       />
       <View style={styles.profileContainer}>
         <ImageBackground
@@ -124,4 +129,3 @@ const styles = StyleSheet.create({
 });
 
 export default ProfileView;
-

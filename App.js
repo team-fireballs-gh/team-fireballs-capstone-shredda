@@ -11,6 +11,7 @@ import AddUsers from "./navigation/screens/AddUsers";
 import Events from "./navigation/screens/Events";
 import SingleEvent from "./navigation/screens/SingleEvent";
 import AddEvent from "./navigation/screens/AddEvent";
+import EditEvent from "./navigation/screens/EditEvent";
 import Calendar from "./navigation/screens/Calendar";
 import Chats from "./navigation/screens/Chats";
 import ProfileView from "./navigation/screens/ProfileView";

@@ -14,10 +14,11 @@ const GET_ALL_EVENTS = "GET_ALL_EVENTS";
 const UPDATE_EVENT = "UPDATE_EVENT";
 const DELETE_EVENT = "DELETE_EVENT";
 
-const _addEvent = (event) => {
+const _addEvent = (event, id) => {
   return {
     type: ADD_EVENT,
     event,
+    id,
   };
 };
 
@@ -49,7 +50,6 @@ export const addEvent = (event) => {
         collection(firestoreDB, COLLECTION),
         event
       );
-
       dispatch(_addEvent(eventDocRef));
     } catch (err) {
       console.error(err);
@@ -63,7 +63,9 @@ export const getAllEvents = () => {
     try {
       const querySnapshot = await getDocs(collection(firestoreDB, COLLECTION));
 
-      querySnapshot.forEach((doc) => result.push(doc.data()));
+      querySnapshot.forEach((doc) =>
+        result.push({ id: doc.id, data: doc.data() })
+      );
       dispatch(_getAllEvents(result));
     } catch (err) {
       console.error(err);
