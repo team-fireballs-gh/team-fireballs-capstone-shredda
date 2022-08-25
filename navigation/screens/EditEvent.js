@@ -17,13 +17,26 @@ export default function EditEvent({ route, navigation }) {
     useEffect(() => {
         dispatch(getSingleEvent(id)); 
     }, [dispatch]);
-    console.log("GIVE ME MY ID!!!!!", id)
-    console.log("GIVE ME MY EVENT!!!!!", singleEvent)
+    console.log("ID!!!!!!:", id)
+    console.log("SingleEvent!!!!:", singleEvent)
 
-    let [eventName, setEventName] = useState(singleEvent.title);
-    let [eventDescription, setEventDescription] = useState("description from firestore");
-    let [eventType, setEventType] = useState(singleEvent.address);
-    let [text, setText] = useState("extrainfo from firestore");
+    const [eventInfo, updateEventInfo] = useState({
+        title: singleEvent.title,
+        address: singleEvent.address,
+        websiteLink: singleEvent.websiteLink,
+    })
+    console.log("EventINFO!!!!!!:",eventInfo)
+
+    const handleChange = (event) => {
+        updateEventInfo({...eventInfo, [event.target.name]: event.target.value}) 
+    };
+   
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        updateEventInfo({title:"", address:"", websiteLink:""});
+        dispatch(updateEvent({id}, eventInfo)); 
+    }
 
     return (
         <SafeAreaView style={[{ flex: 1 }]}>
@@ -37,8 +50,8 @@ export default function EditEvent({ route, navigation }) {
             </View>
             <TextInput 
                 style={styles.eventNameInput}
-                onChangeText={setEventName}
-                value={eventName}>
+                onChangeText={handleChange}
+                value={eventInfo.title}>
             </TextInput>
             <View style={styles.location} flexDirection="row" justifyContent="space-evenly"> 
                 <Text style={styles.locationText}>
@@ -49,7 +62,9 @@ export default function EditEvent({ route, navigation }) {
                     <AntIcon name="calendar" size={20} color="gray"/>
                     dates
                 </Text>
-                <Pressable onPress={() => navigation.navigate("Event Name", id)}>
+                <Pressable 
+                    onPress={handleSubmit}
+                >
                     <Feather name="check-square" size={20} color="green"/>
                 </Pressable>
             </View>
@@ -57,23 +72,8 @@ export default function EditEvent({ route, navigation }) {
                 <Text style={styles.header}>Description</Text>
                 <TextInput                 
                     style={styles.content}
-                    onChangeText={setEventDescription}
-                    value={eventDescription}
-                    multiline>
-                </TextInput>
-                <Text style={styles.header}>type</Text>
-                <TextInput                 
-                    style={styles.content}
-                    onChangeText={setEventType}
-                    value={eventType}
-                    multiline
-                    >
-                </TextInput>
-                <Text style={styles.header}>About Me</Text>
-                <TextInput                 
-                    style={styles.content}
-                    onChangeText={setText}
-                    value={text}
+                    onChangeText={handleChange}
+                    value={eventInfo.websiteLink}
                     multiline>
                 </TextInput>
             </ScrollView>
