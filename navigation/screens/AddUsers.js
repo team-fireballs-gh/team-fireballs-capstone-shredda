@@ -85,7 +85,7 @@ export default function AddUsers({ navigation }) {
           />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate("updateUser")} >
+        <TouchableOpacity onPress={() => navigation.navigate("updateUser")}>
           <FontAwesome5 name="user-edit" size={50} color="#fea7a5" />
         </TouchableOpacity>
 
@@ -94,7 +94,6 @@ export default function AddUsers({ navigation }) {
         </TouchableOpacity>
       </View>
       {/* User Cards */}
-      {/* {false ? ( */}
       <View style={styles.swiperContainer}>
         <Swiper
           ref={swipeRef}
@@ -160,7 +159,6 @@ export default function AddUsers({ navigation }) {
           )}
         />
       </View>
-      {/* ) : null} */}
 
       <View style={styles.footer}>
         <TouchableOpacity
@@ -185,7 +183,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    // padding: Platform.OS === "ios" ? StatusBar.currentHeight : 0,
   },
   header: {
     flexDirection: "row",

@@ -11,7 +11,6 @@ import {
   Button,
   SafeAreaView,
 } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
 
 import useAuth from "../../auth";
 
@@ -44,7 +43,7 @@ const ProfileView = ({ navigation }) => {
             uri: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/41822045014839.5824bf369f54b.jpg",
           }}
         ></Image>
-        <Text style={styles.name}>Shauna, age, (pronouns)</Text>
+        <Text style={styles.name}>{user.displayName}, age, (pronouns)</Text>
       </View>
       <ScrollView style={styles.scrollView}>
         <View style={styles.textContainer}>
@@ -112,13 +111,19 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
   name: {
-    fontSize: 18,
-    lineHeight: 48,
+    fontSize: 17,
+    lineHeight: 40,
     fontWeight: "bold",
     alignSelf: "center",
     top: "5%",
   },
-
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    fontWeight: "bold",
+    paddingTop: 10
+  },
   scrollView: {
     backgroundColor: "white",
     // showVerticalScrollBar: false,
