@@ -2,7 +2,6 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { View, TextInput, StyleSheet, Text, Button } from "react-native";
 import { addEvent } from "../../redux/reducers/events/eventsReducer";
-import { useDispatch } from "react-redux";
 import { useAuthState } from "react-firebase-hooks/auth"
 import {auth} from "../../firebase/db";
 
@@ -12,7 +11,6 @@ export default function AddEvent({ navigation }) {
   let [eventAddress, setEventAddress] = useState("");
   let [eventLink, setEventLink] = useState("");
 
-  const dispatch = useDispatch();
   const [user] = useAuthState(auth);
 
   const _addEvent = async () => {
@@ -23,7 +21,6 @@ export default function AddEvent({ navigation }) {
       address: eventAddress,
       websiteLink: eventLink,
     };
-    console.log("EVENTTOADD!!!:", eventToAdd);
     await addEvent(eventToAdd);
     navigation.navigate("Discover");
   };
