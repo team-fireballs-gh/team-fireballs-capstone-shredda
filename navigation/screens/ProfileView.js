@@ -6,7 +6,6 @@ import {
   View,
   ScrollView,
   Image,
-  StatusBar,
   ImageBackground,
   Button,
   SafeAreaView,
