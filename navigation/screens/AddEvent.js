@@ -22,7 +22,7 @@ export default function AddEvent({ navigation }) {
       websiteLink: eventLink,
     };
     await addEvent(eventToAdd);
-    navigation.navigate("Discover");
+    navigation.goBack("Discover");
   };
 
   return (
