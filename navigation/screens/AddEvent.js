@@ -2,8 +2,9 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { View, TextInput, StyleSheet, Text, Button } from "react-native";
 import { addEvent } from "../../redux/reducers/events/eventsReducer";
-import newEvent from "../../firebase/events";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useAuthState } from "react-firebase-hooks/auth"
+import {auth} from "../../firebase/db";
 
 export default function AddEvent({ navigation }) {
   let [eventName, setEventName] = useState("");
@@ -12,18 +13,18 @@ export default function AddEvent({ navigation }) {
   let [eventLink, setEventLink] = useState("");
 
   const dispatch = useDispatch();
-  let eventAuthor = useSelector((state) => state.authStatus.uid);
+  const [user] = useAuthState(auth);
 
-  const _addEvent = () => {
+  const _addEvent = async () => {
     const eventToAdd = {
-      authorID: eventAuthor,
+      authorID: user.uid,
       title: eventName,
       startDate: eventDate, // will change this when we figure out date input
       address: eventAddress,
       websiteLink: eventLink,
     };
-    console.log(eventToAdd);
-    dispatch(addEvent(eventToAdd));
+    console.log("EVENTTOADD!!!:", eventToAdd);
+    await addEvent(eventToAdd);
     navigation.navigate("Discover");
   };
 

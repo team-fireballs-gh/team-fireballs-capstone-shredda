@@ -79,7 +79,8 @@ export default function Register({ navigation }) {
         secureTextEntry={true}
       />
       <View style={styles.buttonRow}>
-        <Pressable style={styles.registerButton} onPress={registerUser}>
+        <Pressable style={styles.registerButton} 
+          onPress={registerUser}>
           <Text style={styles.buttonText}>Register</Text>
         </Pressable>
       </View>

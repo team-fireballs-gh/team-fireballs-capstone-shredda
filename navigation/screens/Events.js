@@ -9,34 +9,28 @@ import EventCard from "./EventCard";
 
 export default function Events({ navigation }) {
   let events = useSelector((state) => state.events);
-  let [load, setLoad] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllEvents());
   }, []);
 
-  useEffect(() => {
-    setLoad(true);
-  }, []);
 
   return (
     <Animated.View style={[{ flex: 1, backgroundColor: "white" }]}>
       <SearchBar />
       <ScrollView>
-        {events.length > 0 ? (
-          events.map((event) => {
+        {events.map((event) => {
             return (
               <EventCard
                 key={event.id}
                 eventInfo={event}
                 navigation={navigation}
               />
-            );
+            )
           })
-        ) : (
-          <Text style={styles.loading}>Loading...</Text>
-        )}
+        }
+
       </ScrollView>
     </Animated.View>
   );

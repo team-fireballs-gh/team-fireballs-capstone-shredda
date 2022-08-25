@@ -1,17 +1,31 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Image, Text, View, StyleSheet, ScrollView, SafeAreaView, Pressable, TextInput 
 } from 'react-native';
 import Entypo from "react-native-vector-icons/Entypo";
 import AntIcon from "react-native-vector-icons/AntDesign";
 import Feather from "react-native-vector-icons/Feather";
+import { getSingleEvent } from "../../redux/reducers/events/singleEventReducer";
+import { updateEvent } from "../../redux/reducers/events/eventsReducer";
+import { useSelector, useDispatch } from "react-redux";
 
-export default function EditEvent({navigation}) {
-    let [eventName, setEventName] = useState("name from firestore");
-    let [eventDescription, setEventDescription] = useState("description from firestore");
-    let [eventType, setEventType] = useState("address from firestore");
-    let [text, setText] = useState("extrainfo from firestore");
-    
+export default function EditEvent({ route, navigation }) {
+    const { id } = route.params;
+    let singleEvent = useSelector((state) => state.singleEvent);
+    const dispatch = useDispatch();
+    let [title, setTitle] = useState(singleEvent.title);
+    let [address, setAddress] = useState(singleEvent.address);
+    let [websiteLink, setWebsiteLink] = useState(singleEvent.websiteLink);
+
+    useEffect(() => {
+        dispatch(getSingleEvent(id)); 
+    }, [dispatch]);
+
+    const handleSubmit = () => {
+        dispatch(updateEvent(id, {title, address, websiteLink})); 
+        navigation.navigate("Event Name", {id: id});
+    }
+
     return (
         <SafeAreaView style={[{ flex: 1 }]}>
             <StatusBar style="auto" />
@@ -24,19 +38,21 @@ export default function EditEvent({navigation}) {
             </View>
             <TextInput 
                 style={styles.eventNameInput}
-                onChangeText={setEventName}
-                value={eventName}>
+                onChangeText={setTitle}
+                value={title}>
             </TextInput>
             <View style={styles.location} flexDirection="row" justifyContent="space-evenly"> 
                 <Text style={styles.locationText}>
                     <Entypo name="location-pin" size={20} color="gray"/>
-                    City, State
+                    {singleEvent.address}
                 </Text>
                 <Text style={styles.dateText}>
                     <AntIcon name="calendar" size={20} color="gray"/>
                     dates
                 </Text>
-                <Pressable onPress={() => navigation.navigate("Event Name")}>
+                <Pressable 
+                    onPress={handleSubmit}
+                >
                     <Feather name="check-square" size={20} color="green"/>
                 </Pressable>
             </View>
@@ -44,23 +60,8 @@ export default function EditEvent({navigation}) {
                 <Text style={styles.header}>Description</Text>
                 <TextInput                 
                     style={styles.content}
-                    onChangeText={setEventDescription}
-                    value={eventDescription}
-                    multiline>
-                </TextInput>
-                <Text style={styles.header}>type</Text>
-                <TextInput                 
-                    style={styles.content}
-                    onChangeText={setEventType}
-                    value={eventType}
-                    multiline
-                    >
-                </TextInput>
-                <Text style={styles.header}>About Me</Text>
-                <TextInput                 
-                    style={styles.content}
-                    onChangeText={setText}
-                    value={text}
+                    onChangeText={setWebsiteLink}
+                    value={websiteLink}
                     multiline>
                 </TextInput>
             </ScrollView>
