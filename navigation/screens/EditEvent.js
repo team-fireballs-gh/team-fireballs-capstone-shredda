@@ -13,29 +13,17 @@ export default function EditEvent({ route, navigation }) {
     const { id } = route.params;
     let singleEvent = useSelector((state) => state.singleEvent);
     const dispatch = useDispatch();
-    
+    let [title, setTitle] = useState(singleEvent.title);
+    let [address, setAddress] = useState(singleEvent.address);
+    let [websiteLink, setWebsiteLink] = useState(singleEvent.websiteLink);
+
     useEffect(() => {
         dispatch(getSingleEvent(id)); 
     }, [dispatch]);
-    console.log("ID!!!!!!:", id)
-    console.log("SingleEvent!!!!:", singleEvent)
 
-    const [eventInfo, updateEventInfo] = useState({
-        title: singleEvent.title,
-        address: singleEvent.address,
-        websiteLink: singleEvent.websiteLink,
-    })
-    console.log("EventINFO!!!!!!:",eventInfo)
-
-    const handleChange = (event) => {
-        updateEventInfo({...eventInfo, [event.target.name]: event.target.value}) 
-    };
-   
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        updateEventInfo({title:"", address:"", websiteLink:""});
-        dispatch(updateEvent({id}, eventInfo)); 
+    const handleSubmit = () => {
+        dispatch(updateEvent(id, {title, address, websiteLink})); 
+        navigation.navigate("Event Name", {id: id});
     }
 
     return (
@@ -50,8 +38,8 @@ export default function EditEvent({ route, navigation }) {
             </View>
             <TextInput 
                 style={styles.eventNameInput}
-                onChangeText={handleChange}
-                value={eventInfo.title}>
+                onChangeText={setTitle}
+                value={title}>
             </TextInput>
             <View style={styles.location} flexDirection="row" justifyContent="space-evenly"> 
                 <Text style={styles.locationText}>
@@ -72,8 +60,8 @@ export default function EditEvent({ route, navigation }) {
                 <Text style={styles.header}>Description</Text>
                 <TextInput                 
                     style={styles.content}
-                    onChangeText={handleChange}
-                    value={eventInfo.websiteLink}
+                    onChangeText={setWebsiteLink}
+                    value={websiteLink}
                     multiline>
                 </TextInput>
             </ScrollView>

@@ -8,7 +8,9 @@ import {
   doc
 } from "firebase/firestore";
 import { db as firestoreDB } from "../../../firebase/db";
+import { getSingleEvent } from "./singleEventReducer";
 const COLLECTION = "events";
+
 
 const ADD_EVENT = "ADD_EVENT";
 const GET_ALL_EVENTS = "GET_ALL_EVENTS";
@@ -44,18 +46,15 @@ const _deleteEvent = (event) => {
   };
 };
 
-export const addEvent = (event) => {
-  return async (dispatch) => {
-    try {
-      const eventDocRef = await addDoc(
+export const addEvent = async (event) => {    
+  try {
+      await addDoc(
         collection(firestoreDB, COLLECTION),
         event
       );
-      dispatch(_addEvent(eventDocRef));
     } catch (err) {
       console.error(err);
     }
-  };
 };
 
 export const getAllEvents = () => {
@@ -79,7 +78,8 @@ export const updateEvent = (id, event) => {
     try {
       const eventRef = doc(firestoreDB, COLLECTION, id);
       const updatedEvent = await updateDoc(eventRef, event);
-      dispatch(_updateEvent(updatedEvent));
+      console.log("UPDATED EVENT!!:", updatedEvent)
+      // dispatch(_updateEvent(updatedEvent));
     } catch (err) {
       console.error(err);
     }
@@ -102,7 +102,7 @@ const initialState = [];
 const eventsReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_EVENT:
-      return action.event;
+      return [...state, action.event];
     case GET_ALL_EVENTS:
       return action.events;
     case UPDATE_EVENT:
