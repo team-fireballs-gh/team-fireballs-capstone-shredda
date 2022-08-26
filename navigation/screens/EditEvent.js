@@ -6,7 +6,7 @@ import Entypo from "react-native-vector-icons/Entypo";
 import AntIcon from "react-native-vector-icons/AntDesign";
 import Feather from "react-native-vector-icons/Feather";
 import { getSingleEvent } from "../../redux/reducers/events/singleEventReducer";
-import { updateEvent } from "../../redux/reducers/events/eventsReducer";
+import { getAllEvents, updateEvent } from "../../redux/reducers/events/eventsReducer";
 import { useSelector, useDispatch } from "react-redux";
 
 export default function EditEvent({ route, navigation }) {
@@ -21,8 +21,10 @@ export default function EditEvent({ route, navigation }) {
         dispatch(getSingleEvent(id)); 
     }, [dispatch]);
 
-    const handleSubmit = () => {
-        dispatch(updateEvent(id, {title, address, websiteLink})); 
+    const handleSubmit = async () => {
+        await updateEvent(id, {title, address, websiteLink});
+        dispatch(getSingleEvent(id));
+        dispatch(getAllEvents()); 
         navigation.navigate("Event Name", {id: id});
     }
 

@@ -5,6 +5,6 @@ import thunkMiddleware from "redux-thunk";
 
 export default configureStore({
   reducer: rootReducer,
-  middleware: [thunkMiddleware, logger],
+  middleware: [thunkMiddleware],
   devTools: true,
 });
