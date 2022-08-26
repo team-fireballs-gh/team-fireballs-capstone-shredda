@@ -9,9 +9,7 @@ import {
   SafeAreaView,
   Pressable,
 } from "react-native";
-import Entypo from "react-native-vector-icons/Entypo";
-import AntIcon from "react-native-vector-icons/AntDesign";
-import Feather from "react-native-vector-icons/Feather";
+import { Entypo, AntIcon, Feather } from "react-native-vector-icons";
 import { getSingleEvent } from "../../redux/reducers/events/singleEventReducer";
 import { useSelector, useDispatch } from "react-redux";
 

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect, useLayoutEffect } from "react";
 import { AntDesign, Ionicons, FontAwesome5 } from "react-native-vector-icons";
 import {
   StyleSheet,
@@ -10,70 +10,44 @@ import {
 } from "react-native";
 import Swiper from "react-native-deck-swiper";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase/db";
-
-const Dummy_Data = [
-  {
-    displayName: "Sommer Ray",
-    job: "Influencer",
-    photoURL:
-      "https://www.lifeandstylemag.com/wp-content/uploads/2018/12/058703039872_10-e1545171758516.jpg?resize=940%2C529&quality=86&strip=all",
-    age: 25,
-    uid: 13,
-  },
-  {
-    displayName: "Scarlett Johansson",
-    job: "Actress",
-    photoURL:
-      "https://m.media-amazon.com/images/M/MV5BMTM3OTUwMDYwNl5BMl5BanBnXkFtZTcwNTUyNzc3Nw@@._V1_.jpg",
-    age: 37,
-    uid: 15,
-  },
-  {
-    displayName: "Boberty Ton",
-    job: "Instructor at Fullstack Academy",
-    photoURL:
-      "https://ca.slack-edge.com/T024FPYBQ-U033R8PS4MN-a1075cbb5839-512",
-    age: 25,
-    uid: 11,
-  },
-  {
-    displayName: "Angelina Jolie",
-    job: "Actress",
-    photoURL:
-      "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2005-1565016334.jpg",
-    age: 47,
-    uid: 17,
-  },
-  {
-    displayName: "Cara Delevingne",
-    job: "Supermodel",
-    photoURL:
-      "https://www.suntiros.com/wp-content/uploads/2021/02/Cara-Delevingne-Makeup-Pictures.jpg",
-    age: 30,
-    uid: 19,
-  },
-  {
-    displayName: "Colson Baker",
-    job: "Rapper",
-    photoURL:
-      "https://www.popkiller.pl/sites/default/files/images/mgk-2019.jpg",
-    age: 32,
-    uid: 21,
-  },
-  {
-    displayName: "Alec Friedman",
-    job: "Lead Web Development Instructor at Fullstack Academy",
-    photoURL:
-      "https://ca.slack-edge.com/T024FPYBQ-U033D99P960-2d5d5c907d83-512",
-    age: "👀",
-    uid: 23,
-  },
-];
+import { auth, db } from "../../firebase/db";
+import { onSnapshot, doc, collection } from "firebase/firestore";
 
 export default function AddUsers({ navigation }) {
   const [user] = useAuthState(auth);
+  const [profiles, setProfiles] = useState([]);
   const swipeRef = useRef(0);
+
+  useLayoutEffect(
+    () =>
+      // implicit return for unsubscribe purposes;
+      onSnapshot(doc(db, "users", user.uid), (snapShot) => {
+        if (!snapShot.exists()) {
+          navigation.navigate("updateUser");
+        }
+      }),
+    []
+  );
+
+  useEffect(() => {
+    let unsub;
+
+    const fetchCards = async () => {
+      unsub = onSnapshot(collection(db, "users"), (snapshot) => {
+        setProfiles(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+        );
+      });
+    };
+
+    fetchCards();
+    return unsub;
+  }, []);
+
+  console.log(profiles);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -98,7 +72,7 @@ export default function AddUsers({ navigation }) {
         <Swiper
           ref={swipeRef}
           containerStyle={styles.cardContainer}
-          cards={Dummy_Data}
+          cards={profiles}
           stackSize={5} // so you can actually see 5 cards stacked together;
           cardIndex={0} // so the card will always start at the very first person on the list;
           animateCardOpacity // when you're swiping, the card becomes transparent;
@@ -126,37 +100,55 @@ export default function AddUsers({ navigation }) {
               },
             },
           }}
-          renderCard={(
-            card // this is where you map through the cards array;
-          ) => (
-            <View key={card.uid} style={[styles.eachCard, styles.shadow]}>
-              <Image
-                style={styles.imageStyle}
-                source={{ uri: card.photoURL }}
-              />
+          renderCard={(card) =>
+            card ? (
+              <View key={card.uid} style={[styles.eachCard, styles.shadow]}>
+                <Image
+                  style={styles.imageStyle}
+                  source={{ uri: card.photoURL }}
+                />
 
-              <View style={styles.cardInfo}>
-                <View>
-                  <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-                    {card.displayName}
-                  </Text>
-                  <Text style={{ flexWrap: "wrap", width: "60%" }}>
-                    {card.job}
+                <View style={styles.cardInfo}>
+                  <View>
+                    <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                      {card.displayName}
+                    </Text>
+                    <Text style={{ flexWrap: "wrap", width: "60%" }}>
+                      {card.job}
+                    </Text>
+                  </View>
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: 25,
+                      position: "absolute",
+                      left: "90%",
+                    }}
+                  >
+                    {card.age}
                   </Text>
                 </View>
+              </View>
+            ) : (
+              <View style={[styles.noProfile, styles.shadow]}>
                 <Text
                   style={{
                     fontWeight: "bold",
-                    fontSize: 25,
-                    position: "absolute",
-                    left: "90%",
+                    fontSize: 20,
+                    justifyContent: "center",
                   }}
                 >
-                  {card.age}
+                  No more profiles!
                 </Text>
+                <Image
+                  style={{ justifyContent: "center" }}
+                  height={250}
+                  width={250}
+                  source={require("../../assets/sad-emoji.png")}
+                />
               </View>
-            </View>
-          )}
+            )
+          }
         />
       </View>
 
@@ -205,6 +197,15 @@ const styles = StyleSheet.create({
     backgroundColor: "beige",
     height: "70%",
     borderRadius: 20,
+  },
+  noProfile: {
+    position: "relative",
+    backgroundColor: "#EDE6E8",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "70%",
+    borderRadius: 20,
+    top: -50,
   },
   imageStyle: {
     height: "100%",

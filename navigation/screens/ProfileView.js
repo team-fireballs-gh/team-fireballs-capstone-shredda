@@ -15,9 +15,9 @@ import useAuth from "../../auth";
 
 const ProfileView = ({ navigation }) => {
   const { logout, user } = useAuth();
-
-  console.log("LOGIN USER OBJECT", user);
-  console.log("UID", user.uid);
+  
+  // console.log("LOGIN USER OBJECT", user);
+  // console.log("UID", user.uid);
   const logOutButton = () => {
     logout();
   };
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     fontWeight: "bold",
-    paddingTop: 10
+    paddingTop: 10,
   },
   scrollView: {
     backgroundColor: "white",
