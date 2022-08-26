@@ -23,7 +23,7 @@ export default function AddUsers({ navigation }) {
       // implicit return for unsubscribe purposes;
       onSnapshot(doc(db, "users", user.uid), (snapShot) => {
         if (!snapShot.exists()) {
-          navigation.navigate("updateUser");
+          navigation.navigate("CreateProfile");
         }
       }),
     []
@@ -47,7 +47,7 @@ export default function AddUsers({ navigation }) {
     return unsub;
   }, []);
 
-  console.log(profiles);
+  // console.log(profiles);
 
   return (
     <SafeAreaView style={styles.container}>

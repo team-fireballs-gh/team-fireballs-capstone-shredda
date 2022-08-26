@@ -16,6 +16,7 @@ import useAuth from "../../auth";
 const ProfileView = ({ navigation }) => {
   const { logout, user } = useAuth();
   
+  console.log(user);
   // console.log("LOGIN USER OBJECT", user);
   // console.log("UID", user.uid);
   const logOutButton = () => {

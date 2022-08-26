@@ -32,6 +32,7 @@ export default function Chats() {
   const [user] = useAuthState(auth);
   const navigation = useNavigation();
 
+  // console.log(user);
   const [name, setName] = useState(null);
 
   const [image, setImage] = useState(null); // for profile picture
@@ -69,7 +70,18 @@ export default function Chats() {
   const [drink, setDrink] = useState(null);
   const [about, setAbout] = useState(null);
 
-  const incompleteForm = !about;
+  const incompleteForm =
+    !name ||
+    !age ||
+    !pView ||
+    !job ||
+    !sex ||
+    !pNouns ||
+    !gIden ||
+    !ed ||
+    !smoke ||
+    !drink ||
+    !about;
 
   useEffect(async () => {
     if (Platform !== "web") {
@@ -87,6 +99,7 @@ export default function Chats() {
   }, []);
 
   const pickImage = async () => {
+    // for image
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -95,14 +108,14 @@ export default function Chats() {
     });
 
     if (!result.cancelled) {
-      // const url = await uploadImage(result.uri);
-      // console.log("😄", url);
-      setImage(result.uri);
+      const url = await uploadImage(result.uri);
+      console.log('😄', url)
+      setImage(url);
     }
   };
 
   // uploading image to firebase storage
-  const uploadImage = async () => {
+  const uploadImage = async (image) => {
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.onload = function () {
@@ -116,8 +129,8 @@ export default function Chats() {
       xhr.send(null);
     });
 
-    const storageRef = ref(storage, new Date().toISOString());
-
+    const storageRef = ref(storage, new Date().toISOString())
+    
     await uploadBytes(storageRef, blob).then(
       (snapshot) => {
         console.log("Uploaded a blob or file!");
@@ -130,6 +143,7 @@ export default function Chats() {
   };
 
   const onChange = (e, selectedDate) => {
+    // for birthday date
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
     setDate(currentDate);
@@ -150,10 +164,11 @@ export default function Chats() {
     setMode(current);
   };
 
-  const updateUser = () => {
+  const createUser = () => {
+    // for 'create' button
     setDoc(doc(db, "users", user.uid), {
       id: user.uid,
-      displayName: user.displayName || name,
+      displayName: name,
       photoUrl: image,
       birthday: birth,
       userType: { solo: isSolo, romance: isRomance, friendship: isFriendship },
@@ -182,7 +197,7 @@ export default function Chats() {
       timestamp: serverTimestamp(),
     })
       .then(() => {
-        navigation.navigate("Friends");
+        navigation.navigate("Profile");
       })
       .catch((error) => {
         alert(error.message);
@@ -201,10 +216,10 @@ export default function Chats() {
       <TouchableOpacity
         style={[incompleteForm ? styles.inActive : styles.active]}
         disabled={incompleteForm}
-        onPress={updateUser}
+        onPress={createUser}
       >
         <Text style={{ textAlign: "center", color: "white", fontSize: 15 }}>
-          Update
+          Create
         </Text>
       </TouchableOpacity>
 
@@ -213,7 +228,7 @@ export default function Chats() {
         behavior="position"
         enabled={true}
       >
-        <ScrollView>
+        <ScrollView style={{ margin: 10 }}>
           <Text>Full Name</Text>
           <TextInput
             style={{ backgroundColor: "beige" }}
@@ -225,8 +240,7 @@ export default function Chats() {
           />
 
           <Text>Profile Picture</Text>
-          <Button title="Pick Image" onPress={pickImage} />
-          { !uploading ? (<Button title="Upload" onPress={uploadImage} />) : (<ActivityIndicator size="large" color="#000" />)}
+          { !uploading ? (<Button title="Upload Image" onPress={pickImage} />) : (<ActivityIndicator size="large" color="#000" />)}
           {!image ? (
             <Image
               source={{ uri: user.photoURL }}
