@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, View, Pressable } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
 
 export default function CreateProfile({ navigation }) {
