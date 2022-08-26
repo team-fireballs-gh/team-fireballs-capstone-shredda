@@ -10,7 +10,6 @@ import {
   Platform,
   Alert,
   Button,
-  Modal,
   TouchableOpacity,
   KeyboardAvoidingView,
   Dimensions,
@@ -19,38 +18,63 @@ import {
 import CheckBox from "expo-checkbox";
 import * as ImagePicker from "expo-image-picker";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase/db";
-import { InterestPicker } from "./helper/updateUserHelperFuncs";
+import { auth, db } from "../../firebase/db";
+import { useNavigation } from "@react-navigation/native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Ionicons } from "react-native-vector-icons";
+import { serverTimestamp, setDoc, doc } from "firebase/firestore";
 
 const WIDTH = Dimensions.get("screen").width;
-// const HEIGHT = Dimensions.get("screen").height;
 
-export default function Chats({ navigation }) {
+export default function Chats() {
   const [user] = useAuthState(auth);
+  const navigation = useNavigation();
 
   const [image, setImage] = useState(null); // for profile picture
 
-  const [chooseInterest, setChooseInterest] = useState("Select interest..."); // for interests;
-  const [isVisible, setisVisible] = useState(false);
+  const [food, setFood] = useState(false); // for interests
+  const [music, setMusic] = useState(false);
+  const [trav, setTrav] = useState(false);
+  const [sport, setSport] = useState(false);
+  const [tele, setTele] = useState(false);
+  const [camp, setCamp] = useState(false);
+  const [exer, setExer] = useState(false);
+  const [dance, setDance] = useState(false);
+  const [art, setArt] = useState(false);
+  const [cook, setCook] = useState(false);
+  const [vGame, setVGame] = useState(false);
 
+  const [birth, setBirth] = useState(null); // birthday
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [mode, setMode] = useState("date");
-  const [text, setText] = useState(null);
 
-  const [isSolo, setSolo] = useState(false);
+  const [isSolo, setSolo] = useState(false); // userType
   const [isRomance, setRomance] = useState(false);
   const [isFriendship, setFriendship] = useState(false);
 
-  const changeModalVisibility = (bool) => {
-    setisVisible(bool);
-  };
+  const [age, setAge] = useState(null);
+  const [pView, setPView] = useState(null);
+  const [job, setJob] = useState(null);
+  const [sex, setSex] = useState(null);
+  const [pNouns, setPNouns] = useState(null);
+  const [gIden, setGIden] = useState(null);
+  const [ed, setEd] = useState(null);
+  const [smoke, setSmoke] = useState(null);
+  const [drink, setDrink] = useState(null);
+  const [about, setAbout] = useState(null);
 
-  const setData = (option) => {
-    setChooseInterest(option);
-  };
+  const incompleteForm =
+    !age ||
+    !pView ||
+    !job ||
+    !sex ||
+    !pNouns ||
+    !gIden ||
+    !ed ||
+    !smoke ||
+    !drink ||
+    !about;
 
   useEffect(async () => {
     if (Platform !== "web") {
@@ -92,13 +116,52 @@ export default function Chats({ navigation }) {
       (tempDate.getMonth() + 1) +
       "/" +
       tempDate.getFullYear();
-    setText(formattedDate);
+    setBirth(formattedDate);
     setShow(false);
   };
 
   const showMode = (current) => {
     setShow(true);
     setMode(current);
+  };
+
+  const updateUser = () => {
+    setDoc(doc(db, "users", user.uid), {
+      id: user.uid,
+      displayName: user.displayName,
+      photoUrl: image,
+      birthday: birth,
+      userType: { solo: isSolo, romance: isRomance, friendship: isFriendship },
+      politicalViews: pView,
+      job: job,
+      sexuality: sex,
+      pronouns: pNouns,
+      genderIdentity: gIden,
+      education: ed,
+      smoker: smoke,
+      drinker: drink,
+      aboutMe: about,
+      interests: {
+        food: food,
+        music: music,
+        travel: trav,
+        sports: sport,
+        television: tele,
+        camping: camp,
+        exercise: exer,
+        dancing: dance,
+        art: art,
+        cooking: cook,
+        videogames: vGame,
+      },
+      timestamp: serverTimestamp(),
+    })
+      .then(() => {
+        navigation.navigate("Friends");
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
   };
 
   return (
@@ -108,11 +171,18 @@ export default function Chats({ navigation }) {
         resizeMode="contain"
         source={require("../../assets/fireball.png")}
       />
-      <Text
-        style={{ textAlign: "center", fontWeight: "bold", color: "#FF690A" }}
+
+      <Text style={styles.name}>Welcome {user.displayName}!</Text>
+      <TouchableOpacity
+        style={[incompleteForm ? styles.inActive : styles.active]}
+        disabled={incompleteForm}
+        onPress={updateUser}
       >
-        Welcome {user.displayName}!
-      </Text>
+        <Text style={{ textAlign: "center", color: "white", fontSize: 15 }}>
+          Update
+        </Text>
+      </TouchableOpacity>
+
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior="position"
@@ -133,37 +203,60 @@ export default function Chats({ navigation }) {
             />
           )}
 
+          <Text>Age</Text>
+          <TextInput
+            value={age}
+            onChangeText={setAge}
+            keyboardType="numeric"
+            maxLength={2}
+            placeholder="Enter your age..."
+            returnKeyType="done"
+          />
+
           <Text>Interests</Text>
-          <TouchableOpacity
-            style={{
-              backgroundColor: "white",
-              alignSelf: "stretch",
-              paddingHorizontal: 20,
-              marginHorizontal: 20,
-            }}
-            onPress={() => changeModalVisibility(true)}
-          >
-            <Text style={{ marginVertical: 20 }}>{chooseInterest}</Text>
-          </TouchableOpacity>
-          <Modal
-            transparent={true}
-            animationType="fade"
-            visible={isVisible}
-            nRequestClose={() => changeModalVisibility(false)}
-          >
-            <InterestPicker
-              changeModalVisibility={changeModalVisibility}
-              setData={setData}
-            />
-          </Modal>
+          <View style={styles.interest}>
+            <CheckBox disabled={false} value={food} onValueChange={setFood} />
+            <Text style={styles.intText}>Food</Text>
+
+            <CheckBox disabled={false} value={music} onValueChange={setMusic} />
+            <Text style={styles.intText}>Music</Text>
+
+            <CheckBox disabled={false} value={trav} onValueChange={setTrav} />
+            <Text style={styles.intText}>Travel</Text>
+
+            <CheckBox disabled={false} value={sport} onValueChange={setSport} />
+            <Text style={styles.intText}>Sports</Text>
+
+            <CheckBox disabled={false} value={tele} onValueChange={setTele} />
+            <Text style={styles.intText}>Television</Text>
+
+            <CheckBox disabled={false} value={camp} onValueChange={setCamp} />
+            <Text style={styles.intText}>Camping</Text>
+
+            <CheckBox disabled={false} value={exer} onValueChange={setExer} />
+            <Text style={styles.intText}>Exercise</Text>
+
+            <CheckBox disabled={false} value={dance} onValueChange={setDance} />
+            <Text style={styles.intText}>Dancing</Text>
+
+            <CheckBox disabled={false} value={art} onValueChange={setArt} />
+            <Text style={styles.intText}>Art</Text>
+
+            <CheckBox disabled={false} value={cook} onValueChange={setCook} />
+            <Text style={styles.intText}>Cooking</Text>
+
+            <CheckBox disabled={false} value={vGame} onValueChange={setVGame} />
+            <Text style={styles.intText}>Video Games</Text>
+          </View>
 
           <Text>About Me</Text>
           <ScrollView>
             <TextInput
               style={styles.text}
+              value={about}
+              onChangeText={setAbout}
               multiline={true}
               numberOfLines={15}
-              // keyboardType="numeric"
               blurOnSubmit={true}
               placeholder="Let us get to know you!"
               returnKeyType="done"
@@ -172,7 +265,7 @@ export default function Chats({ navigation }) {
 
           <Text style={{ paddingTop: 10 }}>Birthday</Text>
           <Text style={{ fontWeight: "bold", fontSize: 18, paddingBottom: 10 }}>
-            {text}
+            {birth}
           </Text>
 
           <Pressable style={styles.calendar} onPress={() => showMode("date")}>
@@ -191,22 +284,27 @@ export default function Chats({ navigation }) {
               value={date}
               mode={mode}
               is24Hour={true}
-              display="default"
+              display="inline"
               onChange={onChange}
-              autoclose={true}
             />
           )}
 
-          <Text>Drinker?</Text>
+          <Text>Drinker</Text>
           <TextInput
             style={{ backgroundColor: "beige" }}
+            value={drink}
+            onChangeText={setDrink}
+            placeholder="Enter your response..."
             returnKeyType="done"
             blurOnSubmit={true}
           />
 
-          <Text>Smoker?</Text>
+          <Text>Smoker</Text>
           <TextInput
             style={{ backgroundColor: "beige" }}
+            value={smoke}
+            onChangeText={setSmoke}
+            placeholder="Enter your response..."
             returnKeyType="done"
             blurOnSubmit={true}
           />
@@ -214,6 +312,9 @@ export default function Chats({ navigation }) {
           <Text>Education</Text>
           <TextInput
             style={{ backgroundColor: "beige" }}
+            value={ed}
+            onChangeText={setEd}
+            placeholder="Enter your education..."
             returnKeyType="done"
             blurOnSubmit={true}
           />
@@ -224,6 +325,9 @@ export default function Chats({ navigation }) {
           <Text>Gender Identity</Text>
           <TextInput
             style={{ backgroundColor: "beige" }}
+            value={gIden}
+            onChangeText={setGIden}
+            placeholder="Enter your gender identity..."
             returnKeyType="done"
             blurOnSubmit={true}
           />
@@ -231,6 +335,9 @@ export default function Chats({ navigation }) {
           <Text>Pronouns</Text>
           <TextInput
             style={{ backgroundColor: "beige" }}
+            value={pNouns}
+            onChangeText={setPNouns}
+            placeholder="Enter your pronouns..."
             returnKeyType="done"
             blurOnSubmit={true}
           />
@@ -238,6 +345,9 @@ export default function Chats({ navigation }) {
           <Text>Sexuality</Text>
           <TextInput
             style={{ backgroundColor: "beige" }}
+            value={sex}
+            onChangeText={setSex}
+            placeholder="Enter your sexuality..."
             returnKeyType="done"
             blurOnSubmit={true}
           />
@@ -246,19 +356,13 @@ export default function Chats({ navigation }) {
           <View
             style={{ flexDirection: "row", justifyContent: "space-evenly" }}
           >
-            <CheckBox
-              disabled={false}
-              value={isSolo}
-              onValueChange={setSolo}
-              // onChange={}
-            />
+            <CheckBox disabled={false} value={isSolo} onValueChange={setSolo} />
             <Text>solo</Text>
 
             <CheckBox
               disabled={false}
               value={isRomance}
               onValueChange={setRomance}
-              // onChange={}
             />
             <Text>romance</Text>
 
@@ -266,7 +370,6 @@ export default function Chats({ navigation }) {
               disabled={false}
               value={isFriendship}
               onValueChange={setFriendship}
-              // onChange={}
             />
             <Text>friendship</Text>
           </View>
@@ -274,12 +377,18 @@ export default function Chats({ navigation }) {
           <Text>Job title</Text>
           <TextInput
             style={{ backgroundColor: "beige" }}
+            value={job}
+            onChangeText={setJob}
+            placeholder="Enter your job..."
             returnKeyType="done"
             blurOnSubmit={true}
           />
 
           <Text>Political views</Text>
           <TextInput
+            value={pView}
+            onChangeText={setPView}
+            placeholder="Enter your views..."
             style={{ backgroundColor: "beige" }}
             returnKeyType="done"
             blurOnSubmit={true}
@@ -317,5 +426,41 @@ const styles = StyleSheet.create({
     position: "relative",
     left: "68%",
     top: "-5%",
+  },
+  name: {
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "#FF690A",
+    paddingBottom: 20,
+    position: "relative",
+    left: "-15%",
+  },
+  active: {
+    width: 90,
+    backgroundColor: "#E66000",
+    padding: 10,
+    borderRadius: 18,
+    position: "absolute",
+    top: "12%",
+    left: "70%",
+  },
+  inActive: {
+    width: 90,
+    backgroundColor: "#D6D0C9",
+    padding: 10,
+    borderRadius: 18,
+    position: "absolute",
+    top: "12%",
+    left: "70%",
+  },
+  interest: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    flexWrap: "wrap",
+  },
+  intText: {
+    fontSize: 15,
+    paddingLeft: 10,
+    flexBasis: "27%",
   },
 });
