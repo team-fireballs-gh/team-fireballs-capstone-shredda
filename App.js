@@ -43,7 +43,7 @@ function App() {
               <Stack.Screen name="Calendar" component={Calendar} />
               <Stack.Screen name="Chats" component={Chats} />
               <Stack.Screen name="Profile" component={ProfileView} />
-              {/* <Stack.Screen name="Register" component={Register} /> */}
+              <Stack.Screen name="Register" component={Register} />
               <Stack.Screen name="CreateProfile" component={CreateProfile} />
               <Stack.Screen name="Event Name" component={SingleEvent} />
               <Stack.Screen name="AddEvent" component={AddEvent} />

@@ -9,18 +9,17 @@ import {
   SafeAreaView,
   Pressable,
 } from "react-native";
-import { Entypo, AntIcon, Feather } from "react-native-vector-icons";
+import { Entypo, AntDesign, Feather } from "react-native-vector-icons";
 import { getSingleEvent } from "../../redux/reducers/events/singleEventReducer";
 import { useSelector, useDispatch } from "react-redux";
 
 export default function SingleEvent({ route, navigation }) {
   const { id } = route.params;
-  let singleEvent = useSelector((state) => state.singleEvent); // replacing mapStateToProps
+  let singleEvent = useSelector((state) => state.singleEvent); 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSingleEvent(id)); // replaces mapDispatchToProps // props.getSingleEvent(id)
-    console.log("NAVIGATING BACK!!!:", singleEvent)
+    dispatch(getSingleEvent(id)); 
   }, []);
 
   return (
@@ -45,7 +44,7 @@ export default function SingleEvent({ route, navigation }) {
           {singleEvent.address}
         </Text>
         <Text style={styles.dateText}>
-          <AntIcon name="calendar" size={20} color="gray" />
+          <AntDesign name="calendar" size={20} color="gray" />
           {singleEvent.date}
         </Text>
         <Pressable>
