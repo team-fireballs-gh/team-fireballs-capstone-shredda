@@ -22,7 +22,8 @@ export default function SingleEvent({ route, navigation }) {
 
   useEffect(() => {
     dispatch(getSingleEvent(id)); // replaces mapDispatchToProps // props.getSingleEvent(id)
-  }, [dispatch]);
+    console.log("NAVIGATING BACK!!!:", singleEvent)
+  }, []);
 
   return (
     <SafeAreaView style={[{ flex: 1 }]}>
