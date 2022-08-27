@@ -169,7 +169,7 @@ export default function Chats() {
     setDoc(doc(db, "users", user.uid), {
       id: user.uid,
       displayName: name,
-      photoUrl: image,
+      photoURL: image,
       birthday: birth,
       userType: { solo: isSolo, romance: isRomance, friendship: isFriendship },
       politicalViews: pView,
