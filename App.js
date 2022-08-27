@@ -16,7 +16,7 @@ import Calendar from "./navigation/screens/Calendar";
 import Chats from "./navigation/screens/Chats";
 import ProfileView from "./navigation/screens/ProfileView";
 import Register from "./navigation/screens/Register";
-import CreateProfile from "./navigation/screens/CreateProfile/CreateProfile";
+import CreateProfile from "./navigation/screens/CreateProfile";
 import UpdateUserModal from "./navigation/screens/UpdateUserModal";
 
 const Stack = createNativeStackNavigator();
