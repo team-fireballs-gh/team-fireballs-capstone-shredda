@@ -47,7 +47,7 @@ export default function AddUsers({ navigation }) {
     return unsub;
   }, []);
 
-  // console.log(profiles);
+  console.log(profiles);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -55,7 +55,7 @@ export default function AddUsers({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
           <Image
             style={{ height: 45, width: 45, borderRadius: 50 }}
-            source={{ uri: user.photoURL }}
+            source={{ uri: profiles.photoUrl }}
           />
         </TouchableOpacity>
 

@@ -95,14 +95,14 @@ export default function Chats() {
     });
 
     if (!result.cancelled) {
-      // const url = await uploadImage(result.uri);
-      // console.log("😄", url);
-      setImage(result.uri);
+      const url = await uploadImage(result.uri);
+      console.log("😄", url);
+      setImage(url);
     }
   };
 
   // uploading image to firebase storage
-  const uploadImage = async () => {
+  const uploadImage = async (image) => {
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.onload = function () {
@@ -118,15 +118,13 @@ export default function Chats() {
 
     const storageRef = ref(storage, new Date().toISOString());
 
-    await uploadBytes(storageRef, blob).then(
-      (snapshot) => {
-        console.log("Uploaded a blob or file!");
-        setUploading(true);
-      }
-    );
+    await uploadBytes(storageRef, blob).then((snapshot) => {
+      console.log("Uploaded a blob or file!");
+      setUploading(true);
+    });
 
     blob.close();
-    return await getDownloadURL(storageRef).then(() => setUploading(false));
+    return await getDownloadURL(storageRef);
   };
 
   const onChange = (e, selectedDate) => {
@@ -154,7 +152,7 @@ export default function Chats() {
     setDoc(doc(db, "users", user.uid), {
       id: user.uid,
       displayName: user.displayName || name,
-      photoUrl: image,
+      photoURL: image,
       birthday: birth,
       userType: { solo: isSolo, romance: isRomance, friendship: isFriendship },
       politicalViews: pView,
@@ -225,8 +223,7 @@ export default function Chats() {
           />
 
           <Text>Profile Picture</Text>
-          <Button title="Pick Image" onPress={pickImage} />
-          { !uploading ? (<Button title="Upload" onPress={uploadImage} />) : (<ActivityIndicator size="large" color="#000" />)}
+          { !uploading ? (<Button title="Upload Image" onPress={pickImage} />) : (<ActivityIndicator size="large" color="#000" onPress={setUploading(false)} />)}
           {!image ? (
             <Image
               source={{ uri: user.photoURL }}
