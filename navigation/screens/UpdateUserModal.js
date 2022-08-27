@@ -69,7 +69,7 @@ export default function Chats() {
   const [drink, setDrink] = useState(null);
   const [about, setAbout] = useState(null);
 
-  const incompleteForm = !about;
+  const incompleteForm = !sex;
 
   useEffect(async () => {
     if (Platform !== "web") {
@@ -97,6 +97,7 @@ export default function Chats() {
     if (!result.cancelled) {
       const url = await uploadImage(result.uri);
       console.log("😄", url);
+      setUploading(false);
       setImage(url);
     }
   };
@@ -153,6 +154,7 @@ export default function Chats() {
       id: user.uid,
       displayName: user.displayName || name,
       photoURL: image,
+      age: age,
       birthday: birth,
       userType: { solo: isSolo, romance: isRomance, friendship: isFriendship },
       politicalViews: pView,
@@ -223,7 +225,11 @@ export default function Chats() {
           />
 
           <Text>Profile Picture</Text>
-          { !uploading ? (<Button title="Upload Image" onPress={pickImage} />) : (<ActivityIndicator size="large" color="#000" onPress={setUploading(false)} />)}
+          {!uploading ? (
+            <Button title="Upload Image" onPress={pickImage} />
+          ) : (
+            <ActivityIndicator size="large" color="#000" />
+          )}
           {!image ? (
             <Image
               source={{ uri: user.photoURL }}

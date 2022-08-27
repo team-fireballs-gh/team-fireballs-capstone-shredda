@@ -55,7 +55,7 @@ export default function AddUsers({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
           <Image
             style={{ height: 45, width: 45, borderRadius: 50 }}
-            source={{ uri: profiles.photoUrl }}
+            source={{ uri: user.photoURL }}
           />
         </TouchableOpacity>
 

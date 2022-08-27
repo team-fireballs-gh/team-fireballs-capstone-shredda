@@ -109,7 +109,8 @@ export default function Chats() {
 
     if (!result.cancelled) {
       const url = await uploadImage(result.uri);
-      console.log('😄', url)
+      console.log("😄", url);
+      setUploading(false);
       setImage(url);
     }
   };
@@ -129,17 +130,15 @@ export default function Chats() {
       xhr.send(null);
     });
 
-    const storageRef = ref(storage, new Date().toISOString())
-    
-    await uploadBytes(storageRef, blob).then(
-      (snapshot) => {
-        console.log("Uploaded a blob or file!");
-        setUploading(true);
-      }
-    );
+    const storageRef = ref(storage, new Date().toISOString());
+
+    await uploadBytes(storageRef, blob).then((snapshot) => {
+      console.log("Uploaded a blob or file!");
+      setUploading(true);
+    });
 
     blob.close();
-    return await getDownloadURL(storageRef).then(() => setUploading(false));
+    return await getDownloadURL(storageRef);
   };
 
   const onChange = (e, selectedDate) => {
@@ -150,9 +149,10 @@ export default function Chats() {
 
     let tempDate = new Date(currentDate);
     let formattedDate =
-      tempDate.getDate() +
+      tempDate.getMonth() +
+      1 +
       "/" +
-      (tempDate.getMonth() + 1) +
+      tempDate.getDate() +
       "/" +
       tempDate.getFullYear();
     setBirth(formattedDate);
@@ -169,6 +169,7 @@ export default function Chats() {
     setDoc(doc(db, "users", user.uid), {
       id: user.uid,
       displayName: name,
+      age: age,
       photoURL: image,
       birthday: birth,
       userType: { solo: isSolo, romance: isRomance, friendship: isFriendship },
@@ -240,7 +241,11 @@ export default function Chats() {
           />
 
           <Text>Profile Picture</Text>
-          { !uploading ? (<Button title="Upload Image" onPress={pickImage} />) : (<ActivityIndicator size="large" color="#000" />)}
+          {!uploading ? (
+            <Button title="Upload Image" onPress={pickImage} />
+          ) : (
+            <ActivityIndicator size="large" color="#000" />
+          )}
           {!image ? (
             <Image
               source={{ uri: user.photoURL }}
