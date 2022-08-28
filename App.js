@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import { AuthProvider } from "./auth";
 
-import Login from "./navigation/screens/Login";
+
 import MainContainer from "./navigation/MainContainer";
 import AddUsers from "./navigation/screens/AddUsers";
 import Events from "./navigation/screens/Events";
@@ -17,7 +17,7 @@ import Chats from "./navigation/screens/Chats";
 import ProfileView from "./navigation/screens/ProfileView";
 import Register from "./navigation/screens/Register";
 import CreateProfile from "./navigation/screens/CreateProfile";
-import UpdateUserModal from "./navigation/screens/UpdateUserModal";
+import UpdateUser from "./navigation/screens/UpdateUser";
 
 const Stack = createNativeStackNavigator();
 
@@ -26,14 +26,13 @@ function App() {
     <Provider store={store}>
       <NavigationContainer>
         <AuthProvider>
-          <Stack.Navigator>
+          <Stack.Navigator >
             <Stack.Group>
               <Stack.Screen
                 name="MainContainer"
                 component={MainContainer}
                 options={{ headerShown: false }}
               />
-              {/* <Stack.Screen name="Login" component={Login} /> */}
               <Stack.Screen
                 name="Friends"
                 component={AddUsers}
@@ -52,7 +51,7 @@ function App() {
             <Stack.Group screenOptions={{ presentation: "modal" }}>
               <Stack.Screen
                 name="updateUser"
-                component={UpdateUserModal}
+                component={UpdateUser}
                 options={{ headerShown: false }}
               />
             </Stack.Group>

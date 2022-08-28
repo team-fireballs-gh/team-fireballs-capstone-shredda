@@ -24,7 +24,7 @@ export default function MainContainer() {
   const { user } = useAuth();
   return (
     <Navigator
-      initialRouteName="Friends" // this sets the default screen;
+      initialRouteName="Profile" // this sets the default screen;
       // The options specified in 'screenOptions' apply to all of the screens in the navigator;
       screenOptions={({ route }) => ({
         // each screen component in the app is provided with the "route" prop automatically; more info: https://reactnavigation.org/docs/route-prop
@@ -32,6 +32,8 @@ export default function MainContainer() {
         tabBarInactiveTintColor: "grey",
         labelStyle: { paddingBottom: 10, fontSize: 10 },
         style: { padding: 10, height: 70 },
+
+        tabBarShowLabel: false,
 
         tabBarIcon: ({ focused, color, size }) => {
           // focused: boolean, color: string, size: number

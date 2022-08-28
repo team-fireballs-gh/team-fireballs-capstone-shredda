@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useLayoutEffect } from "react";
-import { AntDesign, Ionicons, FontAwesome5 } from "react-native-vector-icons";
+import { AntDesign, Ionicons } from "react-native-vector-icons";
 import {
   StyleSheet,
   Text,
@@ -55,12 +55,8 @@ export default function AddUsers({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
           <Image
             style={{ height: 45, width: 45, borderRadius: 50 }}
-            source={{ uri: profiles.photoUrl }}
+            source={{ uri: user.photoURL }}
           />
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate("updateUser")}>
-          <FontAwesome5 name="user-edit" size={50} color="#fea7a5" />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate("Chats")}>
