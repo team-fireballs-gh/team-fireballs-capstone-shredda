@@ -11,12 +11,38 @@ import {
 import Swiper from "react-native-deck-swiper";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase/db";
-import { onSnapshot, doc, collection } from "firebase/firestore";
+import { generateId } from "./helper/generator";
+import {
+  onSnapshot,
+  doc,
+  collection,
+  setDoc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+  serverTimestamp,
+} from "firebase/firestore";
 
 export default function AddUsers({ navigation }) {
   const [user] = useAuthState(auth);
   const [profiles, setProfiles] = useState([]);
+  const [userData, setUserData] = useState(null);
   const swipeRef = useRef(0);
+
+  /* get user data */
+  const getUser = () => {
+    let unsub;
+
+    ab = onSnapshot(doc(db, "users", user.uid), (snapShot) => {
+      if (!snapShot.exists()) {
+        console.log("User does not have a profile...");
+      }
+      setUserData(snapShot.data());
+    });
+
+    return unsub;
+  };
 
   useLayoutEffect(
     () =>
@@ -32,35 +58,111 @@ export default function AddUsers({ navigation }) {
   useEffect(() => {
     let unsub;
 
+    getUser();
+
     const fetchCards = async () => {
-      unsub = onSnapshot(collection(db, "users"), (snapshot) => {
-        setProfiles(
-          snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }))
-        );
-      });
+      const passes = getDocs(collection(db, "users", user.uid, "passes")).then(
+        (snapshot) => snapshot.docs.map((doc) => doc.id)
+      );
+      const matches = getDocs(
+        collection(db, "users", user.uid, "matches")
+      ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
+
+      const passedUsers = passes.length > 0 ? passes : ["testing"];
+      const matchedUsers = passes.length > 0 ? matches : ["testing"];
+
+      unsub = onSnapshot(
+        query(
+          collection(db, "users"),
+          where("id", "not-in", [...passedUsers, ...matchedUsers])
+        ),
+        (snapshot) => {
+          setProfiles(
+            snapshot.docs
+              .filter((doc) => doc.id !== user.uid)
+              .map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+              }))
+          );
+        }
+      );
     };
 
     fetchCards();
     return unsub;
   }, []);
 
-  console.log(profiles);
+  /* Swiping left */
+  const swipeLeft = (cardIndex) => {
+    if (!profiles[cardIndex]) return; // not do anything
+
+    const userSwiped = profiles[cardIndex];
+    console.log(`You passed on ${userSwiped.displayName}`);
+
+    setDoc(doc(db, "users", user.uid, "passes", userSwiped.id), userSwiped);
+  };
+
+  /* Swiping right */
+  const swipeRight = async (cardIndex) => {
+    if (!profiles[cardIndex]) return; // not do anything
+
+    const userSwiped = profiles[cardIndex];
+    const loggedInProfile = await (
+      await getDoc(doc(db, "users", user.uid))
+    ).data();
+
+    getDoc(doc(db, "users", userSwiped.id, "matches", user.uid)).then(
+      (docsnap) => {
+        if (docsnap.exists()) {
+          console.log(
+            `Ooooohhhh ${userSwiped.displayName} is interested in you!`
+          );
+
+          setDoc(
+            doc(db, "users", user.uid, "matches", userSwiped.id),
+            userSwiped
+          );
+
+          // create a MATCH
+          setDoc(doc(db, "matchedUsers", generateId(user.uid, userSwiped.id)), {
+            users: {
+              // to help with searches
+              [user.uid]: loggedInProfile,
+              [userSwiped.id]: userSwiped,
+            },
+            usersMatch: [user.uid, userSwiped.id],
+            timestamp: serverTimestamp(),
+          });
+
+          // if there's a match, navigate to "Match" screen
+          navigation.navigate("Match", {
+            loggedInProfile, userSwiped
+          })
+        } else {
+          // first interaction between users..
+        }
+      }
+    );
+
+    console.log(`You're interested in ${userSwiped.displayName}`);
+    setDoc(doc(db, "users", user.uid, "matches", userSwiped.id), userSwiped);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-          <Image
-            style={{ height: 45, width: 45, borderRadius: 50 }}
-            source={{ uri: user.photoURL }}
-          />
+          {userData ? (
+            <Image
+              style={{ height: 55, width: 55, borderRadius: 50 }}
+              source={{ uri: userData.photoURL }}
+            />
+          ) : null}
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate("Chats")}>
-          <Ionicons name="chatbubbles-sharp" size={45} color="#fea7a5" />
+          <Ionicons name="chatbubbles-sharp" size={55} color="#fea7a5" />
         </TouchableOpacity>
       </View>
       {/* User Cards */}
@@ -72,13 +174,18 @@ export default function AddUsers({ navigation }) {
           stackSize={5} // so you can actually see 5 cards stacked together;
           cardIndex={0} // so the card will always start at the very first person on the list;
           animateCardOpacity // when you're swiping, the card becomes transparent;
-          verticalSwipe={false} // so you only swipe left and right... NOT up and down;
-          // we can set verticalSwipe to TRUE for a "super like feature?";
-          onSwipedLeft={() => console.log("swiped left")} // you can a callback when swiping left || right;
-          onSwipedRight={() => console.log("swiped right")}
+          verticalSwipe={false} // so you only swipe left and right... NOT up and down set verticalSwipe to TRUE for a "super like feature?";
+          onSwipedLeft={(cardIndex) => {
+            console.log("swiped left");
+            swipeLeft(cardIndex);
+          }} // this returns the cardIndex;
+          onSwipedRight={(cardIndex) => {
+            console.log("swiped right");
+            swipeRight(cardIndex);
+          }}
           overlayLabels={{
-            // to create labels when you're swiping left or right;
             left: {
+              // to create labels when you're swiping left or right;
               title: "🤔",
               style: {
                 label: {

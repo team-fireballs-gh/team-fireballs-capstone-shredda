@@ -40,7 +40,7 @@ export default function Chats() {
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
 
-  // for interests
+  // for interests checkboxes
   const [food, setFood] = useState(false);
   const [music, setMusic] = useState(false);
   const [trav, setTrav] = useState(false);
@@ -53,24 +53,29 @@ export default function Chats() {
   const [cook, setCook] = useState(false);
   const [vGame, setVGame] = useState(false);
 
-  const [isSolo, setSolo] = useState(false); // userType
+  // userType checkboxes
+  const [isSolo, setSolo] = useState(false); 
   const [isRomance, setRomance] = useState(false);
   const [isFriendship, setFriendship] = useState(false);
 
   /* get user data */
   const getUser = () => {
-    onSnapshot(doc(db, "users", user.uid), (snapShot) => {
+    let unsub; 
+
+    unsub = onSnapshot(doc(db, "users", user.uid), (snapShot) => {
       if (!snapShot.exists()) {
         console.log("User does not have a profile...");
       }
       setUserData(snapShot.data());
     });
+
+    return unsub;
   };
 
   useEffect(async () => {
-    const ABORT = new AbortController();
 
     getUser();
+
     if (Platform !== "web") {
       const { status } =
         await ImagePicker.requestMediaLibraryPermissionsAsync(); // to interact with the permissions;
@@ -83,10 +88,6 @@ export default function Chats() {
         ]);
       }
     }
-
-    return () => {
-      ABORT.abort();
-    };
   }, []);
 
   /* pick image from phone library */
@@ -184,10 +185,7 @@ export default function Chats() {
         <Text style={styles.name}>
           Welcome {userData ? userData.displayName : ""}!
         </Text>
-        <TouchableOpacity
-          style={styles.active}
-          onPress={updateUser}
-        >
+        <TouchableOpacity style={styles.active} onPress={updateUser}>
           <Text style={{ textAlign: "center", color: "white", fontSize: 15 }}>
             Update
           </Text>
@@ -493,7 +491,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     position: "absolute",
     top: "12%",
-    left: "70%",
+    left: "75%",
   },
   inActive: {
     width: 90,
