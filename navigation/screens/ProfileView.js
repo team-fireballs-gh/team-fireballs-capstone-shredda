@@ -9,8 +9,10 @@ import {
   ImageBackground,
   Button,
   SafeAreaView,
+  TouchableOpacity,
 } from "react-native";
-import { doc, getDoc, get, collection, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
+import { Feather } from "react-native-vector-icons";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { db, auth } from "../../firebase/db";
 import useAuth from "../../auth";
@@ -25,41 +27,30 @@ const ProfileView = ({ navigation }) => {
     logout();
   };
 
-  useEffect(() => {
-    // let unsub;
+  useEffect(
+    () =>
+      onSnapshot(doc(db, "users", user.uid), (snapShot) => {
+        if (!snapShot.exists()) {
+          console.log("User does not have a profile...");
+        }
+        // setLoggedin(snapShot);
+        setLoggedin(snapShot.data());
+      }),
+    []
+  );
 
-    // const fetchUser = async () => {
-    //   unsub = onSnapshot(collection(db, "users"), (snapShot) => {
-    //     setLoggedin(
-    //       snapShot.docs.map((doc) => ({
-    //         id: doc.id,
-    //         ...doc.data(),
-    //       }))
-    //     )
-    //     console.log(snapShot)
-    //   });
-    // };
-    // fetchUser();
-    // return unsub;
-    onSnapshot(doc(db, "users", user.uid), (snapShot) => {
-      if (!snapShot.exists()) {
-        console.log("User does not have a profile...");
-      }
-      // setLoggedin(snapShot);
-      setLoggedin(snapShot.data());
-    });
-  }, []);
-
-  // console.log(user);
-  console.log("🍌", loggedin);
+  // console.log("🍌", loggedin);
 
   return (
     <SafeAreaView style={[{ flex: 1 }]}>
-      <Button
-        style={{ position: "absolute", top: 10, color: "blue" }}
-        title="logout"
-        onPress={logOutButton}
-      />
+      <View style={styles.top}>
+        <TouchableOpacity onPress={() => navigation.navigate("updateUser")}>
+          <Feather name="edit" size={35} color="#fea7a5" />
+        </TouchableOpacity>
+        <TouchableOpacity title="logout" onPress={logOutButton}>
+          <Feather name="log-out" size={35} color="#fea7a5" />
+        </TouchableOpacity>
+      </View>
       {loggedin ? (
         <>
           <View style={styles.profileContainer}>
@@ -89,12 +80,18 @@ const ProfileView = ({ navigation }) => {
             <View style={styles.textContainer}>
               <Text style={styles.header}>Interests</Text>
               <Text style={styles.content}>
-                {Object.keys(loggedin.interests).filter((key) => loggedin.interests[key] === true).join(', ')}
+                {Object.keys(loggedin.interests)
+                  .filter((key) => loggedin.interests[key] === true)
+                  .join(", ")}
               </Text>
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.header}>Looking for</Text>
-              <Text style={styles.content}>{Object.keys(loggedin.userType).filter((key) => loggedin.userType[key] === true).join(', ')}</Text>
+              <Text style={styles.content}>
+                {Object.keys(loggedin.userType)
+                  .filter((key) => loggedin.userType[key] === true)
+                  .join(", ")}
+              </Text>
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.header}>Sexuality</Text>
@@ -148,7 +145,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     position: "absolute",
     top: "15%",
-    borderRadius: 50,
+    borderRadius: 41,
   },
   name: {
     fontSize: 17,
@@ -158,18 +155,24 @@ const styles = StyleSheet.create({
     top: "5%",
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
     fontWeight: "bold",
     paddingTop: 10,
+    paddingLeft: 5,
+  },
+  top: {
+    justifyContent: "space-evenly",
+    flexDirection: "row",
+    paddingBottom: 5,
+    paddingTop: 5,
   },
   scrollView: {
     backgroundColor: "white",
-    // showVerticalScrollBar: false,
   },
   textContainer: {
-    paddingBottom: 20,
+    paddingBottom: 10,
+  },
+  content: {
+    padding: 10,
   },
 });
 

@@ -407,7 +407,7 @@ export default function Chats() {
             blurOnSubmit={true}
           />
 
-          <Text>UserType</Text>
+          <Text>User Type</Text>
           <View
             style={{ flexDirection: "row", justifyContent: "space-evenly" }}
           >
@@ -429,7 +429,7 @@ export default function Chats() {
             <Text>friendship</Text>
           </View>
 
-          <Text>Job title</Text>
+          <Text>Occupation</Text>
           <TextInput
             style={{ backgroundColor: "beige" }}
             value={job}
