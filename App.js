@@ -18,6 +18,7 @@ import ProfileView from "./navigation/screens/ProfileView";
 import Register from "./navigation/screens/Register";
 import CreateProfile from "./navigation/screens/CreateProfile";
 import UpdateUser from "./navigation/screens/UpdateUser";
+import Match from "./navigation/screens/Match";
 
 const Stack = createNativeStackNavigator();
 
@@ -52,6 +53,13 @@ function App() {
               <Stack.Screen
                 name="updateUser"
                 component={UpdateUser}
+                options={{ headerShown: false }}
+              />
+            </Stack.Group>
+            <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
+              <Stack.Screen
+                name="Match"
+                component={Match}
                 options={{ headerShown: false }}
               />
             </Stack.Group>

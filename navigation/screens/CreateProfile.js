@@ -497,7 +497,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     position: "absolute",
     top: "12%",
-    left: "70%",
+    left: "75%",
   },
   inActive: {
     width: 90,
@@ -506,7 +506,7 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     position: "absolute",
     top: "12%",
-    left: "70%",
+    left: "75%",
   },
   interest: {
     flexDirection: "row",
