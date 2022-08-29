@@ -45,7 +45,7 @@ export default function SingleEvent({ route, navigation }) {
         </Text>
         <Text style={styles.dateText}>
           <AntDesign name="calendar" size={20} color="gray" />
-          {singleEvent.date}
+          {singleEvent.startDate}
         </Text>
         <Pressable>
           <Feather

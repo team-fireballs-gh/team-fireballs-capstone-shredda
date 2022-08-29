@@ -1,27 +1,42 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { View, TextInput, StyleSheet, Text, Button } from "react-native";
-import { addEvent } from "../../redux/reducers/events/eventsReducer";
+import { addEvent, getAllEvents } from "../../redux/reducers/events/eventsReducer";
 import { useAuthState } from "react-firebase-hooks/auth"
 import {auth} from "../../firebase/db";
+import DatePickerIOS from '@react-native-community/datetimepicker';
+
 
 export default function AddEvent({ navigation }) {
   let [eventName, setEventName] = useState("");
-  let [eventDate, setEventDate] = useState("");
   let [eventAddress, setEventAddress] = useState("");
   let [eventLink, setEventLink] = useState("");
 
+  let [eventDate, setEventDate] = useState(new Date());
+
+
   const [user] = useAuthState(auth);
+  
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || eventDate;
+    setEventDate(currentDate);
+    let tempDate = new Date(currentDate)
+  }
+  const showMode = (currentMode) => {
+    setMode(currentMode);
+  }
+  
 
   const _addEvent = async () => {
     const eventToAdd = {
       authorID: user.uid,
       title: eventName,
-      startDate: eventDate, // will change this when we figure out date input
+      startDate: eventDate.toString(), // will change this when we figure out date input
       address: eventAddress,
       websiteLink: eventLink,
     };
     await addEvent(eventToAdd);
+    getAllEvents();
     navigation.goBack("Discover");
   };
 
@@ -37,10 +52,12 @@ export default function AddEvent({ navigation }) {
       </View>
       <View style={styles.individualContainer}>
         <Text style={styles.header}>When is it?</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setEventDate}
-          placeholder="Date"
+        <DatePickerIOS
+          style={styles.datePicker}
+          value={eventDate}
+          onDateChange={setEventDate}
+          onChange={onChange}
+          onPress={() => showMode('date')}
         />
       </View>
       <View style={styles.individualContainer}>
@@ -86,4 +103,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
+  datePicker: {
+    alignSelf: "auto",
+  }
 });
