@@ -1,29 +1,43 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { View, TextInput, StyleSheet, Text, Button } from "react-native";
+import { View, TextInput, StyleSheet, Text, Button, Pressable } from "react-native";
 import { addEvent, getAllEvents } from "../../redux/reducers/events/eventsReducer";
 import { useAuthState } from "react-firebase-hooks/auth"
 import {auth} from "../../firebase/db";
 import DatePickerIOS from '@react-native-community/datetimepicker';
+import AntIcon from "react-native-vector-icons/AntDesign";
 
 
 export default function AddEvent({ navigation }) {
   let [eventName, setEventName] = useState("");
   let [eventAddress, setEventAddress] = useState("");
   let [eventLink, setEventLink] = useState("");
-
-  let [eventDate, setEventDate] = useState(new Date());
-
-
   const [user] = useAuthState(auth);
+
+  let [eventDate, setEventDate] = useState("");
+  let [date, setDate] = useState(new Date());
+  let [mode, setMode] = useState("date");
+  let [show, setShow] = useState(false);
+
   
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || eventDate;
-    setEventDate(currentDate);
-    let tempDate = new Date(currentDate)
+    const currentDate = selectedDate || date;
+    setDate(currentDate);
+
+    let tempDate = new Date(currentDate);
+    let formattedDate = 
+      tempDate.getMonth() + 1 + "/" + 
+      tempDate.getDate() + "/" +
+      tempDate.getFullYear();
+    let formattedTime = 
+      tempDate.getHours() + ":" + tempDate.getMinutes()
+    setEventDate(formattedDate + " " + formattedTime);
+
+
   }
   const showMode = (currentMode) => {
     setMode(currentMode);
+    setShow(true);
   }
   
 
@@ -31,7 +45,7 @@ export default function AddEvent({ navigation }) {
     const eventToAdd = {
       authorID: user.uid,
       title: eventName,
-      startDate: eventDate.toString(), // will change this when we figure out date input
+      startDate: eventDate, 
       address: eventAddress,
       websiteLink: eventLink,
     };
@@ -52,13 +66,31 @@ export default function AddEvent({ navigation }) {
       </View>
       <View style={styles.individualContainer}>
         <Text style={styles.header}>When is it?</Text>
-        <DatePickerIOS
-          style={styles.datePicker}
-          value={eventDate}
-          onDateChange={setEventDate}
-          onChange={onChange}
-          onPress={() => showMode('date')}
-        />
+        <View style={{flexDirection: 'row', marginHorizontal: "5%"}}>
+          <Pressable onPress={() => showMode("date")}>
+            <AntIcon name="calendar" size={20} color="tomato"> Date </AntIcon>
+          </Pressable>
+          <Pressable onPress={() => showMode("time")}>
+            <AntIcon name="clockcircleo" size={20} color="tomato"> Time </AntIcon>
+          </Pressable>
+        </View>
+        <View>
+          {show && (
+            <DatePickerIOS
+            style={styles.datePicker}
+            value={date}
+            onChange={onChange}
+            mode={mode}
+            is24Hour={false}
+            display="inline"
+            />
+            )
+          }
+        </View>
+        <View style={styles.dateTime}>
+          <Text>{eventDate}</Text>
+        </View>
+
       </View>
       <View style={styles.individualContainer}>
         <Text style={styles.header}>Where is it?</Text>
@@ -102,8 +134,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     borderRadius: 10,
+    borderWidth: 2,
+    borderStyle: 'dashed',
+    borderColor: 'tomato'
   },
-  datePicker: {
-    alignSelf: "auto",
+  dateTime: {
+    height: 40,
+    marginHorizontal: "5%",
+    padding: 10,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderStyle: 'dashed',
+    borderColor: 'tomato'
+  },
+  dateTimePicker: {
+    marginHorizontal: "5%",
+    
   }
 });
