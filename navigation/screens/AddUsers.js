@@ -11,7 +11,7 @@ import {
 import Swiper from "react-native-deck-swiper";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase/db";
-import { generateId } from "./helper/generator";
+import generateId from "../helper/getMatchedInfo";
 import {
   onSnapshot,
   doc,
@@ -34,7 +34,7 @@ export default function AddUsers({ navigation }) {
   const getUser = () => {
     let unsub;
 
-    ab = onSnapshot(doc(db, "users", user.uid), (snapShot) => {
+    unsub = onSnapshot(doc(db, "users", user.uid), (snapShot) => {
       if (!snapShot.exists()) {
         console.log("User does not have a profile...");
       }
@@ -47,6 +47,8 @@ export default function AddUsers({ navigation }) {
   useLayoutEffect(
     () =>
       // implicit return for unsubscribe purposes;
+
+      // this allows you the grab the latest update on the users collection
       onSnapshot(doc(db, "users", user.uid), (snapShot) => {
         if (!snapShot.exists()) {
           navigation.navigate("CreateProfile");
@@ -61,25 +63,30 @@ export default function AddUsers({ navigation }) {
     getUser();
 
     const fetchCards = async () => {
-      const passes = getDocs(collection(db, "users", user.uid, "passes")).then(
-        (snapshot) => snapshot.docs.map((doc) => doc.id)
-      );
-      const matches = getDocs(
+      // this grabs the users inside the "passes" collection
+      const passes = await getDocs(
+        collection(db, "users", user.uid, "passes")
+      ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
+      // this grabs the users inside the "matches" collection
+      const matches = await getDocs(
         collection(db, "users", user.uid, "matches")
       ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
 
-      const passedUsers = passes.length > 0 ? passes : ["testing"];
-      const matchedUsers = passes.length > 0 ? matches : ["testing"];
+      // if passes.length > 0, then we can use the "passes" variable; else pass in 'test' value -- this is because when you QUERY on the back end, you can't pass in an empty array. There has to be a value;
+      const passedUsers = passes.length > 0 ? passes : ["🥯"];
+      const matchedUsers = matches.length > 0 ? matches : ["🍆"];
 
+      console.log([...passedUsers, ...matchedUsers]);
       unsub = onSnapshot(
         query(
           collection(db, "users"),
-          where("id", "not-in", [...passedUsers, ...matchedUsers])
+          // QueryConstraint -- "where" takes 3 parameters: a field to filter on, a comparison operator, and a value;
+          where("id", "not-in", [...passedUsers, ...matchedUsers]) // query the "id" where the id is not pressent in the user's passes/matches collection
         ),
         (snapshot) => {
           setProfiles(
             snapshot.docs
-              .filter((doc) => doc.id !== user.uid)
+              .filter((doc) => doc.id !== user.uid) // this is to make sure that you don't see youy own profile on the swipable cards
               .map((doc) => ({
                 id: doc.id,
                 ...doc.data(),
@@ -91,15 +98,18 @@ export default function AddUsers({ navigation }) {
 
     fetchCards();
     return unsub;
-  }, []);
+  }, [db]);
 
   /* Swiping left */
   const swipeLeft = (cardIndex) => {
-    if (!profiles[cardIndex]) return; // not do anything
+    // "profiles" grabs all the users that you're able to swipe on
+    if (!profiles[cardIndex]) return; // edge case; do anything if the cardIndex is not in the profiles
 
+    // this grabs the user on that card you swiped left on
     const userSwiped = profiles[cardIndex];
     console.log(`You passed on ${userSwiped.displayName}`);
 
+    // after swiping left on that user, that user will be put inside a collection named "passes" that is specific to your user;
     setDoc(doc(db, "users", user.uid, "passes", userSwiped.id), userSwiped);
   };
 
@@ -112,11 +122,14 @@ export default function AddUsers({ navigation }) {
       await getDoc(doc(db, "users", user.uid))
     ).data();
 
+    // this is a bit on the "sketchy" side because we're practically invading the other user's "matches" collection info -- could probably be better if put inside a "Cloud Function" for privacy reasons;
     getDoc(doc(db, "users", userSwiped.id, "matches", user.uid)).then(
+      // check the OTHER user's "matches" collection and if your 'uid' is there, then they swiped right on you;
       (docsnap) => {
+        // you'll get a snapshot of that document
         if (docsnap.exists()) {
           console.log(
-            `Ooooohhhh ${userSwiped.displayName} is interested in you!`
+            `Ooooohhhh ${userSwiped.displayName} is interested in you 😍!`
           );
 
           setDoc(
@@ -124,8 +137,8 @@ export default function AddUsers({ navigation }) {
             userSwiped
           );
 
-          // create a MATCH
-          setDoc(doc(db, "matchedUsers", generateId(user.uid, userSwiped.id)), {
+          // create a MATCH between you and the other user;
+          setDoc(doc(db, "matchedUsers", generateId(user.uid, userSwiped.id)), { // "generateId" this is a helper function to make sure the your 'uid' goes before the other user's 'id'
             users: {
               // to help with searches
               [user.uid]: loggedInProfile,
@@ -137,16 +150,19 @@ export default function AddUsers({ navigation }) {
 
           // if there's a match, navigate to "Match" screen
           navigation.navigate("Match", {
-            loggedInProfile, userSwiped
-          })
+            loggedInProfile,
+            userSwiped,
+          });
         } else {
           // first interaction between users..
+          console.log(`You're interested in ${userSwiped.displayName} 😉.`);
+          setDoc(
+            doc(db, "users", user.uid, "matches", userSwiped.id),
+            userSwiped
+          );
         }
       }
     );
-
-    console.log(`You're interested in ${userSwiped.displayName}`);
-    setDoc(doc(db, "users", user.uid, "matches", userSwiped.id), userSwiped);
   };
 
   return (

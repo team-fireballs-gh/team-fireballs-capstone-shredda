@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import Ionicons from "react-native-vector-icons/Ionicons";
+import { Ionicons } from "react-native-vector-icons";
 
 // Screen Components
 import AddUsers from "./screens/AddUsers";
@@ -24,7 +24,7 @@ export default function MainContainer() {
   const { user } = useAuth();
   return (
     <Navigator
-      initialRouteName="Friends" // this sets the default screen;
+      initialRouteName="Chats" // this sets the default screen;
       // The options specified in 'screenOptions' apply to all of the screens in the navigator;
       screenOptions={({ route }) => ({
         // each screen component in the app is provided with the "route" prop automatically; more info: https://reactnavigation.org/docs/route-prop
@@ -35,7 +35,7 @@ export default function MainContainer() {
 
         tabBarShowLabel: false,
 
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({ focused, color }) => {
           // focused: boolean, color: string, size: number
           let iconName;
           let routeName = route.name;
@@ -54,16 +54,24 @@ export default function MainContainer() {
             iconName = focused ? "person-circle" : "person-circle-outline";
           }
 
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Ionicons name={iconName} size={35} color={color} />;
         },
       })}
     >
       {user ? (
         <>
-          <Screen name="Friends" component={AddUsers} options={{ headerShown: false }} />
+          <Screen
+            name="Friends"
+            component={AddUsers}
+            options={{ headerShown: false }}
+          />
           <Screen name="Discover" component={Events} />
           <Screen name="Calendar" component={Calendar} />
-          <Screen name="Chats" component={Chats} />
+          <Screen
+            name="Chats"
+            component={Chats}
+            options={{ headerShown: false }}
+          />
           <Screen name="Profile" component={ProfileView} />
         </>
       ) : (
