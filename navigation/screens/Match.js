@@ -10,7 +10,6 @@ import {
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 const HEIGHT = Dimensions.get("screen").height;
-const WIDTH = Dimensions.get("screen").width;
 
 export default function Match() {
   const navigation = useNavigation();
@@ -28,12 +27,19 @@ export default function Match() {
         You and {userSwiped.displayName} have matched each other!
       </Text>
 
-      <View style={styles.users} >
+      <View style={styles.users}>
         <Image
           style={styles.image}
+          height={150}
+          width={150}
           source={{ uri: loggedInProfile.photoURL }}
         />
-        <Image style={styles.image} source={{ uri: userSwiped.photoURL }} />
+        <Image
+          style={styles.image}
+          height={150}
+          width={150}
+          source={{ uri: userSwiped.photoURL }}
+        />
       </View>
 
       <TouchableOpacity
@@ -65,10 +71,11 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
     color: "white",
     alignSelf: "center",
-    fontSize: 32,
+    fontSize: 35,
     textAlign: "center",
     margin: 8,
     fontStyle: "italic",
+    fontWeight: "bold",
     fontFamily: "Party LET",
   },
   users: {
@@ -77,18 +84,17 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   image: {
-    height: "30%",
-    width: "30%",
-    borderRadius: 50,
+    borderRadius: 60,
+    opacity: 0.97,
   },
   button: {
     position: "absolute",
-    top: HEIGHT - 200,
+    top: HEIGHT - 160,
     width: "80%",
     alignSelf: "center",
     backgroundColor: "#FFD9C7",
     paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingVertical: 15,
     borderRadius: 100,
   },
   logo: {
