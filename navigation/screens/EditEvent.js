@@ -18,6 +18,7 @@ export default function EditEvent({ route, navigation }) {
     let [title, setTitle] = useState(singleEvent.title);
     let [address, setAddress] = useState(singleEvent.address);
     let [websiteLink, setWebsiteLink] = useState(singleEvent.websiteLink);
+    let [date, setDate] = useState(singleEvent.startDate);
 
     useEffect(() => {
         dispatch(getSingleEvent(id)); 
@@ -46,14 +47,23 @@ export default function EditEvent({ route, navigation }) {
                 value={title}>
             </TextInput>
             <View style={styles.location} flexDirection="row" justifyContent="space-evenly"> 
-                <Text style={styles.locationText}>
-                    <Entypo name="location-pin" size={20} color="gray"/>
-                    {singleEvent.address}
-                </Text>
-                <Text style={styles.dateText}>
-                    <AntIcon name="calendar" size={20} color="tomato"/>
-                    {singleEvent.startDate}
-                </Text>
+                <Pressable style={styles.locationText}>
+                    <Entypo 
+                        name="location-pin" 
+                        size={20}       
+                        color="tomato"
+                    >
+                        {address}
+                    </Entypo>
+                </Pressable>
+                <Pressable style={styles.dateText}>
+                    <AntIcon 
+                    name="calendar" 
+                    size={20} 
+                    color="tomato"
+                    >{date}</AntIcon>
+                </Pressable>
+
                 <Pressable 
                     onPress={handleSubmit}
                 >
