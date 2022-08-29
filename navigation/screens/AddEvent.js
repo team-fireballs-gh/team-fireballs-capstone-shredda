@@ -26,7 +26,7 @@ export default function AddEvent({ navigation }) {
     const eventToAdd = {
       authorID: user.uid,
       title: eventName,
-      startDate: eventDate, // will change this when we figure out date input
+      startDate: eventDate.toString(), // will change this when we figure out date input
       address: eventAddress,
       websiteLink: eventLink,
     };
