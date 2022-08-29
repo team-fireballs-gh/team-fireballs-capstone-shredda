@@ -18,14 +18,38 @@ export default function EditEvent({ route, navigation }) {
     let [title, setTitle] = useState(singleEvent.title);
     let [address, setAddress] = useState(singleEvent.address);
     let [websiteLink, setWebsiteLink] = useState(singleEvent.websiteLink);
-    let [date, setDate] = useState(singleEvent.startDate);
+
+    let [eventDate, setEventDate] = useState(singleEvent.startDate);
+    let [date, setDate] = useState(new Date());
+    let [mode, setMode] = useState("date");
+    let [show, setShow] = useState(false);
 
     useEffect(() => {
         dispatch(getSingleEvent(id)); 
     }, [dispatch]);
 
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setDate(currentDate);
+    
+        let tempDate = new Date(currentDate);
+        let formattedDate = 
+          tempDate.getMonth() + 1 + "/" + 
+          tempDate.getDate() + "/" +
+          tempDate.getFullYear();
+        let formattedTime = 
+          tempDate.getHours() + ":" + tempDate.getMinutes()
+        setEventDate(formattedDate + " " + formattedTime);
+    
+    
+      }
+      const showMode = (currentMode) => {
+        setMode(currentMode);
+        setShow(true);
+    }
+
     const handleSubmit = async () => {
-        await updateEvent(id, {title, address, websiteLink});
+        await updateEvent(id, {title, address, eventDate, websiteLink});
         dispatch(getSingleEvent(id));
         dispatch(getAllEvents()); 
         navigation.navigate("Event Name", {id: id});
@@ -61,7 +85,7 @@ export default function EditEvent({ route, navigation }) {
                     name="calendar" 
                     size={20} 
                     color="tomato"
-                    >{date}</AntIcon>
+                    >{eventDate}</AntIcon>
                 </Pressable>
 
                 <Pressable 

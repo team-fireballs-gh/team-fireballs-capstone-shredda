@@ -41,11 +41,11 @@ export default function SingleEvent({ route, navigation }) {
       >
         <Text style={styles.locationText}>
           <Entypo name="location-pin" size={20} color="gray" />
-          {singleEvent.address}
+           {singleEvent.address}
         </Text>
         <Text style={styles.dateText}>
           <AntDesign name="calendar" size={20} color="gray" />
-          {singleEvent.startDate}
+           {singleEvent.startDate}
         </Text>
         <Pressable>
           <Feather
