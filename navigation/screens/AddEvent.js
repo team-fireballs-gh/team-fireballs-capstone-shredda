@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { View, TextInput, StyleSheet, Text, Button } from "react-native";
-import { addEvent } from "../../redux/reducers/events/eventsReducer";
+import { addEvent, getAllEvents } from "../../redux/reducers/events/eventsReducer";
 import { useAuthState } from "react-firebase-hooks/auth"
 import {auth} from "../../firebase/db";
 import DatePickerIOS from '@react-native-community/datetimepicker';
@@ -13,7 +13,7 @@ export default function AddEvent({ navigation }) {
   let [eventLink, setEventLink] = useState("");
 
   let [eventDate, setEventDate] = useState(new Date());
-  let [mode, setMode] = useState("date")
+
 
   const [user] = useAuthState(auth);
   
@@ -36,6 +36,7 @@ export default function AddEvent({ navigation }) {
       websiteLink: eventLink,
     };
     await addEvent(eventToAdd);
+    getAllEvents();
     navigation.goBack("Discover");
   };
 

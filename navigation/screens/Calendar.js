@@ -4,7 +4,8 @@ import { CalendarList } from 'react-native-calendars';
 export default function Calendar({ navigation }) {
   return (
     <View style={styles.container}>
-      <CalendarList />
+      <CalendarList       
+      />
     </View>
   );
 }

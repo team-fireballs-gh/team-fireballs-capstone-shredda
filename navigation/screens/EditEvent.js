@@ -8,6 +8,8 @@ import Feather from "react-native-vector-icons/Feather";
 import { getSingleEvent } from "../../redux/reducers/events/singleEventReducer";
 import { getAllEvents, updateEvent } from "../../redux/reducers/events/eventsReducer";
 import { useSelector, useDispatch } from "react-redux";
+import DatePickerIOS from '@react-native-community/datetimepicker';
+
 
 export default function EditEvent({ route, navigation }) {
     const { id } = route.params;
@@ -49,8 +51,8 @@ export default function EditEvent({ route, navigation }) {
                     {singleEvent.address}
                 </Text>
                 <Text style={styles.dateText}>
-                    <AntIcon name="calendar" size={20} color="gray"/>
-                    dates
+                    <AntIcon name="calendar" size={20} color="tomato"/>
+                    {singleEvent.startDate}
                 </Text>
                 <Pressable 
                     onPress={handleSubmit}
@@ -110,7 +112,7 @@ const styles = StyleSheet.create({
     },
     dateText: {
         fontSize: 16,
-        color: 'grey',
+        color: 'tomato',
     },
     location: { 
         margin: 5,
