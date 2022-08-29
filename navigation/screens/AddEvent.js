@@ -15,6 +15,12 @@ export default function AddEvent({ navigation }) {
   let [eventDate, setEventDate] = useState(new Date());
 
   const [user] = useAuthState(auth);
+  
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || eventDate;
+    setEventDate(currentDate);
+    let tempDate = new Date(currentDate)
+  }
 
   const _addEvent = async () => {
     const eventToAdd = {
@@ -44,6 +50,7 @@ export default function AddEvent({ navigation }) {
           style={styles.datePicker}
           value={eventDate}
           onDateChange={setEventDate}
+          onChange={onChange}
         />
       </View>
       <View style={styles.individualContainer}>
