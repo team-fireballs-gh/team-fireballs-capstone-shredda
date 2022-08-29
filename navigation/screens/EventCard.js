@@ -28,9 +28,10 @@ export default function EventCard({ navigation, eventInfo }) {
             <View style={styles.textContainer}>
               <Text style={styles.eventName}>{eventInfo["data"]["title"]}</Text>
               <Text style={styles.eventInfo}>
-                {/* {eventInfo.startDate,  */}
-                Date Here,
-                {eventInfo["data"]["address"]}
+                {eventInfo.data.startDate}
+              </Text>
+              <Text style={styles.eventInfo}>
+                {eventInfo.data.address}
               </Text>
             </View>
           </ImageBackground>
