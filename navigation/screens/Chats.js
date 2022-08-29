@@ -1,20 +1,13 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { Text, View, SafeAreaView } from "react-native";
+import ChatList from "../components/ChatList";
+import Header from "../components/Header";
 
 export default function Chats({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text>You're on the Chat file!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={{ flex: 1 }} >
+      <Header title="Chat" callEnabled />
+      <ChatList />
+    </SafeAreaView>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+};
