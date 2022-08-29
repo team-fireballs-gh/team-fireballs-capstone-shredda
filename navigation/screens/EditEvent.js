@@ -8,6 +8,8 @@ import Feather from "react-native-vector-icons/Feather";
 import { getSingleEvent } from "../../redux/reducers/events/singleEventReducer";
 import { getAllEvents, updateEvent } from "../../redux/reducers/events/eventsReducer";
 import { useSelector, useDispatch } from "react-redux";
+import DatePickerIOS from '@react-native-community/datetimepicker';
+
 
 export default function EditEvent({ route, navigation }) {
     const { id } = route.params;
@@ -16,6 +18,7 @@ export default function EditEvent({ route, navigation }) {
     let [title, setTitle] = useState(singleEvent.title);
     let [address, setAddress] = useState(singleEvent.address);
     let [websiteLink, setWebsiteLink] = useState(singleEvent.websiteLink);
+    let [date, setDate] = useState(singleEvent.startDate);
 
     useEffect(() => {
         dispatch(getSingleEvent(id)); 
@@ -44,14 +47,23 @@ export default function EditEvent({ route, navigation }) {
                 value={title}>
             </TextInput>
             <View style={styles.location} flexDirection="row" justifyContent="space-evenly"> 
-                <Text style={styles.locationText}>
-                    <Entypo name="location-pin" size={20} color="gray"/>
-                    {singleEvent.address}
-                </Text>
-                <Text style={styles.dateText}>
-                    <AntIcon name="calendar" size={20} color="gray"/>
-                    dates
-                </Text>
+                <Pressable style={styles.locationText}>
+                    <Entypo 
+                        name="location-pin" 
+                        size={20}       
+                        color="tomato"
+                    >
+                        {address}
+                    </Entypo>
+                </Pressable>
+                <Pressable style={styles.dateText}>
+                    <AntIcon 
+                    name="calendar" 
+                    size={20} 
+                    color="tomato"
+                    >{date}</AntIcon>
+                </Pressable>
+
                 <Pressable 
                     onPress={handleSubmit}
                 >
@@ -110,7 +122,7 @@ const styles = StyleSheet.create({
     },
     dateText: {
         fontSize: 16,
-        color: 'grey',
+        color: 'tomato',
     },
     location: { 
         margin: 5,
