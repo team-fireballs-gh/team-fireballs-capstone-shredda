@@ -1,11 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { CalendarList } from 'react-native-calendars'; 
 
 export default function Calendar({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text>You're on the Calendar file!</Text>
-      <StatusBar style="auto" />
+      <CalendarList />
     </View>
   );
 }

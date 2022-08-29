@@ -13,6 +13,7 @@ export default function AddEvent({ navigation }) {
   let [eventLink, setEventLink] = useState("");
 
   let [eventDate, setEventDate] = useState(new Date());
+  let [mode, setMode] = useState("date")
 
   const [user] = useAuthState(auth);
   
@@ -21,6 +22,10 @@ export default function AddEvent({ navigation }) {
     setEventDate(currentDate);
     let tempDate = new Date(currentDate)
   }
+  const showMode = (currentMode) => {
+    setMode(currentMode);
+  }
+  
 
   const _addEvent = async () => {
     const eventToAdd = {
@@ -51,6 +56,7 @@ export default function AddEvent({ navigation }) {
           value={eventDate}
           onDateChange={setEventDate}
           onChange={onChange}
+          onPress={() => showMode('date')}
         />
       </View>
       <View style={styles.individualContainer}>
