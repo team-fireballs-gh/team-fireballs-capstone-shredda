@@ -11,19 +11,32 @@ export default function AddEvent({ navigation }) {
   let [eventName, setEventName] = useState("");
   let [eventAddress, setEventAddress] = useState("");
   let [eventLink, setEventLink] = useState("");
-
-  let [eventDate, setEventDate] = useState(new Date());
-
-
   const [user] = useAuthState(auth);
+
+  let [eventDate, setEventDate] = useState("");
+  let [date, setDate] = useState(new Date());
+  let [mode, setMode] = useState("date");
+  let [show, setShow] = useState(false);
+
   
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || eventDate;
-    setEventDate(currentDate);
-    let tempDate = new Date(currentDate)
+    const currentDate = selectedDate || date;
+    setDate(currentDate);
+
+    let tempDate = new Date(currentDate);
+    let formattedDate = 
+      tempDate.getMonth() + 1 + "/" + 
+      tempDate.getDate() + "/" +
+      tempDate.getFullYear();
+    let formattedTime = 
+      tempDate.getHours() + ":" + tempDate.getMinutes()
+    setEventDate(formattedDate + " " + formattedTime);
+
+
   }
   const showMode = (currentMode) => {
     setMode(currentMode);
+    setShow(true);
   }
   
 
@@ -31,7 +44,7 @@ export default function AddEvent({ navigation }) {
     const eventToAdd = {
       authorID: user.uid,
       title: eventName,
-      startDate: eventDate.toString(), // will change this when we figure out date input
+      startDate: eventDate, 
       address: eventAddress,
       websiteLink: eventLink,
     };
@@ -52,13 +65,20 @@ export default function AddEvent({ navigation }) {
       </View>
       <View style={styles.individualContainer}>
         <Text style={styles.header}>When is it?</Text>
-        <DatePickerIOS
-          style={styles.datePicker}
-          value={eventDate}
-          onDateChange={setEventDate}
-          onChange={onChange}
-          onPress={() => showMode('date')}
-        />
+        <Text>{eventDate}</Text>
+        <Button title="DatePicker" onPress={() => showMode("date")}/>
+        <Button title="TimePicker" onPress={() => showMode("time")}/>
+        {show && (
+          <DatePickerIOS
+            style={styles.datePicker}
+            value={date}
+            onChange={onChange}
+            mode={mode}
+            is24Hour={true}
+          />
+        )
+        }
+
       </View>
       <View style={styles.individualContainer}>
         <Text style={styles.header}>Where is it?</Text>
