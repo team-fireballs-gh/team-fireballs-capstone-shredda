@@ -80,7 +80,7 @@ export default function EditEvent({ route, navigation }) {
                         {address}
                     </Entypo>
                 </Pressable>
-                <Pressable style={styles.dateText}>
+                <Pressable style={styles.dateText} onPress={() => showMode("date")}>
                     <AntIcon 
                     name="calendar" 
                     size={20} 
