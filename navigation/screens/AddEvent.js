@@ -1,10 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { View, TextInput, StyleSheet, Text, Button } from "react-native";
+import { View, TextInput, StyleSheet, Text, Button, Pressable } from "react-native";
 import { addEvent, getAllEvents } from "../../redux/reducers/events/eventsReducer";
 import { useAuthState } from "react-firebase-hooks/auth"
 import {auth} from "../../firebase/db";
 import DatePickerIOS from '@react-native-community/datetimepicker';
+import AntIcon from "react-native-vector-icons/AntDesign";
 
 
 export default function AddEvent({ navigation }) {
@@ -65,19 +66,30 @@ export default function AddEvent({ navigation }) {
       </View>
       <View style={styles.individualContainer}>
         <Text style={styles.header}>When is it?</Text>
-        <Text>{eventDate}</Text>
-        <Button title="DatePicker" onPress={() => showMode("date")}/>
-        <Button title="TimePicker" onPress={() => showMode("time")}/>
-        {show && (
-          <DatePickerIOS
+        <View style={{flexDirection: 'row', marginHorizontal: "5%"}}>
+          <Pressable onPress={() => showMode("date")}>
+            <AntIcon name="calendar" size={20} color="tomato"> Date </AntIcon>
+          </Pressable>
+          <Pressable onPress={() => showMode("time")}>
+            <AntIcon name="clockcircleo" size={20} color="tomato"> Time </AntIcon>
+          </Pressable>
+        </View>
+        <View>
+          {show && (
+            <DatePickerIOS
             style={styles.datePicker}
             value={date}
             onChange={onChange}
             mode={mode}
-            is24Hour={true}
-          />
-        )
-        }
+            is24Hour={false}
+            display="inline"
+            />
+            )
+          }
+        </View>
+        <View style={styles.dateTime}>
+          <Text>{eventDate}</Text>
+        </View>
 
       </View>
       <View style={styles.individualContainer}>
@@ -122,8 +134,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     borderRadius: 10,
+    borderWidth: 2,
+    borderStyle: 'dashed',
+    borderColor: 'tomato'
   },
-  datePicker: {
-    alignSelf: "auto",
+  dateTime: {
+    height: 40,
+    marginHorizontal: "5%",
+    padding: 10,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderStyle: 'dashed',
+    borderColor: 'tomato'
+  },
+  dateTimePicker: {
+    marginHorizontal: "5%",
+    
   }
 });
