@@ -4,12 +4,15 @@ import { View, TextInput, StyleSheet, Text, Button } from "react-native";
 import { addEvent } from "../../redux/reducers/events/eventsReducer";
 import { useAuthState } from "react-firebase-hooks/auth"
 import {auth} from "../../firebase/db";
+import DatePickerIOS from '@react-native-community/datetimepicker';
+
 
 export default function AddEvent({ navigation }) {
   let [eventName, setEventName] = useState("");
-  let [eventDate, setEventDate] = useState("");
   let [eventAddress, setEventAddress] = useState("");
   let [eventLink, setEventLink] = useState("");
+
+  let [eventDate, setEventDate] = useState(new Date());
 
   const [user] = useAuthState(auth);
 
@@ -37,10 +40,10 @@ export default function AddEvent({ navigation }) {
       </View>
       <View style={styles.individualContainer}>
         <Text style={styles.header}>When is it?</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={setEventDate}
-          placeholder="Date"
+        <DatePickerIOS
+          style={styles.datePicker}
+          value={eventDate}
+          onDateChange={setEventDate}
         />
       </View>
       <View style={styles.individualContainer}>
@@ -86,4 +89,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
+  datePicker: {
+    alignSelf: "auto",
+  }
 });
