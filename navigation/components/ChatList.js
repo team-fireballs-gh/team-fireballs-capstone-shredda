@@ -45,7 +45,7 @@ export default function ChatList() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: "#FFD9C7",
     height: "100%",
   },
   text: {

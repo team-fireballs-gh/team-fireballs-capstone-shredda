@@ -1,12 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useTailwind } from "tailwind-rn";
 import { Ionicons, Foundation } from "react-native-vector-icons";
 
-export default function Header({ title, callEnabled }) {
+export default function Header({ title, callOn }) {
   const navigation = useNavigation();
-  const tw = useTailwind();
 
   return (
     <View style={styles.container}>
@@ -21,7 +19,7 @@ export default function Header({ title, callEnabled }) {
         <Text style={styles.text}>{title}</Text>
       </View>
 
-      {callEnabled && (
+      {callOn && (
         <TouchableOpacity style={styles.phoneContainer}>
           <Foundation
             style={styles.phone}
@@ -37,7 +35,7 @@ export default function Header({ title, callEnabled }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#fff",
+    backgroundColor: "#FFF",
     padding: 10,
     flexDirection: "row",
     justifyContent: "space-between",

@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useTailwind } from "tailwind-rn/dist";
 import { auth } from "../../firebase/db";
 import getMatchedUserInfo from "../helper/getMatchedInfo";
 
 export default function MoreChat({ matchInfo }) {
   const navigation = useNavigation();
-  const tw = useTailwind();
   const [user] = useAuthState(auth);
   const [matchedUserInfo, setMatchedUserInfo] = useState(null);
 
@@ -19,17 +17,21 @@ export default function MoreChat({ matchInfo }) {
   console.log(matchedUserInfo);
 
   return (
-    <TouchableOpacity style={[styles.container, styles.shadow]}>
+    <TouchableOpacity
+      style={[styles.container, styles.shadow]}
+      onPress={() => navigation.navigate("Message", { matchInfo: matchInfo })}
+    >
       {/* "optional chaining" the uri of the matchUserInfo because it might be 'undefine' at some point since we started with the value of null */}
       <Image
-        style={tw("rounded-full h-16 w-16 mr-4")}
+        style={styles.image}
         source={{ uri: matchedUserInfo?.photoURL }}
-        height={80}
-        width={80}
+        height={70}
+        width={70}
       />
 
       <View style={styles.textContainer}>
-        <Text style={styles.text}>{matchedUserInfo?.displayName}</Text>
+        <Text style={styles.name}>{matchedUserInfo?.displayName}</Text>
+        <Text>Don't be shy. Say Hi! ☺️</Text>
       </View>
     </TouchableOpacity>
   );
@@ -37,8 +39,13 @@ export default function MoreChat({ matchInfo }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: "#FFC7A8",
     flexDirection: "row",
+    padding: 5,
+  },
+  image: {
+    borderRadius: 50,
+    padding: 10,
   },
   shadow: {
     shadowColor: "#000",
@@ -54,8 +61,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 10,
   },
-  text: {
+  name: {
     fontFamily: "Chalkduster",
     fontWeight: "400",
+    fontSize: 20,
+    paddingBottom: 5,
   },
 });
