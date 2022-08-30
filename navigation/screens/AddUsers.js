@@ -22,7 +22,6 @@ import {
   query,
   where,
   serverTimestamp,
-  addDoc
 } from "firebase/firestore";
 
 export default function AddUsers({ navigation }) {
@@ -77,7 +76,7 @@ export default function AddUsers({ navigation }) {
       const passedUsers = passes.length > 0 ? passes : ["🥯"];
       const matchedUsers = matches.length > 0 ? matches : ["🍆"];
 
-      // console.log([...passedUsers, ...matchedUsers]);
+      console.log([...passedUsers, ...matchedUsers]);
       unsub = onSnapshot(
         query(
           collection(db, "users"),
@@ -116,77 +115,54 @@ export default function AddUsers({ navigation }) {
 
   /* Swiping right */
   const swipeRight = async (cardIndex) => {
-    try {
-      if (!profiles[cardIndex]) return; // not do anything
+    if (!profiles[cardIndex]) return; // not do anything
 
-      const userSwiped = profiles[cardIndex];
-      const docRef = doc(db, "users", user.uid)
-      const loggedInSnap = await getDoc(docRef);
-      const loggedInProfile = loggedInSnap.data();
+    const userSwiped = profiles[cardIndex];
+    const loggedInProfile = await (
+      await getDoc(doc(db, "users", user.uid))
+    ).data();
 
-      // this is a bit on the "sketchy" side because we're practically invading the other user's "matches" collection info -- could probably be better if put inside a "Cloud Function" for privacy reasons;
-      const docsnap = await getDoc(
-        doc(db, "users", userSwiped.id, "matches", user.uid)
-      );
+    // this is a bit on the "sketchy" side because we're practically invading the other user's "matches" collection info -- could probably be better if put inside a "Cloud Function" for privacy reasons;
+    getDoc(doc(db, "users", userSwiped.id, "matches", user.uid)).then(
       // check the OTHER user's "matches" collection and if your 'uid' is there, then they swiped right on you;
+      (docsnap) => {
+        // you'll get a snapshot of that document
+        if (docsnap.exists()) {
+          console.log(
+            `Ooooohhhh ${userSwiped.displayName} is interested in you 😍!`
+          );
 
-      // you'll get a snapshot of that document
-      if (docsnap.exists()) {
-        console.log(
-          `Ooooohhhh ${userSwiped.displayName} is interested in you 😍!`
-        );
+          setDoc(
+            doc(db, "users", user.uid, "matches", userSwiped.id),
+            userSwiped
+          );
 
-        await setDoc(
-          doc(db, "users", user.uid, "matches", userSwiped.id),
-          userSwiped
-        );
-        console.log("YUHHHHHH");
-
-        // await setDoc(doc(db, "users", user.uid), userSwiped);
-        // await setDoc(doc(db, "matches", userSwiped.id), userSwiped);
-
-        // create a MATCH between you and the other user;
-        console.log('🍕', loggedInProfile)
-        
-        const timestamp = serverTimestamp();
-        const generated = generateId(user.uid, userSwiped.id)
-        console.log('🍊', generated)
-        console.log('🍓', timestamp)
-
-        const ref = doc(db, "matchedUsers", generated);
-        // console.log('🍖', ref)
-
-        await setDoc(
-          ref,
-          {
-            // "generateId" this is a helper function to make sure the your 'uid' goes before the other user's 'id'
+          // create a MATCH between you and the other user;
+          setDoc(doc(db, "matchedUsers", generateId(user.uid, userSwiped.id)), { // "generateId" this is a helper function to make sure the your 'uid' goes before the other user's 'id'
             users: {
               // to help with searches
               [user.uid]: loggedInProfile,
               [userSwiped.id]: userSwiped,
             },
             usersMatch: [user.uid, userSwiped.id],
-            timestamp: timestamp,
-          }
+            timestamp: serverTimestamp(),
+          });
 
-        );
-        // if there's a match, navigate to "Match" screen
-        console.log("About to navigate...");
-        navigation.navigate("Match", {
-          loggedInProfile,
-          userSwiped,
-        });
-      } else {
-        // first interaction between users..
-        console.log(`You're interested in ${userSwiped.displayName} 😉.`);
-        await setDoc(
-          doc(db, "users", user.uid, "matches", userSwiped.id),
-          userSwiped
-        );
+          // if there's a match, navigate to "Match" screen
+          navigation.navigate("Match", {
+            loggedInProfile,
+            userSwiped,
+          });
+        } else {
+          // first interaction between users..
+          console.log(`You're interested in ${userSwiped.displayName} 😉.`);
+          setDoc(
+            doc(db, "users", user.uid, "matches", userSwiped.id),
+            userSwiped
+          );
+        }
       }
-    } catch (e) {
-      console.error(e);
-    }
+    );
   };
 
   return (
