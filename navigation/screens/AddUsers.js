@@ -32,16 +32,12 @@ export default function AddUsers({ navigation }) {
 
   /* get user data */
   const getUser = () => {
-    let unsub;
-
-    unsub = onSnapshot(doc(db, "users", user.uid), (snapShot) => {
+    onSnapshot(doc(db, "users", user.uid), (snapShot) => {
       if (!snapShot.exists()) {
         console.log("User does not have a profile...");
       }
       setUserData(snapShot.data());
     });
-
-    return unsub;
   };
 
   useLayoutEffect(
@@ -138,7 +134,8 @@ export default function AddUsers({ navigation }) {
           );
 
           // create a MATCH between you and the other user;
-          setDoc(doc(db, "matchedUsers", generateId(user.uid, userSwiped.id)), { // "generateId" this is a helper function to make sure the your 'uid' goes before the other user's 'id'
+          setDoc(doc(db, "matchedUsers", generateId(user.uid, userSwiped.id)), {
+            // "generateId" this is a helper function to make sure the your 'uid' goes before the other user's 'id'
             users: {
               // to help with searches
               [user.uid]: loggedInProfile,

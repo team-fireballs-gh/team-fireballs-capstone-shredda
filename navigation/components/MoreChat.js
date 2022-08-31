@@ -2,19 +2,32 @@ import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase/db";
+import { auth, db } from "../../firebase/db";
+import { onSnapshot, query, collection, orderBy } from "firebase/firestore";
 import getMatchedUserInfo from "../helper/getMatchedInfo";
 
 export default function MoreChat({ matchInfo }) {
   const navigation = useNavigation();
   const [user] = useAuthState(auth);
   const [matchedUserInfo, setMatchedUserInfo] = useState(null);
+  const [lastMessage, setLastMessage] = useState("");
+
+  useEffect(
+    () =>
+      onSnapshot(
+        query(
+          collection(db, "matchedUsers", matchInfo.id, "messages"),
+          orderBy("createdAt", "desc")
+        ),
+        (snapshot) => setLastMessage(snapshot.docs[0]?.data()?.text)
+      )[(matchInfo, db)]
+  );
 
   useEffect(() => {
     setMatchedUserInfo(getMatchedUserInfo(matchInfo.users, user.uid));
   }, [matchInfo, user]);
 
-  console.log(matchedUserInfo);
+  console.log(lastMessage);
 
   return (
     <TouchableOpacity
@@ -31,7 +44,7 @@ export default function MoreChat({ matchInfo }) {
 
       <View style={styles.textContainer}>
         <Text style={styles.name}>{matchedUserInfo?.displayName}</Text>
-        <Text>Don't be shy. Say Hi! ☺️</Text>
+        <Text>{lastMessage || "Don't be shy. Say Hi! ☺️"}</Text>
       </View>
     </TouchableOpacity>
   );

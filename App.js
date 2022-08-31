@@ -49,7 +49,7 @@ function App() {
               <Stack.Screen
                 name="Message"
                 component={Message}
-                options={{ headerShown: false }}
+                // options={{ headerShown: false }}
               />
               <Stack.Screen name="Profile" component={ProfileView} />
               <Stack.Screen name="Register" component={Register} />
