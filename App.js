@@ -19,6 +19,7 @@ import CreateProfile from "./navigation/screens/CreateProfile";
 import UpdateUser from "./navigation/screens/UpdateUser";
 import Match from "./navigation/screens/Match";
 import Message from "./navigation/screens/Message";
+import Map from "./navigation/screens/Map"
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +58,7 @@ function App() {
               <Stack.Screen name="Event Name" component={SingleEvent} />
               <Stack.Screen name="AddEvent" component={AddEvent} />
               <Stack.Screen name="EditEvent" component={EditEvent} />
+              <Stack.Screen name="Map" component={Map} />
             </Stack.Group>
             <Stack.Group screenOptions={{ presentation: "modal" }}>
               <Stack.Screen

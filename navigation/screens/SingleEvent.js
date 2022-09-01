@@ -12,6 +12,7 @@ import {
 import { Entypo, AntDesign, Feather } from "react-native-vector-icons";
 import { getSingleEvent } from "../../redux/reducers/events/singleEventReducer";
 import { useSelector, useDispatch } from "react-redux";
+import Maps from "./Map"
 
 export default function SingleEvent({ route, navigation }) {
   const { id } = route.params;
@@ -39,13 +40,14 @@ export default function SingleEvent({ route, navigation }) {
         flexDirection="row"
         justifyContent="space-evenly"
       >
-        <Text style={styles.locationText}>
+        <Pressable style={styles.locationText}
+        onPress={() => navigation.navigate("Map")}>
           <Entypo name="location-pin" size={20} color="gray" />
-          {singleEvent.address}
-        </Text>
+          <Text>{singleEvent.address}</Text>
+        </Pressable>
         <Text style={styles.dateText}>
           <AntDesign name="calendar" size={20} color="gray" />
-          {singleEvent.startDate}
+           {singleEvent.startDate}
         </Text>
         <Pressable>
           <Feather

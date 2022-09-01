@@ -18,14 +18,13 @@ export default function EditEvent({ route, navigation }) {
     let [title, setTitle] = useState(singleEvent.title);
     let [address, setAddress] = useState(singleEvent.address);
     let [websiteLink, setWebsiteLink] = useState(singleEvent.websiteLink);
-    let [date, setDate] = useState(singleEvent.startDate);
 
     useEffect(() => {
         dispatch(getSingleEvent(id)); 
     }, [dispatch]);
 
     const handleSubmit = async () => {
-        await updateEvent(id, {title, address, websiteLink});
+        await updateEvent(id, {title, address, eventDate, websiteLink});
         dispatch(getSingleEvent(id));
         dispatch(getAllEvents()); 
         navigation.navigate("Event Name", {id: id});
@@ -56,12 +55,12 @@ export default function EditEvent({ route, navigation }) {
                         {address}
                     </Entypo>
                 </Pressable>
-                <Pressable style={styles.dateText}>
+                <Pressable style={styles.dateText} onPress={() => showMode("date")}>
                     <AntIcon 
                     name="calendar" 
                     size={20} 
                     color="tomato"
-                    >{date}</AntIcon>
+                    >{eventDate}</AntIcon>
                 </Pressable>
 
                 <Pressable 
