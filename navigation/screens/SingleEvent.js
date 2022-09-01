@@ -42,8 +42,9 @@ export default function SingleEvent({ route, navigation }) {
       >
         <Pressable style={styles.locationText}
         onPress={() => navigation.navigate("Map")}>
-          <Entypo name="location-pin" size={20} color="gray" />
-          <Text>{singleEvent.address}</Text>
+          <Entypo name="location-pin" size={20} color="gray">
+            {singleEvent.address}
+          </Entypo>
         </Pressable>
         <Text style={styles.dateText}>
           <AntDesign name="calendar" size={20} color="gray" />

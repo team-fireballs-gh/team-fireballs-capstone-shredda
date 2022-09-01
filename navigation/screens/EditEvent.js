@@ -18,6 +18,7 @@ export default function EditEvent({ route, navigation }) {
     let [title, setTitle] = useState(singleEvent.title);
     let [address, setAddress] = useState(singleEvent.address);
     let [websiteLink, setWebsiteLink] = useState(singleEvent.websiteLink);
+    let [eventDate, setEventDate] = useState(singleEvent.startDate);
 
     useEffect(() => {
         dispatch(getSingleEvent(id)); 
