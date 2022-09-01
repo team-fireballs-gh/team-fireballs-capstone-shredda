@@ -18,6 +18,7 @@ import Register from "./navigation/screens/Register";
 import CreateProfile from "./navigation/screens/CreateProfile";
 import UpdateUser from "./navigation/screens/UpdateUser";
 import Match from "./navigation/screens/Match";
+import Message from "./navigation/screens/Message";
 
 const Stack = createNativeStackNavigator();
 
@@ -44,6 +45,11 @@ function App() {
                 name="Chats"
                 component={Chats}
                 options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Message"
+                component={Message}
+                // options={{ headerShown: false }}
               />
               <Stack.Screen name="Profile" component={ProfileView} />
               <Stack.Screen name="Register" component={Register} />

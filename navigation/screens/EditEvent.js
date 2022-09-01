@@ -19,34 +19,9 @@ export default function EditEvent({ route, navigation }) {
     let [address, setAddress] = useState(singleEvent.address);
     let [websiteLink, setWebsiteLink] = useState(singleEvent.websiteLink);
 
-    let [eventDate, setEventDate] = useState(singleEvent.startDate);
-    let [date, setDate] = useState(new Date());
-    let [mode, setMode] = useState("date");
-    let [show, setShow] = useState(false);
-
     useEffect(() => {
         dispatch(getSingleEvent(id)); 
     }, [dispatch]);
-
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
-        setDate(currentDate);
-    
-        let tempDate = new Date(currentDate);
-        let formattedDate = 
-          tempDate.getMonth() + 1 + "/" + 
-          tempDate.getDate() + "/" +
-          tempDate.getFullYear();
-        let formattedTime = 
-          tempDate.getHours() + ":" + tempDate.getMinutes()
-        setEventDate(formattedDate + " " + formattedTime);
-    
-    
-      }
-      const showMode = (currentMode) => {
-        setMode(currentMode);
-        setShow(true);
-    }
 
     const handleSubmit = async () => {
         await updateEvent(id, {title, address, eventDate, websiteLink});

@@ -27,7 +27,6 @@ export default function ChatList() {
       ),
     [user]
   );
-  console.log("🍌", matches);
 
   return matches.length > 0 ? (
     <FlatList
@@ -45,7 +44,7 @@ export default function ChatList() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: "#FFD9C7",
     height: "100%",
   },
   text: {
