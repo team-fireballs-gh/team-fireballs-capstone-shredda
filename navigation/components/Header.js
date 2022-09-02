@@ -12,7 +12,7 @@ export default function Header({ title }) {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons
             name="chevron-back-outline"
-            size={40}
+            size={35}
             color="#FF8257"
           />
         </TouchableOpacity>
@@ -24,8 +24,8 @@ export default function Header({ title }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#FFF",
-    padding: 10,
+    backgroundColor: "#FFE0B8",
+    padding: 0,
     flexDirection: "row",
     justifyContent: "space-between",
   },
@@ -34,8 +34,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    fontWeight: "bold",
-    paddingLeft: "31%",
-    fontSize: 25,
+    paddingLeft: "32%",
+    fontSize: 20,
   },
 });
