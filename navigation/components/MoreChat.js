@@ -24,7 +24,9 @@ export default function MoreChat({ matchInfo }) {
   );
 
   useEffect(() => {
-    setMatchedUserInfo(getMatchedUserInfo(matchInfo.users, user.uid));
+    let unsub;
+    unsub = setMatchedUserInfo(getMatchedUserInfo(matchInfo.users, user.uid));
+    return unsub;
   }, [matchInfo, user]);
 
   console.log(lastMessage);

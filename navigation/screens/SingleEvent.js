@@ -12,15 +12,19 @@ import {
 import { Entypo, AntDesign, Feather } from "react-native-vector-icons";
 import { getSingleEvent } from "../../redux/reducers/events/singleEventReducer";
 import { useSelector, useDispatch } from "react-redux";
-import Maps from "./Map"
+import Maps from "./Map";
+import { updateUser } from "../../redux/reducers/users/usersReducer";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase/db";
 
 export default function SingleEvent({ route, navigation }) {
   const { id } = route.params;
-  let singleEvent = useSelector((state) => state.singleEvent); 
+  let singleEvent = useSelector((state) => state.singleEvent);
   const dispatch = useDispatch();
+  const [user] = useAuthState(auth);
 
   useEffect(() => {
-    dispatch(getSingleEvent(id)); 
+    dispatch(getSingleEvent(id));
   }, []);
 
   return (
@@ -48,14 +52,23 @@ export default function SingleEvent({ route, navigation }) {
         </Pressable>
         <Text style={styles.dateText}>
           <AntDesign name="calendar" size={20} color="gray" />
-           {singleEvent.startDate}
+          {singleEvent.startDate}
         </Text>
+        <Pressable
+          onPress={() =>
+            updateUser(user.uid, {
+              rsvp: [id],
+            })
+          } // currently replaces the entire array - need to push to array in firebase instead, but it works!
+        >
+          <Text style={styles.interested}>RSVP</Text>
+        </Pressable>
         <Pressable>
           <Feather
             name="edit"
             size={20}
             color="gray"
-            onPress={() => navigation.navigate("EditEvent", {id: id})}
+            onPress={() => navigation.navigate("EditEvent", { id: id })}
           />
         </Pressable>
       </View>
@@ -146,5 +159,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: "5%",
     marginRight: "10%",
+  },
+  interested: {
+    color: "tomato",
   },
 });

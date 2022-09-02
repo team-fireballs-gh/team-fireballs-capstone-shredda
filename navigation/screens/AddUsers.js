@@ -82,7 +82,7 @@ export default function AddUsers({ navigation }) {
         (snapshot) => {
           setProfiles(
             snapshot.docs
-              .filter((doc) => doc.id !== user.uid) // this is to make sure that you don't see youy own profile on the swipable cards
+              .filter((doc) => doc.id !== user.uid) // this is to make sure that you don't see your own profile on the swipable cards
               .map((doc) => ({
                 id: doc.id,
                 ...doc.data(),
