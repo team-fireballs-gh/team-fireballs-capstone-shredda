@@ -29,8 +29,6 @@ export default function MoreChat({ matchInfo }) {
     return unsub;
   }, [matchInfo, user]);
 
-  console.log(lastMessage);
-
   return (
     <TouchableOpacity
       style={[styles.container, styles.shadow]}

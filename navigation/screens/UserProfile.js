@@ -1,62 +1,37 @@
-import React, { useEffect, useState, useLayoutEffect } from "react";
-
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
+  TouchableOpacity,
   Image,
+  ScrollView,
   ImageBackground,
   SafeAreaView,
-  TouchableOpacity,
 } from "react-native";
-import { doc, onSnapshot } from "firebase/firestore";
-import { Feather } from "react-native-vector-icons";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { db, auth } from "../../firebase/db";
+import { db } from "../../firebase/db";
 import useAuth from "../../auth";
+import { useRoute } from "@react-navigation/native";
+import getMatchedUserInfo from "../helper/getMatchedInfo";
 
-const ProfileView = ({ navigation }) => {
-  const { logout } = useAuth();
-  const [user] = useAuthState(auth);
+export default function UserProfile({ navigation }) {
+  const { user } = useAuth();
+  const { params } = useRoute();
+  const { userInfo } = params;
 
-  const [loggedin, setLoggedin] = useState(null);
+  const [userData, setUserData] = useState(null);
 
-  const logOutButton = () => {
-    logout();
-  };
+  useEffect(() => {
+    let unsub;
+    unsub = setUserData(getMatchedUserInfo(userInfo.users, user.uid));
+    return unsub;
+  }, [userInfo, user]);
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity style={styles.top} title="logout" onPress={logOutButton}>
-          <Feather name="log-out" size={30} color="#506700" />
-        </TouchableOpacity>
-      ),
-      headerTintColor: "#DBE3BF",
-      headerStyle: {
-        backgroundColor: "#ABB573",
-      },
-    });
-  });
-
-  useEffect(
-    () =>
-      onSnapshot(doc(db, "users", user.uid), (snapShot) => {
-        if (!snapShot.exists()) {
-          console.log("User does not have a profile...");
-        }
-        // setLoggedin(snapShot);
-        setLoggedin(snapShot.data());
-      }),
-    []
-  );
-
-  // console.log("🍌", loggedin);
+  console.log(userData);
 
   return (
     <SafeAreaView style={[{ flex: 1 }]}>
-      {loggedin ? (
+      {userData ? (
         <>
           <View style={styles.profileContainer}>
             <ImageBackground
@@ -65,83 +40,78 @@ const ProfileView = ({ navigation }) => {
                 uri: "https://media.istockphoto.com/photos/forest-wooden-table-background-summer-sunny-meadow-with-green-grass-picture-id1353553203?b=1&k=20&m=1353553203&s=170667a&w=0&h=QTyTGI9tWQluIlkmwW0s7Q4z7R_IT8egpzzHjW3cSas=",
               }}
             ></ImageBackground>
-            <TouchableOpacity
-              style={styles.edit}
-              onPress={() => navigation.navigate("updateUser")}
-            >
-              <Feather name="edit" size={20} color="#fea7a5" />
-            </TouchableOpacity>
+
             <Image
               style={styles.profilePic}
               source={{
                 uri:
-                  loggedin.photoURL ||
+                  userData.photoURL ||
                   "https://www.kindpng.com/picc/m/70-706576_anime-kawaii-pollito-animeboy-cute-manga-freetoedit-profile.png",
               }}
             ></Image>
             <Text style={styles.name}>
-              {loggedin.displayName}, {loggedin.age}, {loggedin.pronouns}
+              {userData.displayName}, {userData.age}, {userData.pronouns}
             </Text>
           </View>
           <ScrollView style={styles.scrollView}>
             <View style={styles.textContainer}>
               <Text style={styles.header}>About Me</Text>
-              <Text style={styles.content}>{loggedin.aboutMe}</Text>
+              <Text style={styles.content}>{userData.aboutMe}</Text>
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.header}>Birthday</Text>
-              <Text style={styles.content}>{loggedin.birthday}</Text>
+              <Text style={styles.content}>{userData.birthday}</Text>
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.header}>Interests</Text>
               <Text style={styles.content}>
-                {Object.keys(loggedin.interests)
-                  .filter((key) => loggedin.interests[key] === true)
+                {Object.keys(userData.interests)
+                  .filter((key) => userData.interests[key] === true)
                   .join(", ")}
               </Text>
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.header}>Looking for</Text>
               <Text style={styles.content}>
-                {Object.keys(loggedin.userType)
-                  .filter((key) => loggedin.userType[key] === true)
+                {Object.keys(userData.userType)
+                  .filter((key) => userData.userType[key] === true)
                   .join(", ")}
               </Text>
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.header}>Sexuality</Text>
-              <Text style={styles.content}>{loggedin.sexuality}</Text>
+              <Text style={styles.content}>{userData.sexuality}</Text>
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.header}>Gender Identity</Text>
-              <Text style={styles.content}>{loggedin.genderIdentity}</Text>
+              <Text style={styles.content}>{userData.genderIdentity}</Text>
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.header}>Occupation</Text>
-              <Text style={styles.content}>{loggedin.job}</Text>
+              <Text style={styles.content}>{userData.job}</Text>
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.header}>Education</Text>
-              <Text style={styles.content}>{loggedin.education}</Text>
+              <Text style={styles.content}>{userData.education}</Text>
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.header}>Smoker 🚬</Text>
-              <Text style={styles.content}>{loggedin.smoker}</Text>
+              <Text style={styles.content}>{userData.smoker}</Text>
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.header}>Alcohol 🥃</Text>
-              <Text style={styles.content}>{loggedin.drinker}</Text>
+              <Text style={styles.content}>{userData.drinker}</Text>
             </View>
             <View style={styles.textContainer}>
               <Text style={styles.header}>Political views</Text>
-              <Text style={styles.content}>{loggedin.politicalViews}</Text>
+              <Text style={styles.content}>{userData.politicalViews}</Text>
             </View>
           </ScrollView>
         </>
       ) : null}
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   profileContainer: {
@@ -149,20 +119,13 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#E3DA9F",
     elevation: 4,
-    paddingBottom: 10,
   },
   backgroundImage: {
     height: "85%",
     width: "100%",
   },
-  edit: {
-    position: "relative",
-    top: -10,
-    left: "22%",
-    alignSelf: "center",
-  },
   profilePic: {
-    height: "65%",
+    height: "60%",
     width: "40%",
     alignSelf: "center",
     position: "absolute",
@@ -173,6 +136,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "bold",
     alignSelf: "center",
+    top: 15,
   },
   header: {
     fontWeight: "bold",
@@ -192,5 +156,3 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
-
-export default ProfileView;
