@@ -7,8 +7,13 @@ import {
   StyleSheet,
   Pressable,
 } from "react-native";
+import { updateUser } from "../../redux/reducers/users/usersReducer";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase/db";
 
 export default function EventCard({ navigation, eventInfo }) {
+  const [user] = useAuthState(auth);
+
   return (
     <Pressable
       onPress={() => {
@@ -30,7 +35,11 @@ export default function EventCard({ navigation, eventInfo }) {
                 {eventInfo["data"]["title"]}
                 <Pressable
                   style={styles.interested}
-                  onPress={() => console.log("interested")} // update user.interested with eventInfo.id
+                  onPress={() =>
+                    updateUser(user.uid, {
+                      interested: [eventInfo.id],
+                    })
+                  } // currently replaces the entire array - need to push to array in firebase instead, but it works!
                 >
                   <Text>STAR</Text>
                 </Pressable>

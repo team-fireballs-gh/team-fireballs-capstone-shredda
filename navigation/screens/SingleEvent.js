@@ -13,11 +13,15 @@ import { Entypo, AntDesign, Feather } from "react-native-vector-icons";
 import { getSingleEvent } from "../../redux/reducers/events/singleEventReducer";
 import { useSelector, useDispatch } from "react-redux";
 import Maps from "./Map";
+import { updateUser } from "../../redux/reducers/users/usersReducer";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase/db";
 
 export default function SingleEvent({ route, navigation }) {
   const { id } = route.params;
   let singleEvent = useSelector((state) => state.singleEvent);
   const dispatch = useDispatch();
+  const [user] = useAuthState(auth);
 
   useEffect(() => {
     dispatch(getSingleEvent(id));
@@ -52,7 +56,11 @@ export default function SingleEvent({ route, navigation }) {
           {singleEvent.startDate}
         </Text>
         <Pressable
-          onPress={() => console.log("RSVP")} // update user.rsvp with eventInfo.id
+          onPress={() =>
+            updateUser(user.uid, {
+              rsvp: [id],
+            })
+          } // currently replaces the entire array - need to push to array in firebase instead, but it works!
         >
           <Text style={styles.interested}>RSVP</Text>
         </Pressable>

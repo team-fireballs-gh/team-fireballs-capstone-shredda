@@ -71,16 +71,13 @@ export const getAllUsers = () => {
   };
 };
 
-export const updateUser = (uid, user) => {
-  return async (dispatch) => {
-    try {
-      const userRef = doc(firestoreDB, COLLECTION, uid);
-      const updatedUser = await updateDoc(userRef, user);
-      dispatch(_updateUser(updatedUser));
-    } catch (err) {
-      console.error(err);
-    }
-  };
+export const updateUser = async (uid, user) => {
+  try {
+    const userRef = doc(firestoreDB, COLLECTION, uid);
+    await updateDoc(userRef, user);
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export const deleteUser = (uid, user) => {
