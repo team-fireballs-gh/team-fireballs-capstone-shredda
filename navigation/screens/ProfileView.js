@@ -62,7 +62,7 @@ const ProfileView = ({ navigation }) => {
             <ImageBackground
               style={styles.backgroundImage}
               source={{
-                uri: "https://media.istockphoto.com/photos/forest-wooden-table-background-summer-sunny-meadow-with-green-grass-picture-id1353553203?b=1&k=20&m=1353553203&s=170667a&w=0&h=QTyTGI9tWQluIlkmwW0s7Q4z7R_IT8egpzzHjW3cSas=",
+                uri: loggedin.bgImg || "https://media.istockphoto.com/photos/forest-wooden-table-background-summer-sunny-meadow-with-green-grass-picture-id1353553203?b=1&k=20&m=1353553203&s=170667a&w=0&h=QTyTGI9tWQluIlkmwW0s7Q4z7R_IT8egpzzHjW3cSas=",
               }}
             ></ImageBackground>
             <TouchableOpacity
@@ -145,14 +145,14 @@ const ProfileView = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   profileContainer: {
-    height: "40%",
+    height: "43%",
     width: "100%",
     backgroundColor: "#E3DA9F",
     elevation: 4,
     paddingBottom: 10,
   },
   backgroundImage: {
-    height: "85%",
+    height: "90%",
     width: "100%",
   },
   edit: {
@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "bold",
     alignSelf: "center",
+    top: -10,
   },
   header: {
     fontWeight: "bold",
