@@ -77,6 +77,7 @@ export default function EventCard({ navigation, eventInfo }) {
                           color="orange"
                         ></Ionicons>
                       );
+                      dispatch(getAllEvents());
                       console.log("removed");
                     } else if (
                       currentUser.interested &&
@@ -96,6 +97,7 @@ export default function EventCard({ navigation, eventInfo }) {
                           color="orange"
                         ></Ionicons>
                       );
+                      dispatch(getAllEvents());
                       console.log("added");
                     }
                   }}
