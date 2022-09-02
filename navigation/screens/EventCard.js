@@ -13,12 +13,15 @@ import { auth } from "../../firebase/db";
 import { arrayUnion, arrayRemove } from "firebase/firestore";
 import { useSelector, useDispatch } from "react-redux";
 import { getSingleUser } from "../../redux/reducers/users/singleUserReducer";
+import { Ionicons } from "react-native-vector-icons";
 
 export default function EventCard({ navigation, eventInfo }) {
   const [user] = useAuthState(auth);
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.singleUser);
-  let [interestBtn, setInterestBtn] = useState("STAR");
+  let [interestBtn, setInterestBtn] = useState(
+    <Ionicons name="star-outline" size="20" color="orange"></Ionicons>
+  );
 
   useEffect(() => {
     dispatch(getSingleUser(user.uid));
@@ -61,7 +64,13 @@ export default function EventCard({ navigation, eventInfo }) {
                         },
                         { merge: true }
                       );
-                      setInterestBtn("ADDED");
+                      setInterestBtn(
+                        <Ionicons
+                          name="star-outline"
+                          size="20"
+                          color="orange"
+                        ></Ionicons>
+                      );
                       console.log("removed");
                     } else if (
                       currentUser.interested &&
@@ -74,7 +83,13 @@ export default function EventCard({ navigation, eventInfo }) {
                         },
                         { merge: true }
                       );
-                      setInterestBtn("STAR");
+                      setInterestBtn(
+                        <Ionicons
+                          name="star"
+                          size="20"
+                          color="orange"
+                        ></Ionicons>
+                      );
                       console.log("added");
                     }
                   }}
@@ -134,7 +149,6 @@ const styles = StyleSheet.create({
     marginTop: 0,
   },
   interested: {
-    backgroundColor: "yellow",
     padding: 5,
   },
 });
