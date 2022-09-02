@@ -31,7 +31,11 @@ export default function SingleEvent({ route, navigation }) {
   const [user] = useAuthState(auth);
   const currentUser = useSelector((state) => state.singleUser);
   let [rsvpBtn, setRsvpBtn] = useState(
-    <Ionicons name="add-circle-outline" size="20" color="orange"></Ionicons>
+    currentUser.rsvp && currentUser.rsvp.includes(id) ? (
+      <Ionicons name="add-circle" size={20} color="green"></Ionicons>
+    ) : (
+      <Ionicons name="add-circle-outline" size={20} color="orange"></Ionicons>
+    )
   );
 
   useEffect(() => {
@@ -84,7 +88,11 @@ export default function SingleEvent({ route, navigation }) {
                 { merge: true }
               );
               setRsvpBtn(
-                <Ionicons name="add-circle" size="20" color="green"></Ionicons>
+                <Ionicons
+                  name="add-circle-outline"
+                  size={20}
+                  color="orange"
+                ></Ionicons>
               );
             } else if (currentUser.rsvp && !currentUser.rsvp.includes(id)) {
               updateUser(
@@ -95,11 +103,7 @@ export default function SingleEvent({ route, navigation }) {
                 { merge: true }
               );
               setRsvpBtn(
-                <Ionicons
-                  name="add-circle-outline"
-                  size="20"
-                  color="orange"
-                ></Ionicons>
+                <Ionicons name="add-circle" size={20} color="green"></Ionicons>
               );
             }
           }}

@@ -14,16 +14,22 @@ import { arrayUnion, arrayRemove } from "firebase/firestore";
 import { useSelector, useDispatch } from "react-redux";
 import { getSingleUser } from "../../redux/reducers/users/singleUserReducer";
 import { Ionicons } from "react-native-vector-icons";
+import { getAllEvents } from "../../redux/reducers/events/eventsReducer";
 
 export default function EventCard({ navigation, eventInfo }) {
   const [user] = useAuthState(auth);
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.singleUser);
   let [interestBtn, setInterestBtn] = useState(
-    <Ionicons name="star-outline" size="20" color="orange"></Ionicons>
+    currentUser.interested && currentUser.interested.includes(eventInfo.id) ? (
+      <Ionicons name="star" size={20} color="orange"></Ionicons>
+    ) : (
+      <Ionicons name="star-outline" size={20} color="orange"></Ionicons>
+    )
   );
 
   useEffect(() => {
+    dispatch(getAllEvents());
     dispatch(getSingleUser(user.uid));
   }, []);
 
@@ -67,7 +73,7 @@ export default function EventCard({ navigation, eventInfo }) {
                       setInterestBtn(
                         <Ionicons
                           name="star-outline"
-                          size="20"
+                          size={20}
                           color="orange"
                         ></Ionicons>
                       );
@@ -86,7 +92,7 @@ export default function EventCard({ navigation, eventInfo }) {
                       setInterestBtn(
                         <Ionicons
                           name="star"
-                          size="20"
+                          size={20}
                           color="orange"
                         ></Ionicons>
                       );
