@@ -4,7 +4,13 @@ import React, {
   useCallback,
   useLayoutEffect,
 } from "react";
-import { StyleSheet, TouchableOpacity, ImageBackground } from "react-native";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+  View,
+} from "react-native";
+import { Ionicons } from "react-native-vector-icons";
 import { auth, db } from "../../firebase/db";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRoute } from "@react-navigation/native";
@@ -16,7 +22,7 @@ import {
   query,
 } from "firebase/firestore";
 import { Foundation } from "react-native-vector-icons";
-import { GiftedChat, Bubble, Day, Time } from "react-native-gifted-chat";
+import { GiftedChat, Bubble, Day, Time, Send } from "react-native-gifted-chat";
 
 export default function Message({ navigation }) {
   const [user] = useAuthState(auth);
@@ -51,7 +57,7 @@ export default function Message({ navigation }) {
             backgroundColor: "#A85868",
           },
         }}
-        tickStyle={{ color: props.currentMessage.seen ? "#F7DFE1" : "#999" }}
+        tickStyle={{ color: "#F7DFE1" }}
       />
     );
   };
@@ -71,6 +77,16 @@ export default function Message({ navigation }) {
           },
         }}
       />
+    );
+  };
+
+  const renderSend = (props) => {
+    return (
+      <Send {...props}>
+        <View style={styles.button}>
+          <Ionicons name="send-sharp" size={30} color="red" />
+        </View>
+      </Send>
     );
   };
 
@@ -142,6 +158,8 @@ export default function Message({ navigation }) {
         messages={messages}
         showAvatarForEveryMessage={true}
         onSend={(messages) => onSend(messages)}
+        renderSend={renderSend}
+        alwaysShowSend={true}
         renderDay={renderDay}
         renderBubble={renderBubble}
         renderTime={renderTime}
@@ -155,8 +173,6 @@ export default function Message({ navigation }) {
   );
 }
 
-//
-
 const styles = StyleSheet.create({
   phoneContainer: {
     borderRadius: 50,
@@ -169,4 +185,9 @@ const styles = StyleSheet.create({
     position: "relative",
     left: 10,
   },
+  button: {
+    position: "relative",
+    top: -7,
+    left: -12
+  }
 });

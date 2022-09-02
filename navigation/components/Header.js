@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Ionicons, Foundation } from "react-native-vector-icons";
+import { Ionicons } from "react-native-vector-icons";
 
 export default function Header({ title }) {
   const navigation = useNavigation();
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    paddingLeft: "32%",
+    paddingLeft: "34%",
     fontSize: 20,
   },
 });

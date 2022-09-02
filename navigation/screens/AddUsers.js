@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useLayoutEffect } from "react";
-import { AntDesign, Ionicons } from "react-native-vector-icons";
+import { AntDesign, Entypo, FontAwesome } from "react-native-vector-icons";
 import {
   StyleSheet,
   Text,
@@ -72,7 +72,6 @@ export default function AddUsers({ navigation }) {
       const passedUsers = passes.length > 0 ? passes : ["🥯"];
       const matchedUsers = matches.length > 0 ? matches : ["🍆"];
 
-      console.log([...passedUsers, ...matchedUsers]);
       unsub = onSnapshot(
         query(
           collection(db, "users"),
@@ -174,8 +173,12 @@ export default function AddUsers({ navigation }) {
           ) : null}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate("Chats")}>
-          <Ionicons name="chatbubbles-sharp" size={55} color="#fea7a5" />
+        <TouchableOpacity onPress={() => navigation.navigate("Profiles")}>
+          <FontAwesome name="optin-monster" size={55} color="#fea7a5" />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => navigation.navigate("Public")}>
+          <Entypo name="chat" size={55} color="#fea7a5" />
         </TouchableOpacity>
       </View>
       {/* User Cards */}
@@ -221,7 +224,11 @@ export default function AddUsers({ navigation }) {
               <View key={card.uid} style={[styles.eachCard, styles.shadow]}>
                 <Image
                   style={styles.imageStyle}
-                  source={{ uri: card.photoURL }}
+                  source={{
+                    uri:
+                      card.photoURL ||
+                      "https://www.kindpng.com/picc/m/70-706576_anime-kawaii-pollito-animeboy-cute-manga-freetoedit-profile.png",
+                  }}
                 />
 
                 <View style={styles.cardInfo}>
