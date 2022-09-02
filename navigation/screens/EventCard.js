@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ImageBackground,
   Text,
@@ -10,9 +10,23 @@ import {
 import { updateUser } from "../../redux/reducers/users/usersReducer";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase/db";
+import { arrayUnion, arrayRemove } from "firebase/firestore";
+import { useSelector, useDispatch } from "react-redux";
+import { getSingleUser } from "../../redux/reducers/users/singleUserReducer";
 
 export default function EventCard({ navigation, eventInfo }) {
   const [user] = useAuthState(auth);
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.singleUser);
+  let [interestBtn, setInterestBtn] = useState("STAR");
+
+  useEffect(() => {
+    dispatch(getSingleUser(user.uid));
+  }, []);
+
+  useEffect(() => {
+    dispatch(getSingleUser(user.uid));
+  }, [interestBtn]);
 
   return (
     <Pressable
@@ -35,13 +49,37 @@ export default function EventCard({ navigation, eventInfo }) {
                 {eventInfo["data"]["title"]}
                 <Pressable
                   style={styles.interested}
-                  onPress={() =>
-                    updateUser(user.uid, {
-                      interested: [eventInfo.id],
-                    })
-                  } // currently replaces the entire array - need to push to array in firebase instead, but it works!
+                  onPress={() => {
+                    if (
+                      currentUser.interested &&
+                      currentUser.interested.includes(eventInfo.id)
+                    ) {
+                      updateUser(
+                        user.uid,
+                        {
+                          interested: arrayRemove(eventInfo.id),
+                        },
+                        { merge: true }
+                      );
+                      setInterestBtn("ADDED");
+                      console.log("removed");
+                    } else if (
+                      currentUser.interested &&
+                      !currentUser.interested.includes(eventInfo.id)
+                    ) {
+                      updateUser(
+                        user.uid,
+                        {
+                          interested: arrayUnion(eventInfo.id),
+                        },
+                        { merge: true }
+                      );
+                      setInterestBtn("STAR");
+                      console.log("added");
+                    }
+                  }}
                 >
-                  <Text>STAR</Text>
+                  <Text>{interestBtn}</Text>
                 </Pressable>
               </Text>
               <Text style={styles.eventInfo}>{eventInfo.data.startDate}</Text>

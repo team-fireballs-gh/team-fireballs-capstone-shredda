@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Text,
@@ -16,16 +16,25 @@ import Maps from "./Map";
 import { updateUser } from "../../redux/reducers/users/usersReducer";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase/db";
+import { arrayUnion, arrayRemove } from "firebase/firestore";
+import { getSingleUser } from "../../redux/reducers/users/singleUserReducer";
 
 export default function SingleEvent({ route, navigation }) {
   const { id } = route.params;
   let singleEvent = useSelector((state) => state.singleEvent);
   const dispatch = useDispatch();
   const [user] = useAuthState(auth);
+  const currentUser = useSelector((state) => state.singleUser);
+  let [rsvpBtn, setRsvpBtn] = useState("RSVP");
 
   useEffect(() => {
     dispatch(getSingleEvent(id));
+    dispatch(getSingleUser(user.uid));
   }, []);
+
+  useEffect(() => {
+    dispatch(getSingleUser(user.uid));
+  }, [rsvpBtn]);
 
   return (
     <SafeAreaView style={[{ flex: 1 }]}>
@@ -44,8 +53,10 @@ export default function SingleEvent({ route, navigation }) {
         flexDirection="row"
         justifyContent="space-evenly"
       >
-        <Pressable style={styles.locationText}
-        onPress={() => navigation.navigate("Map", { id: id })}>
+        <Pressable
+          style={styles.locationText}
+          onPress={() => navigation.navigate("Map", { id: id })}
+        >
           <Entypo name="location-pin" size={20} color="gray">
             {singleEvent.address}
           </Entypo>
@@ -55,13 +66,32 @@ export default function SingleEvent({ route, navigation }) {
           {singleEvent.startDate}
         </Text>
         <Pressable
-          onPress={() =>
-            updateUser(user.uid, {
-              rsvp: [id],
-            })
-          } // currently replaces the entire array - need to push to array in firebase instead, but it works!
+          style={styles.interested}
+          onPress={() => {
+            if (currentUser.rsvp && currentUser.rsvp.includes(id)) {
+              updateUser(
+                user.uid,
+                {
+                  rsvp: arrayRemove(id),
+                },
+                { merge: true }
+              );
+              setRsvpBtn("ADDED");
+              console.log("removed");
+            } else if (currentUser.rsvp && !currentUser.rsvp.includes(id)) {
+              updateUser(
+                user.uid,
+                {
+                  rsvp: arrayUnion(id),
+                },
+                { merge: true }
+              );
+              setRsvpBtn("RSVP");
+              console.log("added");
+            }
+          }}
         >
-          <Text style={styles.interested}>RSVP</Text>
+          <Text>{rsvpBtn}</Text>
         </Pressable>
         <Pressable>
           <Feather
