@@ -23,7 +23,7 @@ export default function App({route}) {
                     longitudeDelta: 0.0421,
                 }}> 
                 <Marker 
-                coordinate={{latitude: 37.78825, longitude: -122.4324}}
+                coordinate={{latitude: 37.78825, longitude: -122.4324, latitudeDelta: 0.0922, longitudeDelta: 0.0421,}}
                 title={singleEvent.title}
                 description={singleEvent.address}></Marker>
             </MapView>
