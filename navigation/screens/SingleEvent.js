@@ -111,12 +111,16 @@ export default function SingleEvent({ route, navigation }) {
           <Text style={styles.rsvpBtn}>RSVP {rsvpBtn}</Text>
         </Pressable>
         <Pressable>
-          <Feather
-            name="edit"
-            size={20}
-            color="gray"
-            onPress={() => navigation.navigate("EditEvent", { id: id })}
-          />
+          {singleEvent.authorID === user.uid ? (
+            <Feather
+              name="edit"
+              size={20}
+              color="gray"
+              onPress={() => navigation.navigate("EditEvent", { id: id })}
+            />
+          ) : (
+            <Text></Text>
+          )}
         </Pressable>
       </View>
       <ScrollView>
