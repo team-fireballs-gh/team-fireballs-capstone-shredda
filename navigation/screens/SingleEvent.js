@@ -12,15 +12,15 @@ import {
 import { Entypo, AntDesign, Feather } from "react-native-vector-icons";
 import { getSingleEvent } from "../../redux/reducers/events/singleEventReducer";
 import { useSelector, useDispatch } from "react-redux";
-import Maps from "./Map"
+import Maps from "./Map";
 
 export default function SingleEvent({ route, navigation }) {
   const { id } = route.params;
-  let singleEvent = useSelector((state) => state.singleEvent); 
+  let singleEvent = useSelector((state) => state.singleEvent);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSingleEvent(id)); 
+    dispatch(getSingleEvent(id));
   }, []);
 
   return (
@@ -40,21 +40,28 @@ export default function SingleEvent({ route, navigation }) {
         flexDirection="row"
         justifyContent="space-evenly"
       >
-        <Pressable style={styles.locationText}
-        onPress={() => navigation.navigate("Map")}>
+        <Pressable
+          style={styles.locationText}
+          onPress={() => navigation.navigate("Map")}
+        >
           <Entypo name="location-pin" size={20} color="gray" />
           <Text>{singleEvent.address}</Text>
         </Pressable>
         <Text style={styles.dateText}>
           <AntDesign name="calendar" size={20} color="gray" />
-           {singleEvent.startDate}
+          {singleEvent.startDate}
         </Text>
+        <Pressable
+          onPress={() => console.log("RSVP")} // update user.rsvp with eventInfo.id
+        >
+          <Text style={styles.interested}>RSVP</Text>
+        </Pressable>
         <Pressable>
           <Feather
             name="edit"
             size={20}
             color="gray"
-            onPress={() => navigation.navigate("EditEvent", {id: id})}
+            onPress={() => navigation.navigate("EditEvent", { id: id })}
           />
         </Pressable>
       </View>
@@ -145,5 +152,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: "5%",
     marginRight: "10%",
+  },
+  interested: {
+    color: "tomato",
   },
 });

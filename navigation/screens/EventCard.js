@@ -12,7 +12,7 @@ export default function EventCard({ navigation, eventInfo }) {
   return (
     <Pressable
       onPress={() => {
-        navigation.navigate("Event Name", { id: eventInfo['id'] });
+        navigation.navigate("Event Name", { id: eventInfo["id"] });
       }}
     >
       <View style={styles.card}>
@@ -26,13 +26,17 @@ export default function EventCard({ navigation, eventInfo }) {
             }}
           >
             <View style={styles.textContainer}>
-              <Text style={styles.eventName}>{eventInfo["data"]["title"]}</Text>
-              <Text style={styles.eventInfo}>
-                {eventInfo.data.startDate}
+              <Text style={styles.eventName}>
+                {eventInfo["data"]["title"]}
+                <Pressable
+                  style={styles.interested}
+                  onPress={() => console.log("interested")} // update user.interested with eventInfo.id
+                >
+                  <Text>STAR</Text>
+                </Pressable>
               </Text>
-              <Text style={styles.eventInfo}>
-                {eventInfo.data.address}
-              </Text>
+              <Text style={styles.eventInfo}>{eventInfo.data.startDate}</Text>
+              <Text style={styles.eventInfo}>{eventInfo.data.address}</Text>
             </View>
           </ImageBackground>
         </View>
@@ -81,5 +85,9 @@ const styles = StyleSheet.create({
     fontFamily: "Georgia",
     marginHorizontal: 10,
     marginTop: 0,
+  },
+  interested: {
+    backgroundColor: "yellow",
+    padding: 5,
   },
 });
