@@ -45,7 +45,7 @@ export default function SingleEvent({ route, navigation }) {
         justifyContent="space-evenly"
       >
         <Pressable style={styles.locationText}
-        onPress={() => navigation.navigate("Map")}>
+        onPress={() => navigation.navigate("Map", { id: id })}>
           <Entypo name="location-pin" size={20} color="gray">
             {singleEvent.address}
           </Entypo>

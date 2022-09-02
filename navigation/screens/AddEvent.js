@@ -6,6 +6,7 @@ import { useAuthState } from "react-firebase-hooks/auth"
 import {auth} from "../../firebase/db";
 import DatePickerIOS from '@react-native-community/datetimepicker';
 import AntIcon from "react-native-vector-icons/AntDesign";
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 
 export default function AddEvent({ navigation }) {
@@ -97,9 +98,25 @@ export default function AddEvent({ navigation }) {
         <TextInput
           style={styles.input}
           onChangeText={setEventAddress}
-          placeholder="Address"
+          placeholder="Location"
         />
       </View>
+      <GooglePlacesAutocomplete
+        placeholder='Location'
+        onPress={(data, details = null) => {
+          console.log(data, details);
+          console.log("DESCRIPTION", data.structured_formatting.main_text)
+        }}
+        selectProps={{
+          eventAddress,
+          onChangeText: setEventAddress,
+        }}
+        query={{
+          key: 'AIzaSyAcboHxUI2XRIfsHXv6GUNExGHAaAu8SZs',
+          language: 'en',
+          types:'establishment',
+        }}
+      />
       <View style={styles.individualContainer}>
         <Text style={styles.header}>External Link</Text>
         <TextInput
@@ -108,6 +125,7 @@ export default function AddEvent({ navigation }) {
           placeholder="Website Link"
         />
       </View>
+
       <Button color="tomato" title="Add Event" onPress={_addEvent} />
     </View>
   );
