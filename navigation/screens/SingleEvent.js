@@ -9,7 +9,12 @@ import {
   SafeAreaView,
   Pressable,
 } from "react-native";
-import { Entypo, AntDesign, Feather } from "react-native-vector-icons";
+import {
+  Entypo,
+  AntDesign,
+  Feather,
+  Ionicons,
+} from "react-native-vector-icons";
 import { getSingleEvent } from "../../redux/reducers/events/singleEventReducer";
 import { useSelector, useDispatch } from "react-redux";
 import Maps from "./Map";
@@ -25,7 +30,9 @@ export default function SingleEvent({ route, navigation }) {
   const dispatch = useDispatch();
   const [user] = useAuthState(auth);
   const currentUser = useSelector((state) => state.singleUser);
-  let [rsvpBtn, setRsvpBtn] = useState("RSVP");
+  let [rsvpBtn, setRsvpBtn] = useState(
+    <Ionicons name="add-circle-outline" size="20" color="orange"></Ionicons>
+  );
 
   useEffect(() => {
     dispatch(getSingleEvent(id));
@@ -76,8 +83,9 @@ export default function SingleEvent({ route, navigation }) {
                 },
                 { merge: true }
               );
-              setRsvpBtn("ADDED");
-              console.log("removed");
+              setRsvpBtn(
+                <Ionicons name="add-circle" size="20" color="green"></Ionicons>
+              );
             } else if (currentUser.rsvp && !currentUser.rsvp.includes(id)) {
               updateUser(
                 user.uid,
@@ -86,12 +94,17 @@ export default function SingleEvent({ route, navigation }) {
                 },
                 { merge: true }
               );
-              setRsvpBtn("RSVP");
-              console.log("added");
+              setRsvpBtn(
+                <Ionicons
+                  name="add-circle-outline"
+                  size="20"
+                  color="orange"
+                ></Ionicons>
+              );
             }
           }}
         >
-          <Text>{rsvpBtn}</Text>
+          <Text style={styles.rsvpBtn}>RSVP {rsvpBtn}</Text>
         </Pressable>
         <Pressable>
           <Feather
@@ -192,5 +205,8 @@ const styles = StyleSheet.create({
   },
   interested: {
     color: "tomato",
+  },
+  rsvpBtn: {
+    alignItems: "center",
   },
 });
