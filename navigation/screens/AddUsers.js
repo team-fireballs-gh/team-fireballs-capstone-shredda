@@ -236,7 +236,7 @@ export default function AddUsers({ navigation }) {
                     <Text style={{ fontWeight: "bold", fontSize: 20 }}>
                       {card.displayName}
                     </Text>
-                    <Text style={{ flexWrap: "wrap", width: "60%" }}>
+                    <Text style={{ flexWrap: "wrap", width: "80%" }}>
                       {card.job}
                     </Text>
                   </View>

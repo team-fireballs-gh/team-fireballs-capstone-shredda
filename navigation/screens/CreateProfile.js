@@ -36,6 +36,7 @@ export default function Chats() {
   const [name, setName] = useState(null);
 
   const [image, setImage] = useState(null); // for profile picture
+  const [background, setBackground] = useState(null);
   const [uploading, setUploading] = useState(false);
 
   const [food, setFood] = useState(false); // for interests
@@ -141,6 +142,48 @@ export default function Chats() {
     return await getDownloadURL(storageRef);
   };
 
+  const pickBg = async () => {
+    // for background image
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      const url = await uploadBg(result.uri);
+      console.log("😄", url);
+      setUploading(false);
+      setBackground(url);
+    }
+  };
+
+  const uploadBg = async (bg) => {
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function () {
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", bg, true);
+      xhr.send(null);
+    });
+
+    const storageRef = ref(storage, new Date().toISOString());
+
+    await uploadBytes(storageRef, blob).then((snapshot) => {
+      console.log("Uploaded a blob or file!");
+      setUploading(true);
+    });
+
+    blob.close();
+    return await getDownloadURL(storageRef);
+  };
+
   const onChange = (e, selectedDate) => {
     // for birthday date
     const currentDate = selectedDate || date;
@@ -171,6 +214,7 @@ export default function Chats() {
       displayName: name,
       age: age,
       photoURL: image,
+      bgImg: background,
       birthday: birth,
       userType: { solo: isSolo, romance: isRomance, friendship: isFriendship },
       politicalViews: pView,
@@ -254,6 +298,24 @@ export default function Chats() {
           ) : (
             <Image
               source={{ uri: image }}
+              style={{ width: 200, height: 200, alignSelf: "center" }}
+            />
+          )}
+
+          <Text>Background Photo</Text>
+          {!uploading ? (
+            <Button title="Upload Image" onPress={pickBg} />
+          ) : (
+            <ActivityIndicator size="large" color="#000" />
+          )}
+          {!background ? (
+            <Image
+              source={{ uri: "https://media.istockphoto.com/photos/forest-wooden-table-background-summer-sunny-meadow-with-green-grass-picture-id1353553203?b=1&k=20&m=1353553203&s=170667a&w=0&h=QTyTGI9tWQluIlkmwW0s7Q4z7R_IT8egpzzHjW3cSas=" }}
+              style={{ width: 200, height: 200, alignSelf: "center" }}
+            />
+          ) : (
+            <Image
+              source={{ uri: background }}
               style={{ width: 200, height: 200, alignSelf: "center" }}
             />
           )}

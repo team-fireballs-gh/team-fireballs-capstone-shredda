@@ -38,6 +38,7 @@ export default function Chats() {
 
   // for profile picture
   const [image, setImage] = useState(null);
+  const [background, setBackground] = useState(null);
   const [uploading, setUploading] = useState(false);
 
   // for interests checkboxes
@@ -54,13 +55,13 @@ export default function Chats() {
   const [vGame, setVGame] = useState(false);
 
   // userType checkboxes
-  const [isSolo, setSolo] = useState(false); 
+  const [isSolo, setSolo] = useState(false);
   const [isRomance, setRomance] = useState(false);
   const [isFriendship, setFriendship] = useState(false);
 
   /* get user data */
   const getUser = () => {
-    let unsub; 
+    let unsub;
 
     unsub = onSnapshot(doc(db, "users", user.uid), (snapShot) => {
       if (!snapShot.exists()) {
@@ -73,7 +74,6 @@ export default function Chats() {
   };
 
   useEffect(async () => {
-
     getUser();
 
     if (Platform !== "web") {
@@ -133,44 +133,91 @@ export default function Chats() {
     return await getDownloadURL(storageRef);
   };
 
-  const updateUser = () => {
-    updateDoc(doc(db, "users", user.uid), {
-      id: user.uid,
-      displayName: userData.displayName,
-      photoURL: image,
-      age: userData.age,
-      birthday: userData.birthday,
-      userType: { solo: isSolo, romance: isRomance, friendship: isFriendship },
-      politicalViews: userData.politicalViews,
-      job: userData.job,
-      sexuality: userData.sexuality,
-      pronouns: userData.pronouns,
-      genderIdentity: userData.genderIdentity,
-      education: userData.education,
-      smoker: userData.smoker,
-      drinker: userData.drinker,
-      aboutMe: userData.aboutMe,
-      interests: {
-        food: food,
-        music: music,
-        travel: trav,
-        sports: sport,
-        television: tele,
-        camping: camp,
-        exercise: exer,
-        dancing: dance,
-        art: art,
-        cooking: cook,
-        videogames: vGame,
-      },
-      timestamp: serverTimestamp(),
-    })
-      .then(() => {
-        navigation.goBack();
-      })
-      .catch((error) => {
-        alert(error.message);
+  const pickBg = async () => {
+    // for background image
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      console.log("yurr", result.uri);
+      const url = await uploadBg(result.uri);
+      console.log("😄", url);
+      setUploading(false);
+      setBackground(url);
+    }
+  };
+
+  const uploadBg = async (bg) => {
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function () {
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", bg, true);
+      xhr.send(null);
+    });
+
+    const storageRef = ref(storage, new Date().toISOString());
+
+    await uploadBytes(storageRef, blob).then((snapshot) => {
+      console.log("Uploaded a blob or file!");
+      setUploading(true);
+    });
+
+    blob.close();
+    return await getDownloadURL(storageRef);
+  };
+
+  const updateUser = async () => {
+    try {
+      await updateDoc(doc(db, "users", user.uid), {
+        id: user.uid,
+        displayName: userData.displayName,
+        photoURL: image || userData?.photoURL,
+        bgImg: background || userData?.bgImg,
+        age: userData.age,
+        birthday: userData.birthday,
+        userType: {
+          solo: isSolo,
+          romance: isRomance,
+          friendship: isFriendship,
+        },
+        politicalViews: userData.politicalViews,
+        job: userData.job,
+        sexuality: userData.sexuality,
+        pronouns: userData.pronouns,
+        genderIdentity: userData.genderIdentity,
+        education: userData.education,
+        smoker: userData.smoker,
+        drinker: userData.drinker,
+        aboutMe: userData.aboutMe,
+        interests: {
+          food: food,
+          music: music,
+          travel: trav,
+          sports: sport,
+          television: tele,
+          camping: camp,
+          exercise: exer,
+          dancing: dance,
+          art: art,
+          cooking: cook,
+          videogames: vGame,
+        },
+        timestamp: serverTimestamp(),
       });
+      navigation.goBack();
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
@@ -223,6 +270,26 @@ export default function Chats() {
             ) : (
               <Image
                 source={{ uri: image }}
+                style={{ width: 200, height: 200, alignSelf: "center" }}
+              />
+            )}
+
+            <Text>Background Photo</Text>
+            {!uploading ? (
+              <Button title="Upload Image" onPress={pickBg} />
+            ) : (
+              <ActivityIndicator size="large" color="#000" />
+            )}
+            {userData && !background ? (
+              <Image
+                source={{
+                  uri: "https://media.istockphoto.com/photos/forest-wooden-table-background-summer-sunny-meadow-with-green-grass-picture-id1353553203?b=1&k=20&m=1353553203&s=170667a&w=0&h=QTyTGI9tWQluIlkmwW0s7Q4z7R_IT8egpzzHjW3cSas=",
+                }}
+                style={{ width: 200, height: 200, alignSelf: "center" }}
+              />
+            ) : (
+              <Image
+                source={{ uri: background }}
                 style={{ width: 200, height: 200, alignSelf: "center" }}
               />
             )}
