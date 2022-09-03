@@ -12,27 +12,23 @@ export default function App({ route }) {
   useEffect(() => {
     dispatch(getSingleEvent(id));
   }, [dispatch]);
+  
 
   return (
     <View style={styles.container}>
       <MapView
         style={styles.map}
         initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
+          latitude: Number(singleEvent.latitude),
+          longitude: Number(singleEvent.longitude),
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
       >
-        {
-          // https://www.npmjs.com/package/react-native-geocoding - address to coordinates?
-        }
         <Marker
           coordinate={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitude: Number(singleEvent.latitude),
+            longitude: Number(singleEvent.longitude),
           }}
           title={singleEvent.title}
           description={singleEvent.address}

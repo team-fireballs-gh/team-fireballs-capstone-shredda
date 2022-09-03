@@ -7,7 +7,7 @@ import {
   Text,
   Button,
   Pressable,
-  ScrollView,
+  FlatList,
 } from "react-native";
 import {
   addEvent,
@@ -18,7 +18,9 @@ import { auth } from "../../firebase/db";
 import DatePickerIOS from "@react-native-community/datetimepicker";
 import AntIcon from "react-native-vector-icons/AntDesign";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { GOOGLE_MAPS_APIKEY } from "@env"
 import { useDispatch } from "react-redux";
+
 
 export default function AddEvent({ navigation }) {
   let [eventName, setEventName] = useState("");
@@ -31,6 +33,7 @@ export default function AddEvent({ navigation }) {
   let [date, setDate] = useState(new Date());
   let [mode, setMode] = useState("date");
   let [show, setShow] = useState(false);
+  
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -66,7 +69,6 @@ export default function AddEvent({ navigation }) {
   };
 
   return (
-    <ScrollView>
       <View style={styles.wholeContainer}>
         <View style={styles.individualContainer}>
           <Text style={styles.header}>Pick a Name!</Text>
@@ -112,22 +114,23 @@ export default function AddEvent({ navigation }) {
           <Text style={styles.header}>Where is it?</Text>
           <TextInput
             style={styles.input}
+            
             onChangeText={setEventAddress}
             placeholder="Location"
           />
         </View>
+        
         <GooglePlacesAutocomplete
           placeholder="Description"
           onPress={(data, details = null) => {
             console.log(data, details);
-            console.log("DESCRIPTION", data.structured_formatting.main_text);
+            console.log("COORDINATES", details.geometry.location);
+            console.log("name", data.description)
+            
           }}
-          selectProps={{
-            eventAddress,
-            onChangeText: setEventAddress,
-          }}
+          fetchDetails={true}
           query={{
-            key: "AIzaSyAcboHxUI2XRIfsHXv6GUNExGHAaAu8SZs",
+            key:'AIzaSyAcboHxUI2XRIfsHXv6GUNExGHAaAu8SZs',
             language: "en",
             types: "establishment",
           }}
@@ -143,7 +146,6 @@ export default function AddEvent({ navigation }) {
 
         <Button color="tomato" title="Add Event" onPress={_addEvent} />
       </View>
-    </ScrollView>
   );
 }
 //make add event and single event as children of events component in app.js
