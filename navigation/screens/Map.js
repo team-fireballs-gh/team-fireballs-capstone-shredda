@@ -19,8 +19,8 @@ export default function App({ route }) {
                 initialRegion={{
                     latitude: 40.7128,
                     longitude: -73.935242,
-                    latitudeDelta: 0.9,
-                    longitudeDelta: 0.9,
+                    latitudeDelta: 0.5,
+                    longitudeDelta: 0.5,
                 }}
                 style={styles.map}
             >
