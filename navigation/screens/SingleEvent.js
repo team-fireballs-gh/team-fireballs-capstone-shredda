@@ -17,7 +17,7 @@ import {
 } from "react-native-vector-icons";
 import { getSingleEvent } from "../../redux/reducers/events/singleEventReducer";
 import { useSelector, useDispatch } from "react-redux";
-import Maps from "./Map";
+import Maps from "./SingleEventMap";
 import { updateUser } from "../../redux/reducers/users/usersReducer";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase/db";
@@ -66,7 +66,7 @@ export default function SingleEvent({ route, navigation }) {
       >
         <Pressable
           style={styles.locationText}
-          onPress={() => navigation.navigate("Map", { id: id })}
+          onPress={() => navigation.navigate("Location", { id: id })}
         >
           <Entypo name="location-pin" size={20} color="gray">
             {singleEvent.address}

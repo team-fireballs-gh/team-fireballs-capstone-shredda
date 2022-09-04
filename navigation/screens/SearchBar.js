@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from "react";
 import { StyleSheet, TextInput, View, Keyboard, Pressable } from "react-native";
 import { Feather } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from '@react-navigation/native';
 
@@ -51,7 +52,11 @@ export default function SearchBar() {
           }}>            
             <Ionicons name="add-circle-outline" size={40} />
           </Pressable>
-
+          <Pressable onPress={() => {
+            navigation.navigate("Map")
+          }}>            
+            <Entypo name="map" size={30} />
+          </Pressable>
         </View>
     );
 };
@@ -63,12 +68,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     width: "95%",
-    marginHorizontal: '5%', 
+    marginHorizontal: '2%', 
   },
   searchBar__unclicked: {
     padding: 10,
     flexDirection: "row",
-    width: "80%",
+    width: "70%",
     backgroundColor: "#d9dbda",
     borderRadius: 15,
     alignItems: "center",
@@ -76,7 +81,7 @@ const styles = StyleSheet.create({
   searchBar__clicked: {
     padding: 10,
     flexDirection: "row",
-    width: "80%",
+    width: "70%",
     backgroundColor: "#d9dbda",
     borderRadius: 15,
     alignItems: "center",

@@ -2,44 +2,44 @@ import React, { useEffect } from "react";
 import MapView, { Marker } from "react-native-maps";
 import { useSelector, useDispatch } from "react-redux";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
-import { getSingleEvent } from "../../redux/reducers/events/singleEventReducer";
+import { getAllEvents } from "../../redux/reducers/events/eventsReducer";
 
 export default function App({ route }) {
-  const { id } = route.params;
-  let singleEvent = useSelector((state) => state.singleEvent);
-  const dispatch = useDispatch();
+    let events = useSelector((state) => state.events);
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getSingleEvent(id));
-  }, [dispatch]);
+    useEffect(() => {
+        dispatch(getAllEvents());
+        console.log("EVENTS", events);
+    }, []);
 
-  return (
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      >
-        {
-          // https://www.npmjs.com/package/react-native-geocoding - address to coordinates?
-        }
-        <Marker
-          coordinate={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-          title={singleEvent.title}
-          description={singleEvent.address}
-        ></Marker>
-      </MapView>
-    </View>
-  );
+    return (
+        <View>
+            <MapView
+                initialRegion={{
+                    latitude: 40.7128,
+                    longitude: -73.935242,
+                    latitudeDelta: 0.5,
+                    longitudeDelta: 0.5,
+                }}
+                style={styles.map}
+            >
+                {events.map((event) => {
+                    return (
+                        <Marker
+                        coordinate={{
+                            latitude: Number(event.data.latitude),
+                            longitude: Number(event.data.longitude),
+                        }}
+                        title={event.data.title}
+                        description={event.data.address}
+                        ></Marker>
+
+                    )
+                })}
+            </MapView> 
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
