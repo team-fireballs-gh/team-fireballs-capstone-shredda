@@ -8,18 +8,24 @@ import {
   Button,
   Pressable,
   FlatList,
+  Image,
+  ActivityIndicator
 } from "react-native";
 import {
   addEvent,
   getAllEvents,
 } from "../../redux/reducers/events/eventsReducer";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase/db";
+import { auth, storage } from "../../firebase/db";
 import DatePickerIOS from "@react-native-community/datetimepicker";
 import AntIcon from "react-native-vector-icons/AntDesign";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { GOOGLE_MAPS_APIKEY } from "@env"
 import { useDispatch } from "react-redux";
+import * as ImagePicker from "expo-image-picker";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
+
+
 
 
 export default function AddEvent({ navigation }) {
@@ -33,6 +39,9 @@ export default function AddEvent({ navigation }) {
   let [date, setDate] = useState(new Date());
   let [mode, setMode] = useState("date");
   let [show, setShow] = useState(false);
+
+  const [image, setImage] = useState(null); // for profile picture
+  const [uploading, setUploading] = useState(false);
   
 
   const onChange = (event, selectedDate) => {
@@ -62,10 +71,54 @@ export default function AddEvent({ navigation }) {
       startDate: eventDate,
       address: eventAddress,
       websiteLink: eventLink,
+      imageUrl: image
     };
     await addEvent(eventToAdd);
     dispatch(getAllEvents());
     navigation.goBack("Discover");
+  };
+
+  const pickImage = async () => {
+    // for image
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      const url = await uploadImage(result.uri);
+      console.log("😄", url);
+      setUploading(false);
+      setImage(url);
+    }
+  };
+
+  // uploading image to firebase storage
+  const uploadImage = async (image) => {
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function () {
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", image, true);
+      xhr.send(null);
+    });
+
+    const storageRef = ref(storage, new Date().toISOString());
+
+    await uploadBytes(storageRef, blob).then((snapshot) => {
+      console.log("Uploaded a blob or file!");
+      setUploading(true);
+    });
+
+    blob.close();
+    return await getDownloadURL(storageRef);
   };
 
   return (
@@ -120,7 +173,7 @@ export default function AddEvent({ navigation }) {
           />
         </View>
         
-        <GooglePlacesAutocomplete
+        {/* <GooglePlacesAutocomplete
           placeholder="Description"
           onChangeText={setEventAddress}
           onPress={(data, details = null) => {
@@ -135,15 +188,32 @@ export default function AddEvent({ navigation }) {
             language: "en",
             types: "establishment",
           }}
-        />
-        <View style={styles.individualContainer}>
+        /> */}
+          <Text style={styles.header}>Upload an Image!</Text>          
+          {!uploading ? (
+            <Button title="Upload Image" onPress={pickImage} />
+          ) : (
+            <ActivityIndicator size="large" color="#000" />
+          )}
+          {!image ? (
+            <Image
+              source={{ uri: user.photoURL }}
+              style={{ width: 200, height: 200, alignSelf: "center" }}
+            />
+          ) : (
+            <Image
+              source={{ uri: image }}
+              style={{ width: 200, height: 200, alignSelf: "center" }}
+            />
+          )}
+        {/* <View style={styles.individualContainer}>
           <Text style={styles.header}>External Link</Text>
           <TextInput
             style={styles.input}
             onChangeText={setEventLink}
             placeholder="Website Link"
           />
-        </View>
+        </View> */}
 
         <Button color="tomato" title="Add Event" onPress={_addEvent} />
       </View>

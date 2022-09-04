@@ -54,7 +54,7 @@ export default function SingleEvent({ route, navigation }) {
         <Image
           style={styles.backgroundImage}
           source={{
-            uri: "https://experiencity.ca/blog/articlesimages/display/e10/704/6551358d843fb25a3434a93321/latern-eventhub-RhinoCanada-ca.jpg",
+            uri:singleEvent.imageUrl,
           }}
         />
       </View>
