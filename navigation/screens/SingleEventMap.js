@@ -5,25 +5,33 @@ import { StyleSheet, Text, View, Dimensions } from "react-native";
 import { getSingleEvent } from "../../redux/reducers/events/singleEventReducer";
 
 export default function App({ route }) {
+  const { id } = route.params;
+  let singleEvent = useSelector((state) => state.singleEvent);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getSingleEvent(id));
+  }, [dispatch]);
+  
 
   return (
     <View style={styles.container}>
       <MapView
         style={styles.map}
         initialRegion={{
-          latitude: 37.768009,
-          longitude: -122.387787,
+          latitude: Number(singleEvent.latitude),
+          longitude: Number(singleEvent.longitude),
           latitudeDelta: 0.009,
           longitudeDelta: 0.009,
         }}
       >
         <Marker
           coordinate={{
-            latitude: 37.768009,
-            longitude: -122.387787,
+            latitude: Number(singleEvent.latitude),
+            longitude: Number(singleEvent.longitude),
           }}
-          title="title"
-          description="title"
+          title={singleEvent.title}
+          description={singleEvent.address}
         ></Marker>
       </MapView>
     </View>

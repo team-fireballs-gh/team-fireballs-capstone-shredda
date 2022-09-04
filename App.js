@@ -19,10 +19,11 @@ import CreateProfile from "./navigation/screens/CreateProfile";
 import UpdateUser from "./navigation/screens/UpdateUser";
 import Match from "./navigation/screens/Match";
 import Message from "./navigation/screens/Message";
-import Map from "./navigation/screens/Map";
+import SingleLocation from "./navigation/screens/SingleEventMap";
 import PeopeProfile from "./navigation/screens/PeopeProfile";
 import PublicChat from "./navigation/screens/PublicChat";
 import UserProfile from "./navigation/screens/UserProfile";
+import Map from "./navigation/screens/Map";
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +58,7 @@ function App() {
               <Stack.Screen name="Event Name" component={SingleEvent} />
               <Stack.Screen name="AddEvent" component={AddEvent} />
               <Stack.Screen name="EditEvent" component={EditEvent} />
+              <Stack.Screen name="Location" component={SingleLocation} />
               <Stack.Screen name="Map" component={Map} />
               <Stack.Screen name="Profiles" component={PeopeProfile} />
               <Stack.Screen name="Public" component={PublicChat} />
