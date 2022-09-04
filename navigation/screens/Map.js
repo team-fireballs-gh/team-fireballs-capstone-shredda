@@ -2,32 +2,44 @@ import React, { useEffect } from "react";
 import MapView, { Marker } from "react-native-maps";
 import { useSelector, useDispatch } from "react-redux";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
-import { getSingleEvent } from "../../redux/reducers/events/singleEventReducer";
+import { getAllEvents } from "../../redux/reducers/events/eventsReducer";
 
 export default function App({ route }) {
+    let events = useSelector((state) => state.events);
+    const dispatch = useDispatch();
 
-  return (
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        initialRegion={{
-          latitude: 37.768009,
-          longitude: -122.387787,
-          latitudeDelta: 0.009,
-          longitudeDelta: 0.009,
-        }}
-      >
-        <Marker
-          coordinate={{
-            latitude: 37.768009,
-            longitude: -122.387787,
-          }}
-          title="title"
-          description="title"
-        ></Marker>
-      </MapView>
-    </View>
-  );
+    useEffect(() => {
+        dispatch(getAllEvents());
+        console.log("EVENTS", events);
+    }, []);
+
+    return (
+        <View>
+            <MapView
+                initialRegion={{
+                    latitude: 40.7128,
+                    longitude: -73.935242,
+                    latitudeDelta: 0.9,
+                    longitudeDelta: 0.9,
+                }}
+                style={styles.map}
+            >
+                {events.map((event) => {
+                    return (
+                        <Marker
+                        coordinate={{
+                            latitude: Number(event.data.latitude),
+                            longitude: Number(event.data.longitude),
+                        }}
+                        title={event.data.title}
+                        description={event.data.address}
+                        ></Marker>
+
+                    )
+                })}
+            </MapView> 
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
