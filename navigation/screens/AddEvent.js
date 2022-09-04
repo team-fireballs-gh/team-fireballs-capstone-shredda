@@ -195,17 +195,10 @@ export default function AddEvent({ navigation }) {
           ) : (
             <ActivityIndicator size="large" color="#000" />
           )}
-          {!image ? (
-            <Image
-              source={{ uri: user.photoURL }}
-              style={{ width: 200, height: 200, alignSelf: "center" }}
-            />
-          ) : (
             <Image
               source={{ uri: image }}
               style={{ width: 200, height: 200, alignSelf: "center" }}
             />
-          )}
         {/* <View style={styles.individualContainer}>
           <Text style={styles.header}>External Link</Text>
           <TextInput
