@@ -122,6 +122,7 @@ export default function AddEvent({ navigation }) {
         
         <GooglePlacesAutocomplete
           placeholder="Description"
+          onChangeText={setEventAddress}
           onPress={(data, details = null) => {
             console.log(data, details);
             console.log("COORDINATES", details.geometry.location);
