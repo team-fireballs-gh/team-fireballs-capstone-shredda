@@ -29,6 +29,7 @@ export default function App({ route }) {
                 {events.map((event) => {
                     return (
                         <Marker
+                        key={event.id}
                         coordinate={{
                             latitude: Number(event.data.latitude),
                             longitude: Number(event.data.longitude),
