@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
   },
   eventName: {
-    fontSize: 40,
+    fontSize: 35,
     color: "white",
     fontFamily: "Georgia",
     marginHorizontal: 10,

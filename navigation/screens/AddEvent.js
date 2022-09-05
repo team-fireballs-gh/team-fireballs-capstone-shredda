@@ -31,7 +31,6 @@ import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 export default function AddEvent({ navigation }) {
   let [eventName, setEventName] = useState("");
   let [eventAddress, setEventAddress] = useState("");
-  let [eventLink, setEventLink] = useState("");
   const [user] = useAuthState(auth);
   const dispatch = useDispatch();
 
@@ -70,10 +69,9 @@ export default function AddEvent({ navigation }) {
       title: eventName,
       startDate: eventDate,
       address: eventAddress,
-      websiteLink: eventLink,
       imageUrl: image
     };
-    await addEvent(eventToAdd);
+    // await addEvent(eventToAdd);
     dispatch(getAllEvents());
     navigation.goBack("Discover");
   };
@@ -163,23 +161,43 @@ export default function AddEvent({ navigation }) {
             <Text>{eventDate}</Text>
           </View>
         </View>
-        <View style={styles.individualContainer}>
-          <Text style={styles.header}>Where is it?</Text>
-          <TextInput
-            style={styles.input}
-            
-            onChangeText={setEventAddress}
-            placeholder="Location"
+        <Text style={styles.header}>Upload an Image!</Text>          
+        {!uploading ? (
+          <Button title="Upload Image" onPress={pickImage} />
+        ) : (
+          <ActivityIndicator size="large" color="#000" />
+        )}
+          <Image
+            source={{ uri: image }}
+            style={{ width: 180, height: 180, alignSelf: "center" }}
           />
-        </View>
-        
-        {/* <GooglePlacesAutocomplete
-          placeholder="Description"
+        <Text style={styles.header}>Where is it?</Text>
+        <GooglePlacesAutocomplete
+          styles={{
+            container: {
+              height: 5,
+              marginHorizontal: "5%",
+              borderWidth: 1,
+              padding: 10,
+              borderRadius: 10,
+              borderWidth: 2,
+              borderStyle: "dashed",
+              borderColor: "tomato",
+            }
+          }}
+
+          placeholder="Location"
           onChangeText={setEventAddress}
           onPress={(data, details = null) => {
-            console.log(data, details);
-            console.log("COORDINATES", details.geometry.location);
-            console.log("name", data.description)
+            addEvent({
+              authorID: user.uid,
+              title: eventName,
+              startDate: eventDate,
+              imageUrl: image,
+              address: data.structured_formatting.main_text,
+              latitude: details.geometry.location.lat,
+              longitude: details.geometry.location.lng
+            })
             
           }}
           fetchDetails={true}
@@ -188,27 +206,9 @@ export default function AddEvent({ navigation }) {
             language: "en",
             types: "establishment",
           }}
-        /> */}
-          <Text style={styles.header}>Upload an Image!</Text>          
-          {!uploading ? (
-            <Button title="Upload Image" onPress={pickImage} />
-          ) : (
-            <ActivityIndicator size="large" color="#000" />
-          )}
-            <Image
-              source={{ uri: image }}
-              style={{ width: 200, height: 200, alignSelf: "center" }}
-            />
-        {/* <View style={styles.individualContainer}>
-          <Text style={styles.header}>External Link</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={setEventLink}
-            placeholder="Website Link"
-          />
-        </View> */}
-
-        <Button color="tomato" title="Add Event" onPress={_addEvent} />
+        />
+        
+      <Button color="tomato" title="Add Event" onPress={_addEvent} />
       </View>
   );
 }
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   individualContainer: {
-    marginVertical: "5%",
+    marginVertical: "2%",
   },
   header: {
     margin: 12,

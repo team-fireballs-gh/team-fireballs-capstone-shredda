@@ -132,29 +132,6 @@ export default function SingleEvent({ route, navigation }) {
           tristique senectus et netus et malesuada fames. In fermentum posuere
           urna nec tincidunt praesent semper.
         </Text>
-        <Text style={styles.header}>type</Text>
-        <Text style={styles.content}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Pulvinar
-          mattis nunc sed blandit libero volutpat. Pellentesque habitant morbi
-          tristique senectus et netus et malesuada fames. In fermentum posuere
-          urna nec tincidunt praesent semper.
-        </Text>
-        <Text style={styles.header}>About Me</Text>
-        <Text style={styles.content}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Pulvinar
-          mattis nunc sed blandit libero volutpat. Pellentesque habitant morbi
-          tristique senectus et netus et malesuada fames. In fermentum posuere
-          urna nec tincidunt praesent semper.
-        </Text>
-        <Text style={styles.content}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Pulvinar
-          mattis nunc sed blandit libero volutpat. Pellentesque habitant morbi
-          tristique senectus et netus et malesuada fames. In fermentum posuere
-          urna nec tincidunt praesent semper.
-        </Text>
       </ScrollView>
     </SafeAreaView>
   );
