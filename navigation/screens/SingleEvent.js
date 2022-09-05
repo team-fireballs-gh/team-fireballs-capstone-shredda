@@ -68,9 +68,11 @@ export default function SingleEvent({ route, navigation }) {
           style={styles.locationText}
           onPress={() => navigation.navigate("Location", { id: id })}
         >
-          <Entypo name="location-pin" size={20} color="gray">
-            {singleEvent.address}
+          <Text style={styles.dateText}>
+            <Entypo name="location-pin" size={20} color="gray">
+            <Text style={{fontSize: 15}}>{singleEvent.address}</Text>
           </Entypo>
+          </Text>
         </Pressable>
         <Text style={styles.dateText}>
           <AntDesign name="calendar" size={20} color="gray" />
@@ -172,6 +174,7 @@ const styles = StyleSheet.create({
   dateText: {
     fontSize: 16,
     color: "grey",
+    width: 120
   },
   location: {
     marginBottom: 8,
