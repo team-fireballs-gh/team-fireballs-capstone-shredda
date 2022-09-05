@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import MapView, { Marker } from "react-native-maps";
+import MapView, { Marker, AnimatedRegion, Animated} from "react-native-maps";
 import { useSelector, useDispatch } from "react-redux";
 import { StyleSheet, Text, View, Dimensions } from "react-native";
 import { getAllEvents } from "../../redux/reducers/events/eventsReducer";
@@ -13,6 +13,7 @@ export default function App({ route }) {
         console.log("EVENTS", events);
     }, []);
 
+
     return (
         <View>
             <MapView
@@ -23,6 +24,7 @@ export default function App({ route }) {
                     longitudeDelta: 0.5,
                 }}
                 style={styles.map}
+                zoomEnabled={true}
             >
                 {events.map((event) => {
                     return (

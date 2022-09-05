@@ -1,7 +1,5 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { Animated, Text, StyleSheet, ScrollView } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import SearchBar from "./SearchBar";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllEvents } from "../../redux/reducers/events/eventsReducer";
@@ -15,11 +13,13 @@ export default function Events({ navigation }) {
     dispatch(getAllEvents());
   }, []);
 
+  const [searchPhrase, setSearchPhrase] = useState("");
 
   return (
     <Animated.View style={[{ flex: 1, backgroundColor: "white" }]}>
       <SearchBar />
       <ScrollView>
+        
         {events.map((event) => {
             return (
               <EventCard

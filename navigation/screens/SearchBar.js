@@ -5,6 +5,9 @@ import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useNavigation } from '@react-navigation/native';
+import { useSelector, useDispatch } from "react-redux";
+import { getAllEvents } from "../../redux/reducers/events/eventsReducer";
+
 
 
 
@@ -12,6 +15,9 @@ export default function SearchBar() {
     const navigation = useNavigation();
     const [text, setSearchText] = React.useState('');
     const [clicked, setClicked] = React.useState(false);
+
+    let events = useSelector((state) => state.events);
+    const dispatch = useDispatch();
 
     return (
         <View style={styles.container} flexDirection="row" >
