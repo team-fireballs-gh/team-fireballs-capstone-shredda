@@ -1,39 +1,35 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useState } from "react";
-import { Animated, Text, StyleSheet, ScrollView, View } from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import React, { useEffect } from "react";
+import { Animated, Text, StyleSheet, ScrollView } from "react-native";
 import SearchBar from "./SearchBar";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllEvents } from "../../redux/reducers/events/eventsReducer";
 import EventCard from "./EventCard";
-import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import { getSingleUser } from "../../redux/reducers/users/singleUserReducer";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../firebase/db";
+import { getAllRsvpEvents } from "../../redux/reducers/events/rsvpReducer";
 
-export default function Events({ navigation }) {
-  let events = useSelector((state) => state.events);
+export default function Rsvps({ navigation }) {
+  let singleUserRsvps = useSelector((state) => state.singleUser.rsvp);
+  let allRsvps = useSelector((state) => state.rsvps);
+  let [user] = useAuthState(auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllEvents());
+    dispatch(getSingleUser(user.uid));
   }, []);
+
+  useEffect(() => {
+    dispatch(getAllRsvpEvents(singleUserRsvps));
+  }, [singleUserRsvps]);
+
+  console.log("all RSVPS", allRsvps);
 
   return (
     <Animated.View style={[{ flex: 1, backgroundColor: "white" }]}>
       <SearchBar />
-      <View style={styles.personalEvents}>
-        <Pressable onPress={() => navigation.navigate("Rsvps")}>
-          <Text style={styles.rsvp}>
-            <Ionicons name="add-circle" size={25} color="green"></Ionicons>
-          </Text>
-        </Pressable>
-        <Pressable>
-          <Text style={styles.interested}>
-            {" "}
-            <Ionicons name="star" size={25} color="orange"></Ionicons>
-          </Text>
-        </Pressable>
-      </View>
+      <Text>RSVPS</Text>
       <ScrollView>
-        {events.map((event) => {
+        {allRsvps.map((event) => {
           return (
             <EventCard
               key={event.id}
@@ -48,14 +44,6 @@ export default function Events({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  personalEvents: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-around",
-    padding: 10,
-    borderBottomColor: "lightgray",
-    borderBottomWidth: 1,
-  },
   loading: {
     textAlign: "center",
     justifyContent: "center",

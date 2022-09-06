@@ -1,17 +1,17 @@
 import {
-  getFirestore,
   addDoc,
   updateDoc,
   deleteDoc,
   collection,
   getDocs,
-  doc
+  doc,
+  getDoc,
 } from "firebase/firestore";
 import { db as firestoreDB } from "../../../firebase/db";
-import { getSingleEvent } from "./singleEventReducer";
 const COLLECTION = "events";
 
 const GET_ALL_EVENTS = "GET_ALL_EVENTS";
+const GET_ALL_INTERESTED_EVENTS = "GET_ALL_INTERESTED_EVENTS";
 
 const _getAllEvents = (events) => {
   return {
@@ -20,16 +20,19 @@ const _getAllEvents = (events) => {
   };
 };
 
+const _getAllInterestedEvents = (events) => {
+  return {
+    type: GET_ALL_INTERESTED_EVENTS,
+    events,
+  };
+};
 
-export const addEvent = async (event) => {    
+export const addEvent = async (event) => {
   try {
-      await addDoc(
-        collection(firestoreDB, COLLECTION),
-        event
-      );
-    } catch (err) {
-      console.error(err);
-    }
+    await addDoc(collection(firestoreDB, COLLECTION), event);
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export const getAllEvents = () => {
@@ -48,21 +51,42 @@ export const getAllEvents = () => {
   };
 };
 
-export const updateEvent = async (id, event) => {
+export const getAllInterestedEvents = (arrayOfInterestedIds) => {
+  return async (dispatch) => {
+    let result = [];
     try {
-      const eventRef = doc(firestoreDB, COLLECTION, id);
-      await updateDoc(eventRef, event);
+      arrayOfInterestedIds.map(async (interested) => {
+        const interestedEventRef = doc(firestoreDB, COLLECTION, interested);
+        const docSnap = await getDoc(interestedEventRef);
+
+        if (docSnap.exists()) {
+          result.push(docSnap.data());
+        } else {
+          console.log("No such document!");
+        }
+      });
+      dispatch(_getAllInterestedEvents(result));
     } catch (err) {
       console.error(err);
     }
+  };
+};
+
+export const updateEvent = async (id, event) => {
+  try {
+    const eventRef = doc(firestoreDB, COLLECTION, id);
+    await updateDoc(eventRef, event);
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 export const deleteEvent = async (id) => {
-    try {
-      await deleteDoc(doc(firestoreDB, COLLECTION, id));
-    } catch (err) {
-      console.error(err);
-    }
+  try {
+    await deleteDoc(doc(firestoreDB, COLLECTION, id));
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 const initialState = [];
@@ -70,6 +94,8 @@ const initialState = [];
 const eventsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_EVENTS:
+      return action.events;
+    case GET_ALL_INTERESTED_EVENTS:
       return action.events;
     default:
       return state;
