@@ -76,8 +76,12 @@ export default function MainContainer() {
         </>
       ) : (
         <>
-          <Screen name="Login" component={Login} />
-          <Screen name="Register" component={Register} />
+          <Screen
+            name="Login"
+            component={Login}
+            options={{ headerShown: false, tabBarStyle: { display: "none" } }}
+          />
+          <Screen name="Register" component={Register} options={{ headerShown: false, tabBarStyle: { display: "none" } }} />
         </>
       )}
     </Navigator>
