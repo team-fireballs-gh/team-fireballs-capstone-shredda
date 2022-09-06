@@ -3,44 +3,49 @@ import {
   StyleSheet,
   Text,
   View,
+  SafeAreaView,
+  TextInput,
   FlatList,
   TouchableOpacity,
   Image,
 } from "react-native";
 import { onSnapshot, collection } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
-import useAuth from "../../auth";
 import { db } from "../../firebase/db";
 
-const UserProfile = ({ displayName, photoURL, age, job }) => (
-  <TouchableOpacity
-    style={[styles.flatList, styles.shadow]}
-    //   onPress={() => navigation.navigate("User", { userInfo: userInfo })}
-  >
-    <Image
-      style={styles.image}
-      source={{
-        uri:
-          photoURL ||
-          "https://www.kindpng.com/picc/m/70-706576_anime-kawaii-pollito-animeboy-cute-manga-freetoedit-profile.png",
-      }}
-      height={70}
-      width={70}
-    />
+const UserProfile = ({ displayName, photoURL, age, job, id }) => {
+  const navigation = useNavigation();
 
-    <View style={styles.textContainer}>
-      <Text style={styles.name}>
-        {displayName}, {age}
-      </Text>
-      <Text>{job}</Text>
-    </View>
-  </TouchableOpacity>
-);
+  return (
+    <TouchableOpacity
+      style={[styles.flatList, styles.shadow]}
+      onPress={() => navigation.navigate("Messages", { displayName, photoURL, id })}
+    >
+      <Image
+        style={styles.image}
+        source={{
+          uri:
+            photoURL ||
+            "https://www.kindpng.com/picc/m/70-706576_anime-kawaii-pollito-animeboy-cute-manga-freetoedit-profile.png",
+        }}
+        height={70}
+        width={70}
+      />
+
+      <View style={styles.textContainer}>
+        <Text style={styles.name}>
+          {displayName}, {age}
+        </Text>
+        <Text style={{ flexWrap: "wrap" }}>{job}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 export default function PublicChat() {
-  const { user } = useAuth();
-  const navigation = useNavigation();
   const [profiles, setProfiles] = useState([]);
+  const [filter, setFilter] = useState(profiles);
+  const [searching, setSearching] = useState(false);
 
   useEffect(() => {
     let unsubscribe;
@@ -60,28 +65,60 @@ export default function PublicChat() {
     return unsubscribe;
   }, []);
 
-  // console.log(profiles);
-
   const renderItem = ({ item }) => (
     <UserProfile
       displayName={item.displayName}
       photoURL={item.photoURL}
       age={item.age}
       job={item.job}
+      id={item.id}
     />
   );
 
-  return profiles.length > 0 ? (
-    <FlatList
-      style={styles.container}
-      data={profiles}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id}
-    />
-  ) : (
-    <View style={{ padding: 5 }}>
-      <Text style={styles.text}>No users...</Text>
-    </View>
+  const search = (text) => {
+    if (text) {
+      setSearching(true);
+
+      const temp = text.charAt(0).toUpperCase() + text.slice(1);
+      const tempList = profiles.filter((item) => {
+        if (item.displayName.match(temp)) return item.displayName;
+      });
+
+      setFilter(tempList);
+    } else {
+      setSearching(false);
+      setFilter(profiles);
+    }
+  };
+
+  return (
+    <SafeAreaView>
+      <View style={{ padding: 5 }}>
+        <TextInput
+          style={styles.search}
+          placeholder="Search name"
+          onChangeText={search}
+          returnKeyType="done"
+          blurOnSubmit={true}
+        />
+      </View>
+
+      {searching ? (
+        <FlatList
+          style={styles.container}
+          data={filter}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
+      ) : (
+        <FlatList
+          style={styles.container}
+          data={profiles}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
+      )}
+    </SafeAreaView>
   );
 }
 
@@ -94,6 +131,17 @@ const styles = StyleSheet.create({
     color: "red",
     fontSize: 22,
     padding: 5,
+  },
+  search: {
+    width: "100%",
+    height: 40,
+    backgroundColor: "#fff",
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 10,
+    fontSize: 16,
   },
   flatList: {
     backgroundColor: "#FFC7A8",
@@ -117,6 +165,7 @@ const styles = StyleSheet.create({
   textContainer: {
     justifyContent: "center",
     padding: 10,
+    flex: 1,
   },
   name: {
     fontFamily: "Chalkduster",
