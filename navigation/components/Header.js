@@ -25,7 +25,7 @@ export default function Header({ title }) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#FFE0B8",
-    padding: 0,
+    padding: 5,
     flexDirection: "row",
     justifyContent: "space-between",
   },

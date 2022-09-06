@@ -28,9 +28,7 @@ import { GiftedChat, Bubble, Day, Time, Send } from "react-native-gifted-chat";
 export default function PublicMessage({ navigation }) {
   const [user] = useAuthState(auth);
   const { params } = useRoute();
-  const { displayName, photoURL, id } = params;
-
-  console.log("🧂", displayName);
+  const { displayName, id } = params;
 
   const [messages, setMessages] = useState([]);
   const [profile, setProfile] = useState(null);
@@ -124,8 +122,6 @@ export default function PublicMessage({ navigation }) {
       }),
     []
   );
-
-  console.log(profile?.displayName);
 
   useEffect(
     () =>

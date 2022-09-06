@@ -8,6 +8,7 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  ImageBackground,
 } from "react-native";
 import { onSnapshot, collection } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
@@ -17,28 +18,38 @@ const UserProfile = ({ displayName, photoURL, age, job, id }) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity
-      style={[styles.flatList, styles.shadow]}
-      onPress={() => navigation.navigate("Messages", { displayName, photoURL, id })}
+    <ImageBackground
+      resizeMode="cover"
+      source={{
+        uri: "https://i.pinimg.com/736x/39/7a/6e/397a6ec5e257069ab5dd40eb34cdf840.jpg",
+      }}
+      style={{ flex: 1, opacity: 0.8 }}
     >
-      <Image
-        style={styles.image}
-        source={{
-          uri:
-            photoURL ||
-            "https://www.kindpng.com/picc/m/70-706576_anime-kawaii-pollito-animeboy-cute-manga-freetoedit-profile.png",
-        }}
-        height={70}
-        width={70}
-      />
+      <TouchableOpacity
+        style={[styles.flatList, styles.shadow]}
+        onPress={() =>
+          navigation.navigate("Messages", { displayName, photoURL, id })
+        }
+      >
+        <Image
+          style={styles.image}
+          source={{
+            uri:
+              photoURL ||
+              "https://www.kindpng.com/picc/m/70-706576_anime-kawaii-pollito-animeboy-cute-manga-freetoedit-profile.png",
+          }}
+          height={70}
+          width={70}
+        />
 
-      <View style={styles.textContainer}>
-        <Text style={styles.name}>
-          {displayName}, {age}
-        </Text>
-        <Text style={{ flexWrap: "wrap" }}>{job}</Text>
-      </View>
-    </TouchableOpacity>
+        <View style={styles.textContainer}>
+          <Text style={styles.name}>
+            {displayName}, {age}
+          </Text>
+          <Text style={{ flexWrap: "wrap" }}>{job}</Text>
+        </View>
+      </TouchableOpacity>
+    </ImageBackground>
   );
 };
 
@@ -151,6 +162,7 @@ const styles = StyleSheet.create({
   image: {
     borderRadius: 50,
     padding: 10,
+    top: 5,
   },
   shadow: {
     shadowColor: "#000",

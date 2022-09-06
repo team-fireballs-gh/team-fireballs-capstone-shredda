@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Image,
+  ImageBackground,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase/db";
@@ -30,28 +37,37 @@ export default function MoreChat({ matchInfo }) {
   }, [matchInfo, user]);
 
   return (
-    <TouchableOpacity
-      style={[styles.container, styles.shadow]}
-      onPress={() => navigation.navigate("Message", { matchInfo: matchInfo })}
+    <ImageBackground
+      resizeMode="cover"
+      source={{
+        uri: "https://i.pinimg.com/736x/39/7a/6e/397a6ec5e257069ab5dd40eb34cdf840.jpg",
+      }}
+      style={{ flex: 1, opacity: 0.8 }}
     >
-      {/* "optional chaining" the uri of the matchUserInfo because it might be 'undefine' at some point since we started with the value of null */}
-      <Image
-        style={styles.image}
-        source={{ uri: matchedUserInfo?.photoURL }}
-        height={70}
-        width={70}
-      />
+      <TouchableOpacity
+        style={[styles.container, styles.shadow]}
+        onPress={() => navigation.navigate("Message", { matchInfo: matchInfo })}
+      >
+        {/* "optional chaining" the uri of the matchUserInfo because it might be 'undefine' at some point since we started with the value of null */}
+        <Image
+          style={styles.image}
+          source={{ uri: matchedUserInfo?.photoURL }}
+          height={70}
+          width={70}
+        />
 
-      <View style={styles.textContainer}>
-        <Text style={styles.name}>{matchedUserInfo?.displayName}</Text>
-        <Text>{lastMessage || "Don't be shy. Say Hi! ☺️"}</Text>
-      </View>
-    </TouchableOpacity>
+        <View style={styles.textContainer}>
+          <Text style={styles.name}>{matchedUserInfo?.displayName}</Text>
+          <Text>{lastMessage || "Don't be shy. Say Hi! ☺️"}</Text>
+        </View>
+      </TouchableOpacity>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: "#FFC7A8",
     flexDirection: "row",
     padding: 5,
@@ -59,6 +75,7 @@ const styles = StyleSheet.create({
   image: {
     borderRadius: 50,
     padding: 10,
+    top: 5,
   },
   shadow: {
     shadowColor: "#000",
@@ -79,5 +96,6 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     fontSize: 20,
     paddingBottom: 5,
+    flexWrap: "wrap",
   },
 });
