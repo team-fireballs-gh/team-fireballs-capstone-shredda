@@ -49,14 +49,11 @@ export default function AddEvent({ navigation }) {
 
     let tempDate = new Date(currentDate);
     let formattedDate =
-      tempDate.getMonth() +
-      1 +
-      "/" +
-      tempDate.getDate() +
-      "/" +
-      tempDate.getFullYear();
-    let formattedTime = tempDate.getHours() + ":" + tempDate.getMinutes();
-    setEventDate(formattedDate + " " + formattedTime);
+      tempDate.getFullYear() + "-" + (tempDate.getMonth() +
+      1) + "-" + tempDate.getDate() 
+
+    setEventDate(formattedDate);
+    setShow(false)
   };
   const showMode = (currentMode) => {
     setMode(currentMode);
@@ -138,12 +135,6 @@ export default function AddEvent({ navigation }) {
                 Date{" "}
               </AntIcon>
             </Pressable>
-            <Pressable onPress={() => showMode("time")}>
-              <AntIcon name="clockcircleo" size={20} color="tomato">
-                {" "}
-                Time{" "}
-              </AntIcon>
-            </Pressable>
           </View>
           <View>
             {show && (
@@ -153,7 +144,6 @@ export default function AddEvent({ navigation }) {
                 onChange={onChange}
                 mode={mode}
                 is24Hour={false}
-                display="inline"
               />
             )}
           </View>
@@ -198,7 +188,6 @@ export default function AddEvent({ navigation }) {
               latitude: details.geometry.location.lat,
               longitude: details.geometry.location.lng
             })
-            
           }}
           fetchDetails={true}
           query={{
