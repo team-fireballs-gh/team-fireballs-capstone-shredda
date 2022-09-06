@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   Image,
+  ImageBackground,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -23,24 +24,32 @@ export default function IndividualUser({ userInfo }) {
   }, [userInfo, user]);
 
   return (
-    <TouchableOpacity
-      style={[styles.container, styles.shadow]}
-      onPress={() => navigation.navigate("User", { userInfo: userInfo })}
+    <ImageBackground
+      resizeMode="cover"
+      source={{
+        uri: "https://i.pinimg.com/736x/39/7a/6e/397a6ec5e257069ab5dd40eb34cdf840.jpg",
+      }}
+      style={{ flex: 1, opacity: 0.8 }}
     >
-      <Image
-        style={styles.image}
-        source={{ uri: userDetails?.photoURL }}
-        height={70}
-        width={70}
-      />
+      <TouchableOpacity
+        style={[styles.container, styles.shadow]}
+        onPress={() => navigation.navigate("User", { userInfo: userInfo })}
+      >
+        <Image
+          style={styles.image}
+          source={{ uri: userDetails?.photoURL }}
+          height={70}
+          width={70}
+        />
 
-      <View style={styles.textContainer}>
-        <Text style={styles.name}>
-          {userDetails?.displayName}, {userDetails?.age}
-        </Text>
-        <Text>{userDetails?.job}</Text>
-      </View>
-    </TouchableOpacity>
+        <View style={styles.textContainer}>
+          <Text style={styles.name}>
+            {userDetails?.displayName}, {userDetails?.age}
+          </Text>
+          <Text>{userDetails?.job}</Text>
+        </View>
+      </TouchableOpacity>
+    </ImageBackground>
   );
 }
 
