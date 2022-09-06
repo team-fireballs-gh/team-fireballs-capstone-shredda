@@ -162,7 +162,6 @@ const styles = StyleSheet.create({
   image: {
     borderRadius: 50,
     padding: 10,
-    top: 5,
   },
   shadow: {
     shadowColor: "#000",

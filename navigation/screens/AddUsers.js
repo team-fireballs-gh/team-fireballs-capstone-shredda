@@ -297,7 +297,7 @@ export default function AddUsers({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#EDF0FF",
   },
   header: {
     flexDirection: "row",
@@ -305,8 +305,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingLeft: 15,
     paddingRight: 15,
-    paddingBottom: 20,
+    paddingBottom: 10,
     paddingTop: 10,
+    backgroundColor: "#EDF0FF",
   },
   swiperContainer: {
     flex: 1,
