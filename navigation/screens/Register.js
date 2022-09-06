@@ -12,7 +12,6 @@ import db from "../../firebase/db";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../redux/reducers/users/usersReducer";
-import { useNavigation } from "@react-navigation/native";
 export default function Register({ navigation }) {
   let [username, setUsername] = useState("");
   let [email, setEmail] = useState("");
@@ -22,7 +21,6 @@ export default function Register({ navigation }) {
   const auth = getAuth(db);
 
   const registerUser = () => {
-    const navigation = useNavigation();
 
     if (email === "" && password === "") {
       alert("Enter details to signup!");
@@ -123,7 +121,7 @@ const styles = StyleSheet.create({
     width: "80%",
     borderRadius: 10,
     fontSize: 20,
-    borderColor: "#ccc",
+    borderColor: "#A1B5A8",
   },
   buttonRow: {
     flexDirection: "row",

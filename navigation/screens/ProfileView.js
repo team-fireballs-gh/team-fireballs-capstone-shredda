@@ -26,19 +26,38 @@ const ProfileView = ({ navigation }) => {
     logout();
   };
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity style={styles.top} title="logout" onPress={logOutButton}>
-          <Feather name="log-out" size={30} color="#506700" />
-        </TouchableOpacity>
-      ),
-      headerTintColor: "#DBE3BF",
-      headerStyle: {
-        backgroundColor: "#ABB573",
-      },
-    });
-  });
+  useLayoutEffect(
+    () =>
+      // implicit return for unsubscribe purposes;
+
+      // this allows you the grab the latest update on the users collection
+      onSnapshot(doc(db, "users", user.uid), (snapShot) => {
+        if (!snapShot.exists()) {
+          navigation.navigate("CreateProfile");
+        }
+      }),
+    []
+  );
+
+  useLayoutEffect(
+    () =>
+      navigation.setOptions({
+        headerRight: () => (
+          <TouchableOpacity
+            style={styles.top}
+            title="logout"
+            onPress={logOutButton}
+          >
+            <Feather name="log-out" size={30} color="#506700" />
+          </TouchableOpacity>
+        ),
+        headerTintColor: "#DBE3BF",
+        headerStyle: {
+          backgroundColor: "#ABB573",
+        },
+      }),
+    []
+  );
 
   useEffect(
     () =>
@@ -62,7 +81,9 @@ const ProfileView = ({ navigation }) => {
             <ImageBackground
               style={styles.backgroundImage}
               source={{
-                uri: loggedin.bgImg || "https://media.istockphoto.com/photos/forest-wooden-table-background-summer-sunny-meadow-with-green-grass-picture-id1353553203?b=1&k=20&m=1353553203&s=170667a&w=0&h=QTyTGI9tWQluIlkmwW0s7Q4z7R_IT8egpzzHjW3cSas=",
+                uri:
+                  loggedin.bgImg ||
+                  "https://media.istockphoto.com/photos/forest-wooden-table-background-summer-sunny-meadow-with-green-grass-picture-id1353553203?b=1&k=20&m=1353553203&s=170667a&w=0&h=QTyTGI9tWQluIlkmwW0s7Q4z7R_IT8egpzzHjW3cSas=",
               }}
             ></ImageBackground>
             <TouchableOpacity

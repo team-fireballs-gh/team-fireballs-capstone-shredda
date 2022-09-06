@@ -229,13 +229,11 @@ export default function Chats() {
           source={require("../../assets/fireball.png")}
         />
 
-        <Text style={styles.name}>
+        <Text style={[styles.name, styles.shadow]}>
           Welcome {userData ? userData.displayName : ""}!
         </Text>
-        <TouchableOpacity style={styles.active} onPress={updateUser}>
-          <Text style={{ textAlign: "center", color: "white", fontSize: 15 }}>
-            Update
-          </Text>
+        <TouchableOpacity style={[styles.active, styles.shadow]} onPress={updateUser}>
+          <Text style={[styles.button, styles.shadow]}>Update</Text>
         </TouchableOpacity>
 
         <KeyboardAvoidingView
@@ -243,10 +241,10 @@ export default function Chats() {
           behavior="position"
           enabled={true}
         >
-          <ScrollView>
-            <Text>Full Name</Text>
+          <ScrollView style={styles.shadow}>
+            <Text style={styles.textTitle}>Full Name</Text>
             <TextInput
-              style={{ backgroundColor: "beige" }}
+              style={styles.textInput}
               value={userData ? userData.displayName : ""}
               onChangeText={(txt) =>
                 setUserData({ ...userData, displayName: txt })
@@ -256,25 +254,19 @@ export default function Chats() {
               blurOnSubmit={true}
             />
 
-            <Text>Profile Picture</Text>
+            <Text style={styles.textTitle}>Profile Picture</Text>
             {!uploading ? (
               <Button title="Upload Image" onPress={pickImage} />
             ) : (
               <ActivityIndicator size="large" color="#000" />
             )}
             {userData && !image ? (
-              <Image
-                source={{ uri: userData.photoURL }}
-                style={{ width: 200, height: 200, alignSelf: "center" }}
-              />
+              <Image source={{ uri: userData.photoURL }} style={styles.image} />
             ) : (
-              <Image
-                source={{ uri: image }}
-                style={{ width: 200, height: 200, alignSelf: "center" }}
-              />
+              <Image source={{ uri: image }} style={styles.image} />
             )}
 
-            <Text>Background Photo</Text>
+            <Text style={styles.textTitle}>Background Photo</Text>
             {!uploading ? (
               <Button title="Upload Image" onPress={pickBg} />
             ) : (
@@ -285,18 +277,15 @@ export default function Chats() {
                 source={{
                   uri: "https://media.istockphoto.com/photos/forest-wooden-table-background-summer-sunny-meadow-with-green-grass-picture-id1353553203?b=1&k=20&m=1353553203&s=170667a&w=0&h=QTyTGI9tWQluIlkmwW0s7Q4z7R_IT8egpzzHjW3cSas=",
                 }}
-                style={{ width: 200, height: 200, alignSelf: "center" }}
+                style={styles.image}
               />
             ) : (
-              <Image
-                source={{ uri: background }}
-                style={{ width: 200, height: 200, alignSelf: "center" }}
-              />
+              <Image source={{ uri: background }} style={styles.image} />
             )}
 
-            <Text>Age</Text>
+            <Text style={styles.textTitle}>Age</Text>
             <TextInput
-              style={{ backgroundColor: "beige" }}
+              style={styles.textInput}
               value={userData ? userData.age : ""}
               onChangeText={(txt) => setUserData({ ...userData, age: txt })}
               keyboardType="numeric"
@@ -305,7 +294,7 @@ export default function Chats() {
               returnKeyType="done"
             />
 
-            <Text>Interests</Text>
+            <Text style={styles.textTitle}>Interests</Text>
             <View style={styles.interest}>
               <CheckBox
                 disabled={false}
@@ -362,7 +351,7 @@ export default function Chats() {
               <Text style={styles.intText}>Video Games</Text>
             </View>
 
-            <Text>About Me</Text>
+            <Text style={styles.textTitle}>About Me</Text>
             <ScrollView>
               <TextInput
                 style={styles.text}
@@ -378,9 +367,9 @@ export default function Chats() {
               />
             </ScrollView>
 
-            <Text style={{ paddingTop: 10 }}>Birthday</Text>
+            <Text style={styles.textTitle}>Birthday</Text>
             <TextInput
-              style={{ backgroundColor: "beige" }}
+              style={styles.textInput}
               value={userData ? userData.birthday : ""}
               onChangeText={(txt) =>
                 setUserData({ ...userData, birthday: txt })
@@ -390,9 +379,9 @@ export default function Chats() {
               blurOnSubmit={true}
             />
 
-            <Text>Drinker</Text>
+            <Text style={styles.textTitle}>Drinker</Text>
             <TextInput
-              style={{ backgroundColor: "beige" }}
+              style={styles.textInput}
               value={userData ? userData.drinker : ""}
               onChangeText={(txt) => setUserData({ ...userData, drinker: txt })}
               placeholder="Enter your response..."
@@ -400,9 +389,9 @@ export default function Chats() {
               blurOnSubmit={true}
             />
 
-            <Text>Smoker</Text>
+            <Text style={styles.textTitle}>Smoker</Text>
             <TextInput
-              style={{ backgroundColor: "beige" }}
+              style={styles.textInput}
               value={userData ? userData.smoker : ""}
               onChangeText={(txt) => setUserData({ ...userData, smoker: txt })}
               placeholder="Enter your response..."
@@ -410,9 +399,9 @@ export default function Chats() {
               blurOnSubmit={true}
             />
 
-            <Text>Education</Text>
+            <Text style={styles.textTitle}>Education</Text>
             <TextInput
-              style={{ backgroundColor: "beige" }}
+              style={styles.textInput}
               value={userData ? userData.education : ""}
               onChangeText={(txt) =>
                 setUserData({ ...userData, education: txt })
@@ -422,12 +411,12 @@ export default function Chats() {
               blurOnSubmit={true}
             />
 
-            <Text>Email</Text>
-            <Text style={{ backgroundColor: "beige" }}>{user.email}</Text>
+            <Text style={styles.textTitle}>Email</Text>
+            <Text style={styles.textInput}>{user.email}</Text>
 
-            <Text>Gender Identity</Text>
+            <Text style={styles.textTitle}>Gender Identity</Text>
             <TextInput
-              style={{ backgroundColor: "beige" }}
+              style={styles.textInput}
               value={userData ? userData.genderIdentity : ""}
               onChangeText={(txt) =>
                 setUserData({ ...userData, genderIdentity: txt })
@@ -437,9 +426,9 @@ export default function Chats() {
               blurOnSubmit={true}
             />
 
-            <Text>Pronouns</Text>
+            <Text style={styles.textTitle}>Pronouns</Text>
             <TextInput
-              style={{ backgroundColor: "beige" }}
+              style={styles.textInput}
               value={userData ? userData.pronouns : ""}
               onChangeText={(txt) =>
                 setUserData({ ...userData, pronouns: txt })
@@ -449,9 +438,9 @@ export default function Chats() {
               blurOnSubmit={true}
             />
 
-            <Text>Sexuality</Text>
+            <Text style={styles.textTitle}>Sexuality</Text>
             <TextInput
-              style={{ backgroundColor: "beige" }}
+              style={styles.textInput}
               value={userData ? userData.sexuality : ""}
               onChangeText={(txt) =>
                 setUserData({ ...userData, sexuality: txt })
@@ -461,7 +450,7 @@ export default function Chats() {
               blurOnSubmit={true}
             />
 
-            <Text>User Type</Text>
+            <Text style={styles.textTitle}>User Type</Text>
             <View
               style={{ flexDirection: "row", justifyContent: "space-evenly" }}
             >
@@ -487,9 +476,9 @@ export default function Chats() {
               <Text>friendship</Text>
             </View>
 
-            <Text>Occupation</Text>
+            <Text style={styles.textTitle}>Occupation</Text>
             <TextInput
-              style={{ backgroundColor: "beige" }}
+              style={styles.textInput}
               value={userData ? userData.job : ""}
               onChangeText={(txt) => setUserData({ ...userData, job: txt })}
               placeholder="Enter your job..."
@@ -497,14 +486,14 @@ export default function Chats() {
               blurOnSubmit={true}
             />
 
-            <Text>Political views</Text>
+            <Text style={styles.textTitle}>Political views</Text>
             <TextInput
               value={userData ? userData.politicalViews : ""}
               onChangeText={(txt) =>
                 setUserData({ ...userData, politicalViews: txt })
               }
               placeholder="Enter your views..."
-              style={{ backgroundColor: "beige" }}
+              style={styles.textInput}
               returnKeyType="done"
               blurOnSubmit={true}
             />
@@ -518,15 +507,17 @@ export default function Chats() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "#FFD9BD",
     alignItems: "center",
   },
   text: {
     flexWrap: "wrap",
-    fontSize: 14,
     width: WIDTH,
     backgroundColor: "beige",
     alignItems: "flex-start",
+    fontFamily: "Copperplate",
+    fontSize: 16,
+    paddingLeft: 5,
   },
   calendar: {
     backgroundColor: "pink",
@@ -550,6 +541,9 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     position: "relative",
     left: "-15%",
+    fontFamily: "ChalkboardSE-Bold",
+    fontSize: 18,
+    flexWrap: "wrap",
   },
   active: {
     width: 90,
@@ -560,15 +554,6 @@ const styles = StyleSheet.create({
     top: "12%",
     left: "75%",
   },
-  inActive: {
-    width: 90,
-    backgroundColor: "#D6D0C9",
-    padding: 10,
-    borderRadius: 18,
-    position: "absolute",
-    top: "12%",
-    left: "70%",
-  },
   interest: {
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -578,5 +563,38 @@ const styles = StyleSheet.create({
     fontSize: 15,
     paddingLeft: 10,
     flexBasis: "27%",
+  },
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.45,
+    elevation: 2,
+  },
+  textTitle: {
+    paddingTop: 10,
+    fontFamily: "Papyrus",
+    fontSize: 20,
+    textAlign: "center",
+  },
+  textInput: {
+    backgroundColor: "beige",
+    fontFamily: "Copperplate",
+    fontSize: 18,
+    paddingLeft: 5,
+  },
+  image: {
+    width: 200,
+    height: 200,
+    alignSelf: "center",
+    borderRadius: 15,
+  },
+  button: { 
+    textAlign: "center", 
+    color: "white", 
+    fontSize: 15 
   },
 });

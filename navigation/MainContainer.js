@@ -24,7 +24,7 @@ export default function MainContainer() {
   const { user } = useAuth();
   return (
     <Navigator
-      initialRouteName="Friends" // this sets the default screen;
+      initialRouteName="Chats" // this sets the default screen;
       // The options specified in 'screenOptions' apply to all of the screens in the navigator;
       screenOptions={({ route }) => ({
         // each screen component in the app is provided with the "route" prop automatically; more info: https://reactnavigation.org/docs/route-prop
@@ -48,8 +48,8 @@ export default function MainContainer() {
             iconName = focused ? "ios-calendar" : "ios-calendar-outline";
           } else if (routeName === "Chats") {
             iconName = focused
-              ? "ios-chatbubble-ellipses"
-              : "ios-chatbubble-ellipses-outline";
+              ? "fitness"
+              : "fitness-outline";
           } else if (routeName === "Profile") {
             iconName = focused ? "person-circle" : "person-circle-outline";
           }
