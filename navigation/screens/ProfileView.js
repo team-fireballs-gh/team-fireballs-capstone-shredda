@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   },
   edit: {
     position: "relative",
-    top: -10,
+    top: -15,
     left: "22%",
     alignSelf: "center",
   },
