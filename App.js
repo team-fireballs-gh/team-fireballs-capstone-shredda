@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { AuthProvider } from "./auth";
+import { LogBox } from "react-native";
 
 import MainContainer from "./navigation/MainContainer";
 import AddUsers from "./navigation/screens/AddUsers";
@@ -24,9 +25,12 @@ import PeopeProfile from "./navigation/screens/PeopeProfile";
 import PublicChat from "./navigation/screens/PublicChat";
 import UserProfile from "./navigation/screens/UserProfile";
 import Map from "./navigation/screens/Map";
+import Rsvps from "./navigation/screens/Rsvps";
 import PublicMessage from "./navigation/screens/PublicMessage";
+import Interested from "./navigation/screens/Interested";
 
 const Stack = createNativeStackNavigator();
+LogBox.ignoreAllLogs();
 
 function App() {
   return (
@@ -65,6 +69,8 @@ function App() {
               <Stack.Screen name="Profiles" component={PeopeProfile} />
               <Stack.Screen name="Public" component={PublicChat} />
               <Stack.Screen name="User" component={UserProfile} />
+              <Stack.Screen name="RSVPs" component={Rsvps} />
+              <Stack.Screen name="Interested" component={Interested} />
             </Stack.Group>
             <Stack.Group screenOptions={{ presentation: "modal" }}>
               <Stack.Screen
