@@ -48,8 +48,8 @@ export default function MainContainer() {
             iconName = focused ? "ios-calendar" : "ios-calendar-outline";
           } else if (routeName === "Chats") {
             iconName = focused
-              ? "ios-chatbubble-ellipses"
-              : "ios-chatbubble-ellipses-outline";
+              ? "fitness"
+              : "fitness-outline";
           } else if (routeName === "Profile") {
             iconName = focused ? "person-circle" : "person-circle-outline";
           }
@@ -76,8 +76,12 @@ export default function MainContainer() {
         </>
       ) : (
         <>
-          <Screen name="Login" component={Login} />
-          <Screen name="Register" component={Register} />
+          <Screen
+            name="Login"
+            component={Login}
+            options={{ headerShown: false, tabBarStyle: { display: "none" } }}
+          />
+          <Screen name="Register" component={Register} options={{ headerShown: false, tabBarStyle: { display: "none" } }} />
         </>
       )}
     </Navigator>

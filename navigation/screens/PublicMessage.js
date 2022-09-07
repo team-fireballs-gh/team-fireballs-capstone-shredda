@@ -10,6 +10,7 @@ import {
   ImageBackground,
   View,
 } from "react-native";
+import { Ionicons } from "react-native-vector-icons";
 import { auth, db } from "../../firebase/db";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRoute } from "@react-navigation/native";
@@ -19,16 +20,18 @@ import {
   orderBy,
   collection,
   query,
+  doc,
 } from "firebase/firestore";
-import { Foundation, Ionicons } from "react-native-vector-icons";
+import { Foundation, FontAwesome } from "react-native-vector-icons";
 import { GiftedChat, Bubble, Day, Time, Send } from "react-native-gifted-chat";
 
-export default function Message({ navigation }) {
+export default function PublicMessage({ navigation }) {
   const [user] = useAuthState(auth);
   const { params } = useRoute();
-  const { matchInfo } = params;
+  const { displayName, id } = params;
 
   const [messages, setMessages] = useState([]);
+  const [profile, setProfile] = useState(null);
 
   const renderDay = (props) => {
     return <Day {...props} textStyle={{ color: "#878787" }} />;
@@ -110,9 +113,21 @@ export default function Message({ navigation }) {
 
   useEffect(
     () =>
+      onSnapshot(doc(db, "users", user.uid), (snapShot) => {
+        if (!snapShot.exists()) {
+          console.log("User does not have a profile...");
+        }
+
+        setProfile(snapShot.data());
+      }),
+    []
+  );
+
+  useEffect(
+    () =>
       onSnapshot(
         query(
-          collection(db, "matchedUsers", matchInfo.id, "messages"),
+          collection(db, "users", id, "messages"),
           orderBy("createdAt", "desc")
         ),
         (snapshot) =>
@@ -135,13 +150,18 @@ export default function Message({ navigation }) {
       GiftedChat.append(previousMessages, messages)
     );
     const { _id, createdAt, text, user } = messages[0];
-    addDoc(collection(db, "matchedUsers", matchInfo.id, "messages"), {
+    addDoc(collection(db, "users", id, "messages"), {
       _id,
       createdAt,
       text,
       user,
     });
   }, []);
+
+  const scrollToBottomComponent = () => {
+    return <FontAwesome name="angle-double-down" size={22} color="#333" />;
+  };
+
   return (
     <ImageBackground
       resizeMode="cover"
@@ -160,11 +180,14 @@ export default function Message({ navigation }) {
         alwaysShowSend={true}
         renderDay={renderDay}
         renderBubble={renderBubble}
+        scrollToBottom={true}
+        scrollToBottomComponent={scrollToBottomComponent}
         renderTime={renderTime}
+        placeholder="Say Hi!"
         user={{
-          _id: user.email,
-          name: matchInfo.users[user.uid].displayName,
-          avatar: matchInfo.users[user.uid].photoURL,
+          _id: profile?.id,
+          name: profile?.displayName,
+          avatar: profile?.photoURL,
         }}
       />
     </ImageBackground>
@@ -186,6 +209,6 @@ const styles = StyleSheet.create({
   button: {
     position: "relative",
     top: -7,
-    left: -12
-  }
+    left: -12,
+  },
 });

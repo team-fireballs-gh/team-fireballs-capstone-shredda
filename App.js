@@ -25,6 +25,7 @@ import PublicChat from "./navigation/screens/PublicChat";
 import UserProfile from "./navigation/screens/UserProfile";
 import Map from "./navigation/screens/Map";
 import Rsvps from "./navigation/screens/Rsvps";
+import PublicMessage from "./navigation/screens/PublicMessage";
 
 const Stack = createNativeStackNavigator();
 
@@ -53,6 +54,7 @@ function App() {
                 options={{ headerShown: false }}
               />
               <Stack.Screen name="Message" component={Message} />
+              <Stack.Screen name="Messages" component={PublicMessage} />
               <Stack.Screen name="Profile" component={ProfileView} />
               <Stack.Screen name="Register" component={Register} />
               <Stack.Screen name="CreateProfile" component={CreateProfile} />

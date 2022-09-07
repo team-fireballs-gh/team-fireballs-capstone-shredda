@@ -1,7 +1,10 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
+<<<<<<< HEAD
 import { Animated, Text, StyleSheet, ScrollView, View } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+=======
+import { Animated, Text, StyleSheet, ScrollView } from "react-native";
+>>>>>>> 498b41d8c0eacf81ff6cfe363b43b90c4274fd03
 import SearchBar from "./SearchBar";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllEvents } from "../../redux/reducers/events/eventsReducer";
@@ -16,6 +19,11 @@ export default function Events({ navigation }) {
     dispatch(getAllEvents());
   }, []);
 
+<<<<<<< HEAD
+=======
+  const [searchPhrase, setSearchPhrase] = useState("");
+
+>>>>>>> 498b41d8c0eacf81ff6cfe363b43b90c4274fd03
   return (
     <Animated.View style={[{ flex: 1, backgroundColor: "white" }]}>
       <SearchBar />
@@ -33,6 +41,7 @@ export default function Events({ navigation }) {
         </Pressable>
       </View>
       <ScrollView>
+        
         {events.map((event) => {
           return (
             <EventCard

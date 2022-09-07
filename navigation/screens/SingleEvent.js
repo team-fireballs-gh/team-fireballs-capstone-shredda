@@ -54,7 +54,7 @@ export default function SingleEvent({ route, navigation }) {
         <Image
           style={styles.backgroundImage}
           source={{
-            uri: "https://experiencity.ca/blog/articlesimages/display/e10/704/6551358d843fb25a3434a93321/latern-eventhub-RhinoCanada-ca.jpg",
+            uri:singleEvent.imageUrl,
           }}
         />
       </View>
@@ -68,14 +68,20 @@ export default function SingleEvent({ route, navigation }) {
           style={styles.locationText}
           onPress={() => navigation.navigate("Location", { id: id })}
         >
-          <Entypo name="location-pin" size={20} color="gray">
-            {singleEvent.address}
+          <Text style={styles.dateText}>
+            <Entypo name="location-pin" size={20} color="gray">
+            <Text style={{fontSize: 15}}>{singleEvent.address}</Text>
           </Entypo>
+          </Text>
         </Pressable>
-        <Text style={styles.dateText}>
-          <AntDesign name="calendar" size={20} color="gray" />
-          {singleEvent.startDate}
-        </Text>
+        <Pressable
+          onPress={() => navigation.navigate("Calendar")}
+        >
+          <Text style={styles.dateText}>
+            <AntDesign name="calendar" size={20} color="gray" />
+            {singleEvent.startDate}
+          </Text>
+        </Pressable>
         <Pressable
           style={styles.interested}
           onPress={() => {
@@ -132,29 +138,6 @@ export default function SingleEvent({ route, navigation }) {
           tristique senectus et netus et malesuada fames. In fermentum posuere
           urna nec tincidunt praesent semper.
         </Text>
-        <Text style={styles.header}>type</Text>
-        <Text style={styles.content}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Pulvinar
-          mattis nunc sed blandit libero volutpat. Pellentesque habitant morbi
-          tristique senectus et netus et malesuada fames. In fermentum posuere
-          urna nec tincidunt praesent semper.
-        </Text>
-        <Text style={styles.header}>About Me</Text>
-        <Text style={styles.content}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Pulvinar
-          mattis nunc sed blandit libero volutpat. Pellentesque habitant morbi
-          tristique senectus et netus et malesuada fames. In fermentum posuere
-          urna nec tincidunt praesent semper.
-        </Text>
-        <Text style={styles.content}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Pulvinar
-          mattis nunc sed blandit libero volutpat. Pellentesque habitant morbi
-          tristique senectus et netus et malesuada fames. In fermentum posuere
-          urna nec tincidunt praesent semper.
-        </Text>
       </ScrollView>
     </SafeAreaView>
   );
@@ -195,6 +178,7 @@ const styles = StyleSheet.create({
   dateText: {
     fontSize: 16,
     color: "grey",
+    width: 120
   },
   location: {
     marginBottom: 8,
