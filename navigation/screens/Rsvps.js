@@ -16,13 +16,10 @@ export default function Rsvps({ navigation }) {
 
   useEffect(() => {
     dispatch(getSingleUser(user.uid));
+    dispatch(getAllRsvpEvents(singleUserRsvps));
   }, []);
 
-  useEffect(() => {
-    dispatch(getAllRsvpEvents(singleUserRsvps));
-  }, [singleUserRsvps]);
-
-  console.log("all RSVPS", allRsvps);
+  console.log("user", singleUserRsvps);
 
   return (
     <Animated.View style={[{ flex: 1, backgroundColor: "white" }]}>

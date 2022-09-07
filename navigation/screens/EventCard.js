@@ -9,19 +9,20 @@ import {
 } from "react-native";
 import { updateUser } from "../../redux/reducers/users/usersReducer";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase/db";
+import { auth, db } from "../../firebase/db";
 import { arrayUnion, arrayRemove } from "firebase/firestore";
 import { useSelector, useDispatch } from "react-redux";
 import { getSingleUser } from "../../redux/reducers/users/singleUserReducer";
 import { Ionicons } from "react-native-vector-icons";
 import { getAllEvents } from "../../redux/reducers/events/eventsReducer";
+import { doc, setDoc, deleteDoc } from "firebase/firestore";
 
 export default function EventCard({ navigation, eventInfo }) {
   const [user] = useAuthState(auth);
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.singleUser);
   let [interestBtn, setInterestBtn] = useState(
-    currentUser.interested && currentUser.interested.includes(eventInfo.id) ? (
+    currentUser.interested.includes(eventInfo.id) ? (
       <Ionicons name="star" size={20} color="orange"></Ionicons>
     ) : (
       <Ionicons name="star-outline" size={20} color="orange"></Ionicons>
@@ -50,7 +51,9 @@ export default function EventCard({ navigation, eventInfo }) {
             style={{ height: "100%", width: "100%" }}
             imageStyle={{ borderRadius: 10 }}
             source={{
-              uri: eventInfo.data.imageUrl,
+              uri: eventInfo.data.imageUrl
+                ? eventInfo.data.imageUrl
+                : eventInfo.imageUrl,
             }}
           >
             <View style={styles.textContainer}>
@@ -59,6 +62,7 @@ export default function EventCard({ navigation, eventInfo }) {
                 <Pressable
                   style={styles.interested}
                   onPress={() => {
+                    console.log(currentUser);
                     if (
                       currentUser.interested &&
                       currentUser.interested.includes(eventInfo.id)
@@ -70,6 +74,9 @@ export default function EventCard({ navigation, eventInfo }) {
                         },
                         { merge: true }
                       );
+                      deleteDoc(
+                        doc(db, "users", user.uid, "interested", eventInfo.id)
+                      );
                       setInterestBtn(
                         <Ionicons
                           name="star-outline"
@@ -78,7 +85,6 @@ export default function EventCard({ navigation, eventInfo }) {
                         ></Ionicons>
                       );
                       dispatch(getAllEvents());
-                      console.log("removed");
                     } else if (
                       currentUser.interested &&
                       !currentUser.interested.includes(eventInfo.id)
@@ -90,6 +96,10 @@ export default function EventCard({ navigation, eventInfo }) {
                         },
                         { merge: true }
                       );
+                      setDoc(
+                        doc(db, "users", user.uid, "interested", eventInfo.id),
+                        eventInfo
+                      );
                       setInterestBtn(
                         <Ionicons
                           name="star"
@@ -98,7 +108,6 @@ export default function EventCard({ navigation, eventInfo }) {
                         ></Ionicons>
                       );
                       dispatch(getAllEvents());
-                      console.log("added");
                     }
                   }}
                 >

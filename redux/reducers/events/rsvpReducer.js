@@ -12,8 +12,8 @@ const _getAllRsvpEvents = (events) => {
 };
 
 export const getAllRsvpEvents = (arrayOfRsvpIds) => {
+  let result = [];
   return async (dispatch) => {
-    let result = [];
     try {
       arrayOfRsvpIds.map(async (rsvp) => {
         const rsvpEventRef = doc(firestoreDB, COLLECTION, rsvp);
@@ -26,6 +26,7 @@ export const getAllRsvpEvents = (arrayOfRsvpIds) => {
         }
       });
       dispatch(_getAllRsvpEvents(result));
+      console.log("reducer result", result);
     } catch (err) {
       console.error(err);
     }
