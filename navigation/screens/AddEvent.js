@@ -130,7 +130,7 @@ export default function AddEvent({ navigation }) {
           <Text style={styles.header}>When is it?</Text>
           <View style={{ flexDirection: "row", marginHorizontal: "5%" }}>
             <Pressable onPress={() => showMode("date")}>
-              <AntIcon name="calendar" size={20} color="tomato">
+              <AntIcon n3ame="calendar" size={20} color="tomato">
                 {" "}
                 Date{" "}
               </AntIcon>

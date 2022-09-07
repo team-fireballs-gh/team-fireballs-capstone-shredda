@@ -74,10 +74,14 @@ export default function SingleEvent({ route, navigation }) {
           </Entypo>
           </Text>
         </Pressable>
-        <Text style={styles.dateText}>
-          <AntDesign name="calendar" size={20} color="gray" />
-          {singleEvent.startDate}
-        </Text>
+        <Pressable
+          onPress={() => navigation.navigate("Calendar")}
+        >
+          <Text style={styles.dateText}>
+            <AntDesign name="calendar" size={20} color="gray" />
+            {singleEvent.startDate}
+          </Text>
+        </Pressable>
         <Pressable
           style={styles.interested}
           onPress={() => {
