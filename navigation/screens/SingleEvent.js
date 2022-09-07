@@ -17,12 +17,12 @@ import {
 } from "react-native-vector-icons";
 import { getSingleEvent } from "../../redux/reducers/events/singleEventReducer";
 import { useSelector, useDispatch } from "react-redux";
-import Maps from "./SingleEventMap";
 import { updateUser } from "../../redux/reducers/users/usersReducer";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../../firebase/db";
+import { auth, db } from "../../firebase/db";
 import { arrayUnion, arrayRemove } from "firebase/firestore";
 import { getSingleUser } from "../../redux/reducers/users/singleUserReducer";
+import { doc, setDoc, deleteDoc } from "firebase/firestore";
 
 export default function SingleEvent({ route, navigation }) {
   const { id } = route.params;
@@ -31,7 +31,7 @@ export default function SingleEvent({ route, navigation }) {
   const [user] = useAuthState(auth);
   const currentUser = useSelector((state) => state.singleUser);
   let [rsvpBtn, setRsvpBtn] = useState(
-    currentUser.rsvp && currentUser.rsvp.includes(id) ? (
+    currentUser.rsvp !== undefined && currentUser.rsvp.includes(id) ? (
       <Ionicons name="add-circle" size={20} color="green"></Ionicons>
     ) : (
       <Ionicons name="add-circle-outline" size={20} color="orange"></Ionicons>
@@ -54,7 +54,7 @@ export default function SingleEvent({ route, navigation }) {
         <Image
           style={styles.backgroundImage}
           source={{
-            uri:singleEvent.imageUrl,
+            uri: singleEvent.imageUrl,
           }}
         />
       </View>
@@ -70,13 +70,11 @@ export default function SingleEvent({ route, navigation }) {
         >
           <Text style={styles.dateText}>
             <Entypo name="location-pin" size={20} color="gray">
-            <Text style={{fontSize: 15}}>{singleEvent.address}</Text>
-          </Entypo>
+              <Text style={{ fontSize: 15 }}>{singleEvent.address}</Text>
+            </Entypo>
           </Text>
         </Pressable>
-        <Pressable
-          onPress={() => navigation.navigate("Calendar")}
-        >
+        <Pressable onPress={() => navigation.navigate("Calendar")}>
           <Text style={styles.dateText}>
             <AntDesign name="calendar" size={20} color="gray" />
             {singleEvent.startDate}
@@ -93,6 +91,7 @@ export default function SingleEvent({ route, navigation }) {
                 },
                 { merge: true }
               );
+              deleteDoc(doc(db, "users", user.uid, "rsvp", id));
               setRsvpBtn(
                 <Ionicons
                   name="add-circle-outline"
@@ -108,6 +107,7 @@ export default function SingleEvent({ route, navigation }) {
                 },
                 { merge: true }
               );
+              setDoc(doc(db, "users", user.uid, "rsvp", id), singleEvent);
               setRsvpBtn(
                 <Ionicons name="add-circle" size={20} color="green"></Ionicons>
               );
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   dateText: {
     fontSize: 16,
     color: "grey",
-    width: 120
+    width: 120,
   },
   location: {
     marginBottom: 8,

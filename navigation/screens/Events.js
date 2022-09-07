@@ -21,7 +21,7 @@ export default function Events({ navigation }) {
     <Animated.View style={[{ flex: 1, backgroundColor: "white" }]}>
       <SearchBar />
       <View style={styles.personalEvents}>
-        <Pressable onPress={() => navigation.navigate("Rsvps")}>
+        <Pressable onPress={() => navigation.navigate("RSVPs")}>
           <Text style={styles.rsvp}>
             <Ionicons name="add-circle" size={25} color="green"></Ionicons>
           </Text>

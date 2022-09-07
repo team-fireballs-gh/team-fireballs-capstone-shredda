@@ -22,7 +22,8 @@ export default function EventCard({ navigation, eventInfo }) {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.singleUser);
   let [interestBtn, setInterestBtn] = useState(
-    currentUser.interested.includes(eventInfo.id) ? (
+    currentUser.interested !== undefined &&
+      currentUser.interested.includes(eventInfo.id) ? (
       <Ionicons name="star" size={20} color="orange"></Ionicons>
     ) : (
       <Ionicons name="star-outline" size={20} color="orange"></Ionicons>

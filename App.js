@@ -66,7 +66,7 @@ function App() {
               <Stack.Screen name="Profiles" component={PeopeProfile} />
               <Stack.Screen name="Public" component={PublicChat} />
               <Stack.Screen name="User" component={UserProfile} />
-              <Stack.Screen name="Rsvps" component={Rsvps} />
+              <Stack.Screen name="RSVPs" component={Rsvps} />
             </Stack.Group>
             <Stack.Group screenOptions={{ presentation: "modal" }}>
               <Stack.Screen

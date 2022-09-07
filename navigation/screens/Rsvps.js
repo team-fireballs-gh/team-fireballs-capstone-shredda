@@ -3,28 +3,25 @@ import { Animated, Text, StyleSheet, ScrollView } from "react-native";
 import SearchBar from "./SearchBar";
 import { useSelector, useDispatch } from "react-redux";
 import EventCard from "./EventCard";
-import { getSingleUser } from "../../redux/reducers/users/singleUserReducer";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../firebase/db";
 import { getAllRsvpEvents } from "../../redux/reducers/events/rsvpReducer";
+import { Ionicons } from "react-native-vector-icons";
 
 export default function Rsvps({ navigation }) {
-  let singleUserRsvps = useSelector((state) => state.singleUser.rsvp);
   let allRsvps = useSelector((state) => state.rsvps);
   let [user] = useAuthState(auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getSingleUser(user.uid));
-    dispatch(getAllRsvpEvents(singleUserRsvps));
+    dispatch(getAllRsvpEvents(user.uid));
   }, []);
 
-  console.log("user", singleUserRsvps);
+  console.log("user", allRsvps);
 
   return (
     <Animated.View style={[{ flex: 1, backgroundColor: "white" }]}>
       <SearchBar />
-      <Text>RSVPS</Text>
       <ScrollView>
         {allRsvps.map((event) => {
           return (

@@ -1,4 +1,4 @@
-import { doc, getDoc } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db as firestoreDB } from "../../../firebase/db";
 const COLLECTION = "events";
 
@@ -11,22 +11,17 @@ const _getAllRsvpEvents = (events) => {
   };
 };
 
-export const getAllRsvpEvents = (arrayOfRsvpIds) => {
-  let result = [];
+export const getAllRsvpEvents = (userId) => {
   return async (dispatch) => {
+    let result = [];
     try {
-      arrayOfRsvpIds.map(async (rsvp) => {
-        const rsvpEventRef = doc(firestoreDB, COLLECTION, rsvp);
-        const docSnap = await getDoc(rsvpEventRef);
-
-        if (docSnap.exists()) {
-          result.push(docSnap.data());
-        } else {
-          console.log("No such document!");
-        }
+      const querySnapshot = await getDocs(
+        collection(firestoreDB, "users", userId, "rsvp")
+      );
+      querySnapshot.forEach((doc) => {
+        result.push({ data: doc.data() });
       });
       dispatch(_getAllRsvpEvents(result));
-      console.log("reducer result", result);
     } catch (err) {
       console.error(err);
     }
