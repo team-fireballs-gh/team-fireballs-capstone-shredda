@@ -26,7 +26,7 @@ export default function Events({ navigation }) {
             <Ionicons name="add-circle" size={25} color="green"></Ionicons>
           </Text>
         </Pressable>
-        <Pressable>
+        <Pressable onPress={() => navigation.navigate("Interested")}>
           <Text style={styles.interested}>
             {" "}
             <Ionicons name="star" size={25} color="orange"></Ionicons>
