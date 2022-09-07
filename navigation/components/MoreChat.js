@@ -51,7 +51,7 @@ export default function MoreChat({ matchInfo }) {
         {/* "optional chaining" the uri of the matchUserInfo because it might be 'undefine' at some point since we started with the value of null */}
         <Image
           style={styles.image}
-          source={{ uri: matchedUserInfo?.photoURL }}
+          source={{ uri: matchedUserInfo?.photoURL || "https://www.kindpng.com/picc/m/70-706576_anime-kawaii-pollito-animeboy-cute-manga-freetoedit-profile.png" }}
           height={70}
           width={70}
         />
