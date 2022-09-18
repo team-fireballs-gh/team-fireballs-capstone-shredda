@@ -1,13 +1,34 @@
-# HangOut
+<h1 align="center">
+  $${\color{lightblue}HangOut}$$
+</h1>
+
+<p align="center">
+  <kbd>
+    <img src="assets/Background.jpeg" width="600" height="400"/>
+  </kbd>
+</p>
 
 #### A social app that connects users by centering community connection through events and activities that are close to both users. Users can choose how they want to use the app (*romance, friendship, solo*).
 
-#### Built with *React Native Expo*, *Firebase (Firestore, Auth, Storage)* and a variety of **APIs** (react-native-deck-swiper, react-native-gifted-chat, expo-image-picker, react-native-maps, react-native-google-places-autocomplete, datetimepicker). 
+#### Built with $${\color{lightgreen}React \space Native \space Expo}$$ $${\color{red}Firebase \space (Firestore, \space Auth, \space Storage)}$$ and a variety of **APIs** (*react-native-deck-swiper, react-native-gifted-chat, expo-image-picker, react-native-maps, react-native-google-places-autocomplete, datetimepicker*). 
 
 #### Using the knowledge and foundation we gained from the bootcamp to build a fullstack React web app, we were able to quickly adapt and navigate new documentation that allowed us to build a fullstack iOS React-Native mobile app. During the process of this project, we practiced clear and consistent communication within a remote setting across different time zones. By doing so, we successfully created a positive and supportive work environment 😊. 
 
-### Creators: ![creators](assets/creators.jpeg "Meet The Creators")
+### Creators:
+<p align="center">
+  <kbd>
+    <img src="assets/creators.jpeg" width="600" height="400"/>
+  </kbd>
+</p>
 
-## Amy Ji 
-## Donna Sayos 
-## Dakota Fabro
+<h2 align="center">
+  <pre>
+    Donna Sayos [<img src="assets/linked-in-alt.svg" width="15" height="15"/>](https://www.linkedin.com/in/dsayos/)
+  </pre>
+  <pre>
+    Amy Ji [<img src="assets/linked-in-alt.svg" width="15" height="15"/>](https://www.linkedin.com/in/amy-ji-xueer/)
+  </pre>
+  <pre>
+    Dakota Fabro [<img src="assets/linked-in-alt.svg" width="15" height="15"/>](https://www.linkedin.com/in/dakotafabro/)
+  </pre>
+</h2>
