@@ -6,7 +6,7 @@
 
 #### Using the knowledge and foundation we gained from the bootcamp to build a fullstack React web app, we were able to quickly adapt and navigate new documentation that allowed us to build a fullstack iOS React-Native mobile app. During the process of this project, we practiced clear and consistent communication within a remote setting across different time zones. By doing so, we successfully created a positive and supportive work environment 😊. 
 
-### Creators: 
+### Creators: ![creators](assets/creators.jpeg "Meet The Creators")
 
 ## Amy Ji 
 ## Donna Sayos 
