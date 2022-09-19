@@ -9,7 +9,7 @@
   
   <div align="center">
     <h3>Live demo</h3>
-    <a href="https://www.youtube.com/watch?v=SVDFDJWC3bA&list=PLx0iOsdUOUmnLN8sDLqSgVBNZmFq7Rx4k&index=8">
+    <a href="https://www.youtube.com/watch?v=SVDFDJWC3bA&list=PLx0iOsdUOUmnLN8sDLqSgVBNZmFq7Rx4k&index=8" target="_blank" rel="noopener noreferrer">
       <kbd><img src="assets/demo.png" width="60" height="60"/></kbd>
     </a>
   </div>
