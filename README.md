@@ -6,6 +6,13 @@
   <kbd>
     <img src="assets/Background.jpeg" width="600" height="400"/>
   </kbd>
+  
+  <div align="center">
+    <h3>Live demo</h3>
+    <a href="https://www.youtube.com/watch?v=SVDFDJWC3bA&list=PLx0iOsdUOUmnLN8sDLqSgVBNZmFq7Rx4k&index=8">
+      <kbd><img src="assets/demo.png" width="60" height="60"/></kbd>
+    </a>
+  </div>
 </p>
 
 #### A social app that connects users by centering community connection through events and activities that are close to both users. Users can choose how they want to use the app *<kbd>romance</kbd>, <kbd>friendship</kbd>, <kbd>solo</kbd>*.
