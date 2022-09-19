@@ -8,7 +8,7 @@
   </kbd>
 </p>
 
-#### A social app that connects users by centering community connection through events and activities that are close to both users. Users can choose how they want to use the app (*romance, friendship, solo*).
+#### A social app that connects users by centering community connection through events and activities that are close to both users. Users can choose how they want to use the app (*<kbd>romance</kbd>, friendship, solo*).
 
 #### Built with $${\color{lightgreen}React \space Native \space Expo}$$ $${\color{red}Firebase \space (Firestore, \space Auth, \space Storage)}$$ and a variety of **APIs** (*react-native-deck-swiper, react-native-gifted-chat, expo-image-picker, react-native-maps, react-native-google-places-autocomplete, datetimepicker*). 
 
@@ -23,12 +23,12 @@
 
 <h2 align="center">
   <pre>
-    Donna Sayos [<img src="assets/linked-in-alt.svg" width="15" height="15"/>](https://www.linkedin.com/in/dsayos/)
+    Donna Sayos <a href="https://www.linkedin.com/in/dsayos/"><kbd><img src="assets/linked-in-alt.svg" width="15" height="15"/></kbd></a>
   </pre>
   <pre>
-    Amy Ji [<img src="assets/linked-in-alt.svg" width="15" height="15"/>](https://www.linkedin.com/in/amy-ji-xueer/)
+    Amy Ji <a href="https://www.linkedin.com/in/amy-ji-xueer/"><kbd><img src="assets/linked-in-alt.svg" width="15" height="15"/></kbd></a>
   </pre>
   <pre>
-    Dakota Fabro [<img src="assets/linked-in-alt.svg" width="15" height="15"/>](https://www.linkedin.com/in/dakotafabro/)
+    Dakota Fabro <a href="https://www.linkedin.com/in/dakotafabro/"><kbd><img src="assets/linked-in-alt.svg" width="15" height="15"/></kbd></a>
   </pre>
 </h2>
