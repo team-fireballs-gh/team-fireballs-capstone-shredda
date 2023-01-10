@@ -77,7 +77,7 @@
       <td>
         <h3 align="center">
           $${\color{lightgreen}A \space match \space occurs \space if \space both \space users}$$
-          $${\color{lightgreen}swipes \space right \space on \space each \space other 💘}$$
+          $${\color{lightgreen}swipes \space right \space on \space each \space other}$$
         </h3>
       </td>
       <td>
